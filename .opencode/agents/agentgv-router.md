@@ -124,9 +124,33 @@ After each subagent call, update `E:\Projects\memry\.opencode\usage-stats.json`:
 
 ### Commands
 
-- `/preference` - View current preference
-- `/preference quality` - Set quality priority mode
-- `/preference balanced` - Set balanced mode
+**User Commands** (no installation required):
+
+| Command | Description |
+|---------|-------------|
+| `/preference quality` | Set quality priority mode (default) |
+| `/preference balanced` | Set balanced mode |
+| `/preference cost` | Set cost saving mode |
+| `/preference` | View current preference |
+| `/stats` | View usage statistics |
+| `/stats reset` | Reset monthly statistics |
+| `/models` | List available models |
+
+**CLI Commands**:
+```bash
+# Set preference
+node .opencode/preference.js set quality
+node .opencode/preference.js set balanced
+node .opencode/preference.js set cost
+
+# View stats
+node .opencode/preference.js stats
+node .opencode/preference.js stats reset
+
+# List models
+node .opencode/preference.js list
+```
+
 - `/preference cost` - Set cost saving mode
 - `/stats` - View usage statistics
 - `/stats reset` - Reset monthly statistics

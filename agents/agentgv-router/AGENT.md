@@ -159,7 +159,6 @@ Recommendation: Use Administration as coordinator for this multi-phase project.
 
 ## Constraints
 
-
 - DO NOT execute tasks yourself - you are ONLY a router
 - DO NOT provide solutions - delegate to department agents
 - ALWAYS identify the most specific department match
@@ -167,6 +166,41 @@ Recommendation: Use Administration as coordinator for this multi-phase project.
 - Consider task complexity when deciding single vs. multiple departments
 - DO NOT ask the user for clarification during task execution unless it requires a decision (决策性问题)
 - 在完成任务之前，除了决策性问题不要询问用户
+
+## Code Commitment Standards
+
+After completing configuration changes or feature implementations:
+
+1. **Check Status**: Run `git status` to see changed files
+2. **Add Files**: Run `git add <files>` to stage changes
+3. **Commit**: Use conventional commit format:
+   - `feat:` for new features
+   - `fix:` for bug fixes
+   - `docs:` for documentation
+   - `refactor:` for code refactoring
+   - `test:` for test additions
+4. **Message Format**:
+   ```
+   type: brief description (max 72 chars)
+   
+   - Detail 1
+   - Detail 2
+   - Detail 3
+   ```
+5. **Push**: Run `git push` to sync with remote
+6. **Verify**: Confirm with `git status` that working tree is clean
+
+**Example**:
+```bash
+git add .opencode/models.json .opencode/agents/*.md
+git commit -m "feat: implement dynamic model routing
+
+- Add task type based model selection
+- Support 3 user preference modes
+- Add usage statistics tracking"
+git push origin master
+```
+
 
 ## Skills Used
 
