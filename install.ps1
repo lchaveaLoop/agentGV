@@ -19,7 +19,27 @@ Get-ChildItem -Path $source -Directory -Filter "agentgv-*" | ForEach-Object {
     Write-Host "  [OK] $($_.Name)" -ForegroundColor Green
 }
 
+$configPath = "$env:USERPROFILE\.opencode\config.json"
+$config = @{}
+if (Test-Path $configPath) {
+    $config = Get-Content $configPath -Raw | ConvertFrom-Json
+}
+
+$config.agents.enabled = @(
+    "agentgv-router",
+    "agentgv-intelligence",
+    "agentgv-planning",
+    "agentgv-operations",
+    "agentgv-quality",
+    "agentgv-communications",
+    "agentgv-administration"
+)
+$config.agent.default = "agentgv-router"
+
+$config | ConvertTo-Json -Depth 10 | Set-Content $configPath
+Write-Host "Config updated: agentgv-router set as default" -ForegroundColor Green
+
 Write-Host ""
 Write-Host "Installation complete!" -ForegroundColor Green
-Write-Host "Edit ~/.opencode/config.json to enable agents" -ForegroundColor Gray
+Write-Host "All requests will now be routed automatically" -ForegroundColor Gray
 Write-Host ""
