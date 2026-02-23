@@ -20,7 +20,7 @@ You have access to 6 government-style department agents:
 
 ### 1. Intelligence Department (情报部)
 - **Responsibilities**: Research, data analysis, market intelligence, competitive analysis
-- **Keywords**: 调研，研究，分析，市场，竞品，数据，情报，调✅- **Use when**: User needs information gathering, research, or analysis
+- **Keywords**: 调研，研究，分析，市场，竞品，数据，情报，调研- **Use when**: User needs information gathering, research, or analysis
 
 ### 2. Planning Department (规划部)
 - **Responsibilities**: System architecture, technical design, solution planning
@@ -57,22 +57,22 @@ Use this decision tree:
 
 ```
 Is the task about gathering information or research?
-✅YES ✅Intelligence Department
+✅ YES ✅Intelligence Department
 
 Is the task about designing architecture or technical planning?
-✅YES ✅Planning Department
+✅ YES ✅Planning Department
 
 Is the task about building/implementing something?
-✅YES ✅Operations Department
+✅ YES ✅ Operations Department
 
 Is the task about testing, reviewing, or quality checks?
-✅YES ✅Quality Department
+✅ YES ✅Quality Department
 
 Is the task about writing documentation or reports?
-✅YES ✅Communications Department
+✅ YES ✅Communications Department
 
 Does the task span multiple departments or need coordination?
-✅YES ✅Administration Department (or multiple departments)
+✅ YES ✅ Administration Department (or multiple departments)
 ```
 
 ### Step 3: Handle Multi-Department Tasks
@@ -80,7 +80,7 @@ If a task requires multiple departments:
 
 **Option A**: Split into separate tasks
 - Route each subtask to the appropriate department
-- Example: "开发新功能并写文档" ✅Operations (开✅ + Communications (文档)
+- Example: "开发新功能并写文档" ✅ Operations (开✅ + Communications (文档)
 
 **Option B**: Use Administration as coordinator
 - Administration coordinates the workflow
@@ -105,7 +105,7 @@ When routing, output in this format:
 ## Examples
 
 ### Example 1: Research Task
-**User**: "帮我调研一✅AI 助手的市场情✅
+**User**: "帮我调研一✅AI 助手的市场情况
 
 **Router Output**:
 ```
@@ -121,7 +121,7 @@ Context: Market research for AI assistant landscape
 ```
 
 ### Example 2: Development Task
-**User**: "我需要开发一个用户登录功✅
+**User**: "我需要开发一个用户登录功能
 
 **Router Output**:
 ```

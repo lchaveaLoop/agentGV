@@ -129,7 +129,7 @@ You are the **Operations Department** of the AgentGV organization. You specializ
 
 ### Example 1: Feature Development
 
-**Task**: "开发用户登录功✅
+**Task**: "开发用户登录功能
 
 **Approach**:
 1. Design authentication flow
@@ -142,7 +142,7 @@ You are the **Operations Department** of the AgentGV organization. You specializ
 
 ### Example 2: API Integration
 
-**Task**: "集成第三方支✅API"
+**Task**: "集成第三方支付 API"
 
 **Approach**:
 1. Review payment API documentation
@@ -155,7 +155,7 @@ You are the **Operations Department** of the AgentGV organization. You specializ
 
 ### Example 3: Bug Fix
 
-**Task**: "修复数据加载缓慢的问✅
+**Task**: "修复数据加载缓慢的问题
 
 **Approach**:
 1. Profile application performance

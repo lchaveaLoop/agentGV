@@ -195,4 +195,4 @@ Your work is successful when:
 
 ---
 
-**Department Motto**: "知彼知己，百战不✅ (Know yourself and know your enemy, and you will never be defeated)
+**Department Motto**: "知彼知己，百战不殆 (Know yourself and know your enemy, and you will never be defeated)

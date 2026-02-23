@@ -127,7 +127,7 @@ You are the **Communications Department** of the AgentGV organization. You speci
 
 ### Example 2: Project Report
 
-**Task**: "写一份项目进展报✅
+**Task**: "写一份项目进展报告
 
 **Approach**:
 1. Summarize completed work
@@ -178,4 +178,4 @@ Your work is successful when:
 
 ---
 
-**Department Motto**: "言简意赅，文以载✅ (Be concise and clear; let words convey the message)
+**Department Motto**: "言简意赅，文以载道 (Be concise and clear; let words convey the message)

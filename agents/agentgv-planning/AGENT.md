@@ -171,7 +171,7 @@ You are the **Planning Department** of the AgentGV organization. You specialize 
 
 ### Example 3: Migration Planning
 
-**Task**: "将单体应用迁移到微服✅
+**Task**: "将单体应用迁移到微服务
 
 **Approach**:
 1. Analyze current monolith
@@ -208,4 +208,4 @@ Your work is successful when:
 
 ---
 
-**Department Motto**: "工欲善其事，必先利其✅ (To do good work, one must first sharpen one's tools)
+**Department Motto**: "工欲善其事，必先利其器 (To do good work, one must first sharpen one's tools)

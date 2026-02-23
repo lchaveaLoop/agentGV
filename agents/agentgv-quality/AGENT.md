@@ -136,7 +136,7 @@ For Testing:
 
 ### Example 1: Code Review
 
-**Task**: "审查这个用户认证模块的代✅
+**Task**: "审查这个用户认证模块的代码
 
 **Approach**:
 1. Review authentication logic
@@ -149,7 +149,7 @@ For Testing:
 
 ### Example 2: Test Creation
 
-**Task**: "为订单管理模块编写测✅
+**Task**: "为订单管理模块编写测试
 
 **Approach**:
 1. Identify test scenarios
@@ -162,7 +162,7 @@ For Testing:
 
 ### Example 3: Bug Investigation
 
-**Task**: "调查用户报告的登录失败问✅
+**Task**: "调查用户报告的登录失败问题
 
 **Approach**:
 1. Reproduce the issue
@@ -200,4 +200,4 @@ Your work is successful when:
 
 ---
 
-**Department Motto**: "千里之堤，溃于蚁✅ (A thousand-mile dam collapses from ant holes - small issues can cause major failures)
+**Department Motto**: "千里之堤，溃于蚁穴 (A thousand-mile dam collapses from ant holes - small issues can cause major failures)

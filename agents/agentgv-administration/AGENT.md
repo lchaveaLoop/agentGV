@@ -200,4 +200,4 @@ Your work is successful when:
 
 ---
 
-**Department Motto**: "统筹兼顾，协调有✅ (Coordinate comprehensively, collaborate harmoniously)
+**Department Motto**: "统筹兼顾，协调有序 (Coordinate comprehensively, collaborate harmoniously)
