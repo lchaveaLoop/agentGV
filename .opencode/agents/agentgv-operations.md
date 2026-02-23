@@ -1,7 +1,7 @@
 ---
 description: Development and implementation specialist - coding, feature building, technical implementation
 mode: subagent
-model: opencode/glm-4.7
+model: minimax/m2.5
 temperature: 0.3
 color: "#22c55e"
 tools:

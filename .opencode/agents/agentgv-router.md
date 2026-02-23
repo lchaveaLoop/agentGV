@@ -1,7 +1,7 @@
 ---
 description: Intelligent task router that analyzes requests and delegates to appropriate department agents
 mode: primary
-model: opencode/glm-5-free
+model: minimax/m2.5
 temperature: 0.3
 color: "#6366f1"
 tools:

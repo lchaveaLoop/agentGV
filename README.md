@@ -44,15 +44,15 @@
 
 | Agent | 职责 | 模型 |
 |-------|------|------|
-| **agentgv-router** | 智能路由 | GLM-5-Free (免费快速) |
-| **agentgv-intelligence** | 调研分析 | Qwen3-Coder (强推理) |
-| **agentgv-planning** | 架构设计 | Qwen3-Coder (强推理) |
-| **agentgv-operations** | 功能开发 | GLM-4.7 (代码平衡) |
-| **agentgv-quality** | 代码审查 | GLM-4.7 (精准) |
-| **agentgv-communications** | 文档编写 | GLM-4.7 (平衡) |
-| **agentgv-administration** | 项目协调 | GLM-5-Free (免费快速) |
+| **agentgv-router** | 智能路由 | MiniMax M2.5 |
+| **agentgv-intelligence** | 调研分析 | MiniMax M2.5 |
+| **agentgv-planning** | 架构设计 | MiniMax M2.5 |
+| **agentgv-operations** | 功能开发 | MiniMax M2.5 |
+| **agentgv-quality** | 代码审查 | MiniMax M2.5 |
+| **agentgv-communications** | 文档编写 | MiniMax M2.5 |
+| **agentgv-administration** | 项目协调 | MiniMax M2.5 |
 
-> 💡 每个 Agent 都配置了最适合其职责的模型，安装时自动应用。
+> 💡 所有 Agent 统一使用 MiniMax M2.5 模型，安装时自动应用。
 
 ## 📖 文档
 

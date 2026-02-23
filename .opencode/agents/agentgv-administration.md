@@ -1,7 +1,7 @@
 ---
 description: Project coordination and resource management - multi-department collaboration, workflow orchestration
 mode: subagent
-model: opencode/glm-5-free
+model: minimax/m2.5
 temperature: 0.3
 color: "#84cc16"
 tools:

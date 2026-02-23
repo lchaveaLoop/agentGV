@@ -1,7 +1,7 @@
 ---
 description: System architecture and technical design specialist - architecture decisions, technical planning, solution design
 mode: subagent
-model: opencode/qwen3-coder
+model: minimax/m2.5
 temperature: 0.2
 color: "#ec4899"
 tools:
