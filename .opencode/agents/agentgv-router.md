@@ -5,6 +5,7 @@ model: minimax/m2.5
 temperature: 0.3
 color: "#6366f1"
 tools:
+  task: true
   write: false
   edit: false
   bash: false
