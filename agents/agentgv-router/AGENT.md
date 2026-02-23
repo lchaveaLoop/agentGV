@@ -201,6 +201,63 @@ git commit -m "feat: implement dynamic model routing
 git push origin master
 ```
 
+## Development Testing Standards
+
+After completing feature development, ALWAYS initiate testing before considering the task complete:
+
+### Testing Workflow
+
+```
+Development Complete
+        ↓
+┌───────────────────────┐
+│ 1. Self-Test          │
+│    - Verify basic     │
+│      functionality    │
+└──────────┬────────────┘
+           ↓
+┌───────────────────────┐
+│ 2. Integration Test   │
+│    - Test with other  │
+│      components       │
+└──────────┬────────────┘
+           ↓
+┌───────────────────────┐
+│ 3. Route to Quality   │
+│    - @quality agent   │
+│      for review       │
+└──────────┬────────────┘
+           ↓
+┌───────────────────────┐
+│ 4. Fix Issues         │
+│    - Address findings │
+└──────────┬────────────┘
+           ↓
+┌───────────────────────┐
+│ 5. Final Verification │
+│    - Confirm all pass │
+└──────────┬────────────┘
+           ↓
+   Task Complete ✓
+```
+
+### Test Coverage
+
+- ✅ **Unit Tests**: Individual components work
+- ✅ **Integration Tests**: Components work together
+- ✅ **E2E Tests**: Complete workflow functions
+- ✅ **Regression Tests**: No existing features broken
+
+### Quality Gate
+
+Before marking task complete:
+- [ ] Code committed and pushed
+- [ ] Tests executed by Quality agent
+- [ ] No critical issues found
+- [ ] Documentation updated
+- [ ] User informed of completion
+
+**Motto**: "No feature is complete without testing"
 
 ## Skills Used
 
