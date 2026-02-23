@@ -1,0 +1,178 @@
+{
+  "version": "1.0.0",
+  "description": "Skill template system for template-based departments",
+  
+  "skill_categories": {
+    "software": {
+      "name": "Software Development",
+      "skills": [
+        {
+          "id": "cpp",
+          "name": "C++ Development",
+          "keywords": ["C++", "cpp", "c++", "qt", "stl"],
+          "model": "bailian-coding-plan/qwen3-coder-plus",
+          "temperature": 0.3,
+          "system_prompt": "You are a C++ expert specializing in system programming, Qt applications, and performance-critical code."
+        },
+        {
+          "id": "python",
+          "name": "Python Development",
+          "keywords": ["Python", "python", "django", "flask", "fastapi", "pandas", "numpy"],
+          "model": "bailian-coding-plan/qwen3-coder-plus",
+          "temperature": 0.3,
+          "system_prompt": "You are a Python expert specializing in web development, data analysis, and automation."
+        },
+        {
+          "id": "web",
+          "name": "Web Development",
+          "keywords": ["JavaScript", "TypeScript", "React", "Vue", "Angular", "Node.js", "frontend", "backend"],
+          "model": "bailian-coding-plan/qwen3-coder-plus",
+          "temperature": 0.3,
+          "system_prompt": "You are a full-stack web developer expert in modern JavaScript frameworks and backend technologies."
+        },
+        {
+          "id": "mobile",
+          "name": "Mobile Development",
+          "keywords": ["iOS", "Android", "Swift", "Kotlin", "React Native", "Flutter", "mobile app"],
+          "model": "bailian-coding-plan/qwen3-coder-plus",
+          "temperature": 0.3,
+          "system_prompt": "You are a mobile development expert for iOS and Android platforms."
+        }
+      ]
+    },
+    "hardware": {
+      "name": "Hardware & Electronics",
+      "skills": [
+        {
+          "id": "pcb",
+          "name": "PCB Design",
+          "keywords": ["PCB", "circuit board", "Altium", "KiCad", "Eagle", "电路设计", "电路板"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.2,
+          "system_prompt": "You are a PCB design expert proficient in schematic capture, layout, and manufacturing guidelines."
+        },
+        {
+          "id": "fpga",
+          "name": "FPGA Development",
+          "keywords": ["FPGA", "Verilog", "VHDL", "Xilinx", "Intel FPGA", "logic design"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.2,
+          "system_prompt": "You are an FPGA expert specializing in HDL design, synthesis, and implementation."
+        },
+        {
+          "id": "embedded",
+          "name": "Embedded Systems",
+          "keywords": ["embedded", "microcontroller", "ARM", "STM32", "ESP32", "Arduino", "RTOS"],
+          "model": "bailian-coding-plan/qwen3-coder-plus",
+          "temperature": 0.3,
+          "system_prompt": "You are an embedded systems expert proficient in bare-metal and RTOS development."
+        }
+      ]
+    },
+    "simulation": {
+      "name": "Simulation & Modeling",
+      "skills": [
+        {
+          "id": "matlab",
+          "name": "MATLAB/Simulink",
+          "keywords": ["MATLAB", "Simulink", "matlab", "simulation", "控制仿真", "系统建模"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.2,
+          "system_prompt": "You are a MATLAB/Simulink expert specializing in system modeling and simulation."
+        },
+        {
+          "id": "fea",
+          "name": "Finite Element Analysis",
+          "keywords": ["FEA", "ANSYS", "Abaqus", "COMSOL", "finite element", "结构分析", "应力分析"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.2,
+          "system_prompt": "You are an FEA expert proficient in structural, thermal, and multiphysics analysis."
+        },
+        {
+          "id": "cfd",
+          "name": "Computational Fluid Dynamics",
+          "keywords": ["CFD", "Fluent", "OpenFOAM", "fluid dynamics", "流体仿真", "流体力学"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.2,
+          "system_prompt": "You are a CFD expert specializing in fluid flow and heat transfer simulation."
+        }
+      ]
+    },
+    "creative": {
+      "name": "Creative Writing",
+      "skills": [
+        {
+          "id": "fiction",
+          "name": "Fiction Writing",
+          "keywords": ["小说", "故事", "fiction", "story", "creative writing", "文学创作"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.7,
+          "system_prompt": "You are a creative fiction writer with expertise in storytelling, character development, and plot construction."
+        },
+        {
+          "id": "technical",
+          "name": "Technical Writing",
+          "keywords": ["技术文档", "technical writing", "documentation", "API docs", "user manual"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.4,
+          "system_prompt": "You are a technical writer expert in clear, concise documentation for technical audiences."
+        },
+        {
+          "id": "content",
+          "name": "Content Creation",
+          "keywords": ["内容创作", "content", "blog", "article", "copywriting", "文案"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.6,
+          "system_prompt": "You are a content creator skilled in engaging writing for various media platforms."
+        }
+      ]
+    },
+    "research": {
+      "name": "Research & Analysis",
+      "skills": [
+        {
+          "id": "academic",
+          "name": "Academic Research",
+          "keywords": ["学术", "academic", "research paper", "论文", "literature review"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.2,
+          "system_prompt": "You are an academic research expert proficient in literature review, methodology, and scholarly writing."
+        },
+        {
+          "id": "market",
+          "name": "Market Research",
+          "keywords": ["市场", "market", "industry analysis", "竞争分析", "market research"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.3,
+          "system_prompt": "You are a market research analyst expert in industry trends and competitive analysis."
+        },
+        {
+          "id": "data",
+          "name": "Data Analysis",
+          "keywords": ["数据", "data analysis", "statistics", "数据分析", "visualization"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.2,
+          "system_prompt": "You are a data analyst expert in statistical analysis and data visualization."
+        }
+      ]
+    }
+  },
+  
+  "template_departments": {
+    "planning": {
+      "base_prompt": "You are the Planning Department with {skill_name} expertise.",
+      "applicable_skills": ["all"],
+      "output_format": "Design document with {skill_name} considerations"
+    },
+    "operations": {
+      "base_prompt": "You are the Operations Department with {skill_name} expertise.",
+      "applicable_skills": ["all"],
+      "output_format": "Implementation with {skill_name} best practices"
+    },
+    "quality": {
+      "base_prompt": "You are the Quality Department with {skill_name} expertise.",
+      "applicable_skills": ["all"],
+      "output_format": "Quality review with {skill_name} standards"
+    }
+  }
+}
