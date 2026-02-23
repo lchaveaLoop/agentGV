@@ -1,8 +1,6 @@
 ---
 description: System architecture and technical design specialist - architecture decisions, technical planning, solution design
 mode: subagent
-model: minimax/m2.5
-temperature: 0.2
 color: "#ec4899"
 tools:
   write: false

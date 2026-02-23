@@ -1,8 +1,6 @@
 ---
 description: Research and data analysis specialist - market research, competitive intelligence, data analysis
 mode: subagent
-model: minimax/m2.5
-temperature: 0.2
 color: "#8b5cf6"
 tools:
   write: false

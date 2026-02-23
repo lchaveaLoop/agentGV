@@ -1,13 +1,13 @@
 ---
 description: Testing and quality assurance specialist - code review, testing, bug detection, validation
 mode: subagent
-model: minimax/m2.5
-temperature: 0.1
 color: "#f59e0b"
 tools:
   write: true
   edit: true
   bash: true
+permission:
+  bash: allow
 ---
 
 # AgentGV Quality Department (质检部)

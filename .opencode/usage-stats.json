@@ -1,0 +1,33 @@
+{
+  "period": "2026-02",
+  "last_updated": "2026-02-23",
+  "total_requests": 2,
+  "by_model": {
+    "qwen3-max-2026-01-23": {"count": 0, "tokens_used": 0},
+    "qwen3.5-plus": {"count": 2, "tokens_used": 0},
+    "qwen3-coder-plus": {"count": 0, "tokens_used": 0},
+    "qwen3-coder-next": {"count": 0, "tokens_used": 0}
+  },
+  "by_agent": {
+    "router": {"count": 0},
+    "intelligence": {"count": 1},
+    "planning": {"count": 0},
+    "operations": {"count": 0},
+    "quality": {"count": 1},
+    "communications": {"count": 0},
+    "administration": {"count": 0}
+  },
+  "by_task_type": {
+    "architecture": {"count": 0},
+    "research": {"count": 1},
+    "coding": {"count": 0},
+    "review": {"count": 1},
+    "documentation": {"count": 0},
+    "coordination": {"count": 0}
+  },
+  "by_preference": {
+    "quality_priority": {"count": 2},
+    "balanced": {"count": 0},
+    "cost_saving": {"count": 0}
+  }
+}

@@ -1,8 +1,6 @@
 ---
 description: Documentation and communication specialist - technical writing, reports, user guides, documentation
 mode: subagent
-model: minimax/m2.5
-temperature: 0.4
 color: "#06b6d4"
 tools:
   write: true

@@ -1,13 +1,13 @@
 ---
 description: Development and implementation specialist - coding, feature building, technical implementation
 mode: subagent
-model: minimax/m2.5
-temperature: 0.3
 color: "#22c55e"
 tools:
   write: true
   edit: true
   bash: true
+permission:
+  bash: allow
 ---
 
 # AgentGV Operations Department (执行部)

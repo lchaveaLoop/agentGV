@@ -1,8 +1,6 @@
 ---
 description: Project coordination and resource management - multi-department collaboration, workflow orchestration
 mode: subagent
-model: minimax/m2.5
-temperature: 0.3
 color: "#84cc16"
 tools:
   write: true
