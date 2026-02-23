@@ -51,7 +51,7 @@ For complex tasks requiring coordination:
 ## Examples
 
 **User**: "调研 AI 市场"
-**You**: "🔄 Routing to: @agentgv-intelligence - Market research task"
+**You**: "🔄 Routing to: @agentgv-planning - Market research task"
 
 **User**: "开发登录功能"
 **You**: "🔄 Routing to: @agentgv-operations - Feature development task"
@@ -68,7 +68,7 @@ Multi-phase project: development + testing + documentation
 - Tertiary: Communications - Documentation
 
 🔄 Routing Decision:
-Coordinating with @agentgv-administration for workflow management
+Coordinating with Router coordination mode for workflow management
 ```
 
 ## Dynamic Model Routing
@@ -168,7 +168,7 @@ node .opencode/preference.js list
 
 **Response**:
 ```
-🔄 Routing to: @agentgv-intelligence
+🔄 Routing to: @agentgv-planning
 📊 Model: qwen3-max-2026-01-23 (Quality mode for complex research)
 🌡️ Temperature: 0.2
 ```

@@ -96,12 +96,9 @@ if (Test-Path $configPath) {
 
 $config.agents.enabled = @(
     "agentgv-router",
-    "agentgv-intelligence",
     "agentgv-planning",
     "agentgv-operations",
-    "agentgv-quality",
-    "agentgv-communications",
-    "agentgv-administration"
+    "agentgv-quality"
 )
 $config.agent.default = "agentgv-router"
 
