@@ -48,7 +48,7 @@
 
 ### 方案 A: 精简版架构（⭐ 推荐）
 
-**从 7 Agent 精简到 5 Agent**
+**从 7 Agent 精简到 4 Agent**
 
 ```
 当前架构：
@@ -59,7 +59,7 @@ Router(含 Administration) → Planning(含 Intelligence) → Operations(含 Com
 ```
 
 **优势**:
-- Agent 数量减少 29% (7→5)
+- Agent 数量减少 43% (7→4)
 - 减少 Agent 间交接开销
 - 保持专业度
 
@@ -147,4 +147,4 @@ Router → Planning(含 Intelligence) → Operations(含 Communications) → Qua
 
 ---
 
-**结论**: 当前架构专业度高但存在冗余，建议采用方案 A 精简到 5 Agent。
+**结论**: 当前架构专业度高但存在冗余，建议采用方案 A 精简到 4 Agent。

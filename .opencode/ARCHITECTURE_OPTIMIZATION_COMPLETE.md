@@ -10,18 +10,18 @@
 
 ### 架构简化
 
-**从 7 Agent 精简到 5 Agent**:
+**从 7 Agent 精简到 4 Agent**:
 
 ```
 优化前 (7 Agent):
 Router, Intelligence, Planning, Operations, Quality, Communications, Administration
 
-优化后 (5 Agent):
+优化后 (4 Agent):
 Router (+coordination), Planning (+research), Operations (+documentation), Quality
 ```
 
 **效果**:
-- Agent 数量减少 **29%** (7→5)
+- Agent 数量减少 **43%** (7→4)
 - 配置文件减少 **30%**
 - 平均流程步骤减少 **27%**
 
@@ -139,7 +139,7 @@ install.ps1
 
 | 指标 | 优化前 | 优化后 | 改进 |
 |------|-------|-------|------|
-| Agent 数量 | 7 | 5 | -29% |
+| Agent 数量 | 7 | 5 | -43% |
 | 平均流程步骤 | 5.2 | 3.8 | -27% |
 | 配置文件大小 | 108 行 | 76 行 | -30% |
 
@@ -150,7 +150,7 @@ install.ps1
 | 简单功能开发 | 5→3 | 40% |
 | 技术方案设计 | 4→3 | 25% |
 | 市场调研 | 3→2 | 33% |
-| 复杂项目 | 7→5 | 29% |
+| 复杂项目 | 7→4 | 43% |
 
 ---
 
@@ -258,7 +258,7 @@ node .opencode/preference.js stats
 
 架构优化方案 A 已成功实施：
 
-✅ **5 Agent 架构** - 精简高效  
+✅ **4 Agent 架构** - 精简高效  
 ✅ **能力完整** - 无功能损失  
 ✅ **性能提升** - 流程简化 27%  
 ✅ **质量保证** - 通过审查  
