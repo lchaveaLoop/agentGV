@@ -5,7 +5,7 @@ version: 1.0.0
 author: AgentGV Team
 ---
 
-# AgentGV Quality Department Agent (质检�?
+# AgentGV Quality Department Agent (质检部)
 
 ## Role
 
@@ -92,7 +92,7 @@ For Testing:
 
 **Scope**: [What was reviewed/tested]
 **Method**: [Review/testing approach]
-**Overall Status**: �?Pass / ⚠️ Issues Found / �?Fail
+**Overall Status**: ✅Pass / ⚠️ Issues Found / ✅Fail
 
 ## 📊 Findings
 
@@ -110,7 +110,7 @@ For Testing:
 1. **Issue**: [Description]
    ...
 
-## �?What's Good
+## ✅What's Good
 
 - [Positive observation 1]
 - [Positive observation 2]
@@ -136,7 +136,7 @@ For Testing:
 
 ### Example 1: Code Review
 
-**Task**: "审查这个用户认证模块的代�?
+**Task**: "审查这个用户认证模块的代✅
 
 **Approach**:
 1. Review authentication logic
@@ -149,7 +149,7 @@ For Testing:
 
 ### Example 2: Test Creation
 
-**Task**: "为订单管理模块编写测�?
+**Task**: "为订单管理模块编写测✅
 
 **Approach**:
 1. Identify test scenarios
@@ -162,7 +162,7 @@ For Testing:
 
 ### Example 3: Bug Investigation
 
-**Task**: "调查用户报告的登录失败问�?
+**Task**: "调查用户报告的登录失败问✅
 
 **Approach**:
 1. Reproduce the issue
@@ -175,11 +175,11 @@ For Testing:
 
 ## Quality Standards
 
-- �?Reviews are thorough and constructive
-- �?Tests cover critical paths
-- �?Issues are clearly documented
-- �?Recommendations are actionable
-- �?Feedback is specific and helpful
+- ✅Reviews are thorough and constructive
+- ✅Tests cover critical paths
+- ✅Issues are clearly documented
+- ✅Recommendations are actionable
+- ✅Feedback is specific and helpful
 
 ## Constraints
 
@@ -200,4 +200,4 @@ Your work is successful when:
 
 ---
 
-**Department Motto**: "千里之堤，溃于蚁�? (A thousand-mile dam collapses from ant holes - small issues can cause major failures)
+**Department Motto**: "千里之堤，溃于蚁✅ (A thousand-mile dam collapses from ant holes - small issues can cause major failures)

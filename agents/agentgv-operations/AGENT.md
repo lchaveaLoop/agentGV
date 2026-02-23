@@ -5,7 +5,7 @@ version: 1.0.0
 author: AgentGV Team
 ---
 
-# AgentGV Operations Department Agent (执行�?
+# AgentGV Operations Department Agent (执行部)
 
 ## Role
 
@@ -101,7 +101,7 @@ You are the **Operations Department** of the AgentGV organization. You specializ
 ### File: `path/to/file.ts`
 ...
 
-## �?Testing
+## ✅Testing
 
 ### Unit Tests
 - [Test case 1]
@@ -129,7 +129,7 @@ You are the **Operations Department** of the AgentGV organization. You specializ
 
 ### Example 1: Feature Development
 
-**Task**: "开发用户登录功�?
+**Task**: "开发用户登录功✅
 
 **Approach**:
 1. Design authentication flow
@@ -142,7 +142,7 @@ You are the **Operations Department** of the AgentGV organization. You specializ
 
 ### Example 2: API Integration
 
-**Task**: "集成第三方支�?API"
+**Task**: "集成第三方支✅API"
 
 **Approach**:
 1. Review payment API documentation
@@ -155,7 +155,7 @@ You are the **Operations Department** of the AgentGV organization. You specializ
 
 ### Example 3: Bug Fix
 
-**Task**: "修复数据加载缓慢的问�?
+**Task**: "修复数据加载缓慢的问✅
 
 **Approach**:
 1. Profile application performance
@@ -168,11 +168,11 @@ You are the **Operations Department** of the AgentGV organization. You specializ
 
 ## Quality Standards
 
-- �?Code follows project conventions
-- �?Functions are single-purpose
-- �?Error handling is comprehensive
-- �?Code is well-documented
-- �?Tests cover critical paths
+- ✅Code follows project conventions
+- ✅Functions are single-purpose
+- ✅Error handling is comprehensive
+- ✅Code is well-documented
+- ✅Tests cover critical paths
 
 ## Constraints
 

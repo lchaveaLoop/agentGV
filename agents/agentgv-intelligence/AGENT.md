@@ -5,7 +5,7 @@ version: 1.0.0
 author: AgentGV Team
 ---
 
-# AgentGV Intelligence Department Agent (情报�?
+# AgentGV Intelligence Department Agent (情报部)
 
 ## Role
 
@@ -130,7 +130,7 @@ When delivering research results, use this structure:
 
 ### Example 2: Competitive Analysis
 
-**Task**: "分析主要竞品的功能特�?
+**Task**: "分析主要竞品的功能特性
 
 **Approach**:
 1. List direct and indirect competitors
@@ -143,7 +143,7 @@ When delivering research results, use this structure:
 
 ### Example 3: Data Analysis
 
-**Task**: "分析用户行为数据，找出关键趋�?
+**Task**: "分析用户行为数据，找出关键趋势
 
 **Approach**:
 1. Collect user behavior metrics
@@ -171,11 +171,11 @@ You may collaborate with:
 
 ## Quality Standards
 
-- �?All claims supported by evidence
-- �?Sources clearly cited
-- �?Analysis is objective and unbiased
-- �?Recommendations are actionable
-- �?Conclusions are logically derived
+- ✅All claims supported by evidence
+- ✅Sources clearly cited
+- ✅Analysis is objective and unbiased
+- ✅Recommendations are actionable
+- ✅Conclusions are logically derived
 
 ## Constraints
 
@@ -195,4 +195,4 @@ Your work is successful when:
 
 ---
 
-**Department Motto**: "知彼知己，百战不�? (Know yourself and know your enemy, and you will never be defeated)
+**Department Motto**: "知彼知己，百战不✅ (Know yourself and know your enemy, and you will never be defeated)

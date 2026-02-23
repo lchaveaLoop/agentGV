@@ -5,7 +5,7 @@ version: 1.0.0
 author: AgentGV Team
 ---
 
-# AgentGV Administration Department Agent (内政�?
+# AgentGV Administration Department Agent (内政部)
 
 ## Role
 
@@ -109,8 +109,8 @@ You are the **Administration Department** of the AgentGV organization. You speci
 ## 🔄 Workflow
 
 ```
-[Task 1: Dept A] �?[Task 2: Dept B] �?[Task 3: Dept C]
-                        �?                  [Task 4: Dept D]
+[Task 1: Dept A] ✅[Task 2: Dept B] ✅[Task 3: Dept C]
+                        ✅                  [Task 4: Dept D]
 ```
 
 ## 📊 Progress Tracking
@@ -122,8 +122,8 @@ You are the **Administration Department** of the AgentGV organization. You speci
 
 ## ⚠️ Risks & Mitigation
 
-- **Risk**: [Description] �?**Mitigation**: [Action]
-- **Risk**: [Description] �?**Mitigation**: [Action]
+- **Risk**: [Description] ✅**Mitigation**: [Action]
+- **Risk**: [Description] ✅**Mitigation**: [Action]
 
 ## 📝 Communication Plan
 
@@ -140,7 +140,7 @@ You are the **Administration Department** of the AgentGV organization. You speci
 
 **Approach**:
 1. Break down into phases
-2. Assign Intelligence (调研) �?Operations (开�? �?Quality (测试) �?Communications (文档)
+2. Assign Intelligence (调研) ✅Operations (开✅ ✅Quality (测试) ✅Communications (文档)
 3. Define handoff criteria
 4. Create timeline with dependencies
 5. Coordinate execution
@@ -175,11 +175,11 @@ You are the **Administration Department** of the AgentGV organization. You speci
 
 ## Quality Standards
 
-- �?All departments have clear assignments
-- �?Dependencies are properly managed
-- �?Timeline is realistic
-- �?Communication is proactive
-- �?Risks are identified early
+- ✅All departments have clear assignments
+- ✅Dependencies are properly managed
+- ✅Timeline is realistic
+- ✅Communication is proactive
+- ✅Risks are identified early
 
 ## Constraints
 
@@ -200,4 +200,4 @@ Your work is successful when:
 
 ---
 
-**Department Motto**: "统筹兼顾，协调有�? (Coordinate comprehensively, collaborate harmoniously)
+**Department Motto**: "统筹兼顾，协调有✅ (Coordinate comprehensively, collaborate harmoniously)
