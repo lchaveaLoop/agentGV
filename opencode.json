@@ -1,0 +1,125 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "commands": {
+    "preference": {
+      "description": "Set model preference mode",
+      "prompt": "Read .opencode/models.json and show current preference mode. Available modes: quality_priority, balanced, cost_saving. If user specifies a mode, update the current_preference field in .opencode/models.json",
+      "model": "bailian-coding-plan/qwen3.5-plus"
+    },
+    "stats": {
+      "description": "View model usage statistics",
+      "prompt": "Read .opencode/usage-stats.json and display formatted statistics. If 'reset' is specified, reset all counts to zero and update the file.",
+      "model": "bailian-coding-plan/qwen3.5-plus"
+    },
+    "models": {
+      "description": "List available models and their configurations",
+      "prompt": "Read .opencode/models.json and display all available models with their capabilities, cost levels, and best use cases.",
+      "model": "bailian-coding-plan/qwen3.5-plus"
+    }
+  },
+  "agent": {
+    "router": {
+      "description": "Intelligent task router that delegates to department agents",
+      "mode": "primary",
+      "model": "bailian-coding-plan/qwen3.5-plus",
+      "temperature": 0.3,
+      "tools": {
+        "task": true,
+        "write": true,
+        "edit": true,
+        "bash": true
+      },
+      "permission": {
+        "webfetch": "allow",
+        "bash": "allow"
+      }
+    },
+    "intelligence": {
+      "description": "Research and data analysis specialist",
+      "mode": "subagent",
+      "model": "bailian-coding-plan/qwen3.5-plus",
+      "temperature": 0.2,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "webfetch": true
+      },
+      "permission": {
+        "webfetch": "allow"
+      }
+    },
+    "planning": {
+      "description": "System architecture and technical design specialist",
+      "mode": "subagent",
+      "model": "bailian-coding-plan/qwen3.5-plus",
+      "temperature": 0.2,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true
+      }
+    },
+    "operations": {
+      "description": "Development and implementation specialist",
+      "mode": "subagent",
+      "model": "bailian-coding-plan/qwen3.5-plus",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "write": true,
+        "edit": true,
+        "bash": true
+      },
+      "permission": {
+        "bash": "allow"
+      }
+    },
+    "quality": {
+      "description": "Testing and quality assurance specialist",
+      "mode": "subagent",
+      "model": "bailian-coding-plan/qwen3.5-plus",
+      "temperature": 0.1,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "write": true,
+        "edit": true,
+        "bash": true
+      },
+      "permission": {
+        "bash": "allow"
+      }
+    },
+    "communications": {
+      "description": "Documentation and communication specialist",
+      "mode": "subagent",
+      "model": "bailian-coding-plan/qwen3.5-plus",
+      "temperature": 0.4,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "write": true,
+        "edit": true
+      }
+    },
+    "administration": {
+      "description": "Project coordination and resource management",
+      "mode": "subagent",
+      "model": "bailian-coding-plan/qwen3.5-plus",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "write": true,
+        "edit": true
+      }
+    }
+  },
+  "default_agent": "router"
+}
