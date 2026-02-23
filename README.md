@@ -8,7 +8,38 @@
 
 双击运行 `install.ps1`
 
-### 2. 配置
+### 2. 模型配置
+
+安装脚本会自动检测可用模型：
+
+| 优先级 | 来源 | 说明 |
+|--------|------|------|
+| 1 | 环境变量 `AGENTGV_MODEL` | 最高优先级 |
+| 2 | 用户 config 中的 model | 中优先级 |
+| 3 | 默认 `opencode/glm-5-free` | 免费备用 |
+
+**指定自定义模型：**
+```powershell
+# PowerShell
+$env:AGENTGV_MODEL = "minimax/m2.5"
+.\install.ps1
+```
+
+**常用模型：**
+- `minimax/m2.5` - MiniMax M2.5 (推荐)
+- `minimax/m2.5-free` - MiniMax M2.5 免费版
+- `opencode/glm-5-free` - GLM-5 免费版
+- `opencode/qwen3-coder` - Qwen3 Coder
+
+### 3. 使用
+
+```
+帮我调研 AI 市场  ← 自动路由到对应 Agent
+```
+
+无需 `@` 前缀，所有请求自动经过 Router 分发！
+
+### 4. 配置
 
 安装脚本会自动配置 `~/.opencode/config.json`，设置 `agentgv-router` 为默认 Agent。
 
@@ -32,14 +63,6 @@
 }
 ```
 
-### 3. 使用
-
-```
-帮我调研 AI 市场  ← 自动路由到对应 Agent
-```
-
-无需 `@` 前缀，所有请求自动经过 Router 分发！
-
 ## 📋 Agents
 
 | Agent | 职责 | 模型 |
@@ -62,4 +85,4 @@
 
 ---
 
-**版本**: 2.3 | **日期**: 2026-02-23
+**版本**: 2.4 | **日期**: 2026-02-23
