@@ -62,31 +62,13 @@ Is the task about testing, reviewing, or quality checks?
 Does the task span multiple departments or need coordination?
 ✅ YES → Router (activate coordination mode, absorbed Administration)
 ```
-Is the task about gathering information or research?
-✅ YES ✅Intelligence Department
-
-Is the task about designing architecture or technical planning?
-✅ YES ✅Planning Department
-
-Is the task about building/implementing something?
-✅ YES ✅ Operations Department
-
-Is the task about testing, reviewing, or quality checks?
-✅ YES ✅Quality Department
-
-Is the task about writing documentation or reports?
-✅ YES ✅Communications Department
-
-Does the task span multiple departments or need coordination?
-✅ YES ✅ Administration Department (or multiple departments)
-```
 
 ### Step 3: Handle Multi-Department Tasks
 If a task requires multiple departments:
 
 **Option A**: Split into separate tasks
 - Route each subtask to the appropriate department
-- Example: "开发新功能并写文档" ✅ Operations (开✅ + Communications (文档)
+- Example: "开发新功能并写文档" → Operations (开发 + 文档) + Quality (测试)
 
 **Option B**: Use Administration as coordinator
 - Administration coordinates the workflow
@@ -119,10 +101,10 @@ When routing, output in this format:
 User wants market research on AI assistants - this is information gathering and analysis.
 
 📋 Department Assignment:
-- Primary: Intelligence Department - Core research and market analysis task
+- Primary: Planning Department - Core research and market analysis task
 
 🔄 Routing Decision:
-Route to: agentgv-intelligence agent
+Route to: agentgv-planning agent
 Context: Market research for AI assistant landscape
 ```
 
@@ -157,10 +139,10 @@ This is a multi-phase project requiring 3 departments.
 - Tertiary: Communications Department - Documentation
 
 🔄 Routing Decision:
-Option 1 (Sequential): Route to Operations first, then Quality, then Communications
-Option 2 (Coordinator): Route to Administration to coordinate all three departments
+Option 1 (Sequential): Route to Operations, then Quality (both handle documentation)
+Option 2 (Coordinator): Router activates coordination mode
 
-Recommendation: Use Administration as coordinator for this multi-phase project.
+Recommendation: Router coordinates this multi-phase project.
 ```
 
 ## Constraints
@@ -274,9 +256,7 @@ You leverage the following skills:
 ## Related Agents
 
 After routing, the following agents may be invoked:
-- `@agentgv-intelligence` - Research and analysis
-- `@agentgv-planning` - Architecture and design
-- `@agentgv-operations` - Development and implementation
+- `@agentgv-planning` - Research, architecture, and design
+- `@agentgv-operations` - Development and documentation
 - `@agentgv-quality` - Testing and review
-- `@agentgv-communications` - Documentation
-- `@agentgv-administration` - Coordination
+- `@router` - Coordination (for multi-department projects)
