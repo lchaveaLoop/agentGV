@@ -269,3 +269,30 @@ node .opencode/preference.js stats
 **实施状态**: ✅ **完成**  
 **上线状态**: ✅ **已上线**  
 **下次审查**: 2026-03-02 (1 周后)
+
+---
+
+## 📝 更正说明 (2026-02-23)
+
+**错误**: 文档中最初写成"精简到 5 Agent"
+
+**更正**: 实际精简到 **4 Agent**
+
+**正确计算**:
+- 优化前：7 Agent (Router, Intelligence, Planning, Operations, Quality, Communications, Administration)
+- 优化后：**4 Agent** (Router, Planning, Operations, Quality)
+- 减少：**43%** (7→4)，不是 29% (7→5)
+
+**原因**: 
+- Intelligence → Planning (合并)
+- Communications → Operations (合并)
+- Administration → Router (合并)
+- 7 - 3 = **4 Agent**
+
+**已更正文件**:
+- ARCHITECTURE_MIGRATION.md
+- ARCHITECTURE_OPTIMIZATION_COMPLETE.md
+- ARCHITECTURE_REVIEW.md
+- ARCHITECTURE_SUMMARY.md
+
+---
