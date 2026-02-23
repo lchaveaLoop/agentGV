@@ -148,18 +148,16 @@
     }
   },
   "agent_model_mapping": {
-    "agentgv-intelligence": {"default": "qwen3.5-plus", "complex": "qwen3-max-2026-01-23", "simple": "qwen3-coder-plus", "temperature": 0.2},
     "agentgv-planning": {"default": "qwen3-max-2026-01-23", "complex": "qwen3-max-2026-01-23", "simple": "qwen3.5-plus", "temperature": 0.2},
     "agentgv-operations": {"default": "qwen3-coder-plus", "complex": "qwen3.5-plus", "simple": "qwen3-coder-next", "temperature": 0.3},
-    "agentgv-quality": {"default": "qwen3.5-plus", "complex": "qwen3-max-2026-01-23", "simple": "qwen3-coder-plus", "temperature": 0.1},
-    "agentgv-communications": {"default": "qwen3.5-plus", "complex": "qwen3.5-plus", "simple": "qwen3-coder-next", "temperature": 0.4},
-    "agentgv-administration": {"default": "qwen3.5-plus", "complex": "qwen3-max-2026-01-23", "simple": "qwen3-coder-plus", "temperature": 0.3}
+    "agentgv-quality": {"default": "qwen3.5-plus", "complex": "qwen3-max-2026-01-23", "simple": "qwen3-coder-plus", "temperature": 0.1}
   },
   "usage_stats": {
     "enabled": true,
     "track_per_model": true,
     "track_per_agent": true,
     "track_per_task_type": true,
-    "reset_period": "monthly"
+    "reset_period": "monthly",
+    "agents": ["router", "planning", "operations", "quality"]
   }
 }
