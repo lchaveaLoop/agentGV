@@ -10,26 +10,28 @@
 
 ### 2. 模型配置
 
-安装脚本会自动检测可用模型：
+安装时会自动检测可用模型：
 
 | 优先级 | 来源 | 说明 |
 |--------|------|------|
 | 1 | 环境变量 `AGENTGV_MODEL` | 最高优先级 |
-| 2 | 用户 config 中的 model | 中优先级 |
-| 3 | 默认 `opencode/glm-5-free` | 免费备用 |
+| 2 | 用户 config model 字段 | 中优先级 |
+| 3 | 交互式选择 | 如果未配置，提示选择 |
 
-**指定自定义模型：**
+**交互式选择：**
+```
+No model configured. Available options:
+  1. minimax/m2.5        - MiniMax M2.5 (推荐)
+  2. minimax/m2.5-free  - MiniMax M2.5 免费版
+  3. opencode/glm-5-free - GLM-5 免费版 (无需 API Key)
+  4. opencode/qwen3-coder - Qwen3 Coder
+```
+
+**指定模型安装：**
 ```powershell
-# PowerShell
 $env:AGENTGV_MODEL = "minimax/m2.5"
 .\install.ps1
 ```
-
-**常用模型：**
-- `minimax/m2.5` - MiniMax M2.5 (推荐)
-- `minimax/m2.5-free` - MiniMax M2.5 免费版
-- `opencode/glm-5-free` - GLM-5 免费版
-- `opencode/qwen3-coder` - Qwen3 Coder
 
 ### 3. 使用
 

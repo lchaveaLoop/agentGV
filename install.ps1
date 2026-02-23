@@ -9,32 +9,50 @@ $source = "$PSScriptRoot\agents"
 $configSource = "$PSScriptRoot\.opencode\agents"
 
 # ============================================
-# Model Detection Logic
+# Model Detection - Find user's configured model
 # ============================================
-$defaultModel = "opencode/glm-5-free"
+$configPath = "$env:USERPROFILE\.opencode\config.json"
+$userModel = $null
 
-# Priority 1: Environment variable AGENTGV_MODEL
+# Check environment variable first
 $envModel = $env:AGENTGV_MODEL
 if ($envModel) {
-    $selectedModel = $envModel
-    Write-Host "[ENV] Using model from environment: $selectedModel" -ForegroundColor Cyan
+    $userModel = $envModel
+    Write-Host "[ENV] Model from environment: $userModel" -ForegroundColor Cyan
 }
-# Priority 2: User config model
-else {
-    $configPath = "$env:USERPROFILE\.opencode\config.json"
-    if (Test-Path $configPath) {
-        $userConfig = Get-Content $configPath -Raw | ConvertFrom-Json
-        if ($userConfig.PSObject.Properties.Name -contains "model" -and $userConfig.model) {
-            $selectedModel = $userConfig.model
-            Write-Host "[CONFIG] Using model from config: $selectedModel" -ForegroundColor Cyan
-        }
+# Check user's config for model
+elseif (Test-Path $configPath) {
+    $userConfig = Get-Content $configPath -Raw | ConvertFrom-Json
+    if ($userConfig.PSObject.Properties.Name -contains "model" -and $userConfig.model) {
+        $userModel = $userConfig.model
+        Write-Host "[CONFIG] Model from config: $userModel" -ForegroundColor Cyan
     }
 }
 
-# Priority 3: Default free model
-if (-not $selectedModel) {
-    $selectedModel = $defaultModel
-    Write-Host "[DEFAULT] Using free model: $selectedModel" -ForegroundColor Cyan
+# If no model found, prompt user
+if (-not $userModel) {
+    Write-Host ""
+    Write-Host "No model configured. Available options:" -ForegroundColor Yellow
+    Write-Host "  1. minimax/m2.5        - MiniMax M2.5 (Recommended)" -ForegroundColor White
+    Write-Host "  2. minimax/m2.5-free  - MiniMax M2.5 Free" -ForegroundColor White
+    Write-Host "  3. opencode/glm-5-free - GLM-5 Free (No API key needed)" -ForegroundColor White
+    Write-Host "  4. opencode/qwen3-coder - Qwen3 Coder" -ForegroundColor White
+    Write-Host ""
+    $choice = Read-Host "Select model (1-4) or press Enter for option 3 (free)"
+    
+    $modelMap = @{
+        "1" = "minimax/m2.5"
+        "2" = "minimax/m2.5-free"
+        "3" = "opencode/glm-5-free"
+        "4" = "opencode/qwen3-coder"
+    }
+    
+    if ($modelMap.ContainsKey($choice)) {
+        $userModel = $modelMap[$choice]
+    } else {
+        $userModel = "opencode/glm-5-free"  # Default to free
+    }
+    Write-Host "Selected: $userModel" -ForegroundColor Green
 }
 
 Write-Host ""
@@ -55,25 +73,22 @@ Get-ChildItem -Path $source -Directory -Filter "agentgv-*" | ForEach-Object {
 }
 
 # ============================================
-# Install and Update Agent Configs (replace model)
+# Update Agent Configs with selected model
 # ============================================
 Write-Host "Installing agent configurations..." -ForegroundColor Cyan
 if (Test-Path $configSource) {
     Get-ChildItem -Path $configSource -Filter "*.md" | ForEach-Object {
         $content = Get-Content $_.FullName -Raw -Encoding UTF8
-        $newContent = $content -replace 'model: .*', "model: $selectedModel"
+        $newContent = $content -replace 'model: .*', "model: $userModel"
         $dest = Join-Path $target $_.Name
         [System.IO.File]::WriteAllText($dest, $newContent, [System.Text.UTF8Encoding]::new($false))
-        Write-Host "  [OK] $($_.Name) -> $selectedModel" -ForegroundColor Green
+        Write-Host "  [OK] $($_.Name) -> $userModel" -ForegroundColor Green
     }
-} else {
-    Write-Host "  [SKIP] No .opencode/agents folder found" -ForegroundColor Yellow
 }
 
 # ============================================
 # Update OpenCode Config
 # ============================================
-$configPath = "$env:USERPROFILE\.opencode\config.json"
 $config = @{}
 if (Test-Path $configPath) {
     $config = Get-Content $configPath -Raw | ConvertFrom-Json
@@ -91,17 +106,12 @@ $config.agents.enabled = @(
 $config.agent.default = "agentgv-router"
 
 $config | ConvertTo-Json -Depth 10 | Set-Content $configPath
-Write-Host "Config updated: agentgv-router set as default" -ForegroundColor Green
 
 Write-Host ""
 Write-Host "================================" -ForegroundColor Green
 Write-Host "  Installation Complete!" -ForegroundColor Green
 Write-Host "================================" -ForegroundColor Green
 Write-Host ""
-Write-Host "Model: $selectedModel" -ForegroundColor White
+Write-Host "Model: $userModel" -ForegroundColor White
 Write-Host "All requests will be routed automatically" -ForegroundColor Gray
-Write-Host ""
-Write-Host "To change model, run:" -ForegroundColor Yellow
-Write-Host '  $env:AGENTGV_MODEL = "minimax/m2.5"' -ForegroundColor White
-Write-Host "  .\install.ps1" -ForegroundColor White
 Write-Host ""
