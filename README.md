@@ -42,21 +42,24 @@
 
 ## 📋 Agents
 
-| Agent | 职责 |
-|-------|------|
-| **agentgv-router** | 智能路由 |
-| **agentgv-intelligence** | 调研分析 |
-| **agentgv-planning** | 架构设计 |
-| **agentgv-operations** | 功能开发 |
-| **agentgv-quality** | 代码审查 |
-| **agentgv-communications** | 文档编写 |
-| **agentgv-administration** | 项目协调 |
+| Agent | 职责 | 模型 |
+|-------|------|------|
+| **agentgv-router** | 智能路由 | Claude Haiku (快速) |
+| **agentgv-intelligence** | 调研分析 | Claude Opus (强推理) |
+| **agentgv-planning** | 架构设计 | Claude Opus (强推理) |
+| **agentgv-operations** | 功能开发 | Claude Sonnet (代码) |
+| **agentgv-quality** | 代码审查 | Claude Sonnet (精准) |
+| **agentgv-communications** | 文档编写 | Claude Sonnet (平衡) |
+| **agentgv-administration** | 项目协调 | Claude Haiku (快速) |
+
+> 💡 每个 Agent 都配置了最适合其职责的模型，安装时自动应用。
 
 ## 📖 文档
 
 - `INSTALLATION_COMPLETE.md` - 安装验证报告
 - `agents/*/AGENT.md` - Agent 详细文档
+- `.opencode/agents/*.md` - OpenCode Agent 配置
 
 ---
 
-**版本**: 2.1 | **日期**: 2026-02-23
+**版本**: 2.2 | **日期**: 2026-02-23
