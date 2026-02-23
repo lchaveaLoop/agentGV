@@ -1,7 +1,7 @@
 ---
 description: Development and implementation specialist - coding, feature building, technical implementation
 mode: subagent
-model: anthropic/claude-sonnet-4-5-20250929
+model: opencode/glm-4.7
 temperature: 0.3
 color: "#22c55e"
 tools:

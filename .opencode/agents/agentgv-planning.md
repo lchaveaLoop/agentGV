@@ -1,7 +1,7 @@
 ---
 description: System architecture and technical design specialist - architecture decisions, technical planning, solution design
 mode: subagent
-model: anthropic/claude-opus-4-5-20250929
+model: opencode/qwen3-coder
 temperature: 0.2
 color: "#ec4899"
 tools:

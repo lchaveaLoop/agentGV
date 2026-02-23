@@ -1,7 +1,7 @@
 ---
 description: Research and data analysis specialist - market research, competitive intelligence, data analysis
 mode: subagent
-model: anthropic/claude-opus-4-5-20250929
+model: opencode/qwen3-coder
 temperature: 0.2
 color: "#8b5cf6"
 tools:

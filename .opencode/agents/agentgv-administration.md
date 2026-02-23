@@ -1,7 +1,7 @@
 ---
 description: Project coordination and resource management - multi-department collaboration, workflow orchestration
 mode: subagent
-model: anthropic/claude-haiku-4-5-20250929
+model: opencode/glm-5-free
 temperature: 0.3
 color: "#84cc16"
 tools:

@@ -1,7 +1,7 @@
 ---
 description: Testing and quality assurance specialist - code review, testing, bug detection, validation
 mode: subagent
-model: anthropic/claude-sonnet-4-5-20250929
+model: opencode/glm-4.7
 temperature: 0.1
 color: "#f59e0b"
 tools:

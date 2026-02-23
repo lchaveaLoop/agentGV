@@ -1,7 +1,7 @@
 ---
 description: Intelligent task router that analyzes requests and delegates to appropriate department agents
 mode: primary
-model: anthropic/claude-haiku-4-5-20250929
+model: opencode/glm-5-free
 temperature: 0.3
 color: "#6366f1"
 tools:

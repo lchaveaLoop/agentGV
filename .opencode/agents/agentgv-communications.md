@@ -1,7 +1,7 @@
 ---
 description: Documentation and communication specialist - technical writing, reports, user guides, documentation
 mode: subagent
-model: anthropic/claude-sonnet-4-5-20250929
+model: opencode/glm-4.7
 temperature: 0.4
 color: "#06b6d4"
 tools:
