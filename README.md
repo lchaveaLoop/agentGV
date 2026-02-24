@@ -1,10 +1,11 @@
 # AgentGV - Government-Style Agent Teams
 
-多 Agent 协作系统，模拟政府部门架构。支持动态模型路由、质量优先模式、使用统计追踪。
+多 Agent 协作系统，模拟政府部门架构。支持动态模型路由、Skill 模板系统、质量优先模式、使用统计追踪。
 
 ## 🎯 核心特性
 
 - **智能路由**: Router Agent 自动分发任务到对应部门
+- **Skill 模板系统**: 基于 C++ 模板理念的部门模板化，支持多领域任务
 - **动态模型分配**: 根据任务类型和复杂度自动选择最优模型
 - **质量优先模式**: 复杂任务自动使用最强模型 (Qwen3 Max)
 - **使用统计**: 追踪各模型、Agent、任务类型的使用情况
@@ -32,6 +33,8 @@ $env:AGENTGV_MODEL = "bailian-coding-plan/qwen3.5-plus"
 
 ```
 帮我调研 AI 市场  ← 自动路由到对应 Agent
+用 C++ 开发一个 Qt 程序  ← 自动匹配 cpp skill
+设计一个 PCB 电路板  ← 自动匹配 pcb skill
 ```
 
 无需 `@` 前缀，所有请求自动经过 Router 分发！
@@ -59,44 +62,150 @@ node .opencode/preference.js set cost
 node .opencode/preference.js stats
 ```
 
+### 6. 测试 Skill 匹配
+
+```bash
+node .opencode/skill-matcher.js "开发一个 C++ Qt 程序"
+node .opencode/skill-matcher.js "设计一个 PCB 电路板"
+node .opencode/skill-matcher.js "写一篇技术文档"
+```
+
 ---
 
-## 🤖 Agents
+## 🏗️ 架构演进
+
+| 版本 | 架构 | Agent 数 | 支持领域 |
+|------|------|---------|---------|
+| V1 | 7 Agent | 7 | 固定 |
+| V2 | 4 Agent | 4 | 固定 |
+| **V3** | **4+N 模板** | **4+15** | **可扩展** |
+
+**当前架构**: 4 个模板部门 + 15 个 Skill = 支持 5 大领域
+
+---
+
+## 🤖 模板部门
 
 ### Router (路由器)
-- **职责**: 智能路由，分析任务并分发到对应部门
+- **职责**: 智能路由，Skill 匹配，项目协调
 - **模型**: bailian-coding-plan/qwen3.5-plus
 - **模式**: primary
+- **特性**: Skill-based template matching
 
-### Intelligence (情报部)
-- **职责**: 调研分析，市场研究，竞品分析
-- **模型**: bailian-coding-plan/qwen3.5-plus
-- **温度**: 0.2
-
-### Planning (规划局)
+### Planning (规划局) - 模板部门
 - **职责**: 架构设计，技术方案，系统规划
-- **模型**: bailian-coding-plan/qwen3.5-plus (复杂任务→qwen3-max)
-- **温度**: 0.2
+- **模板**: `Planning<Skill>`
+- **支持 Skill**: 15 个 (software/hardware/simulation/creative/research)
+- **模型**: 根据 Skill 动态分配
 
-### Operations (执行部)
-- **职责**: 功能开发，编码实现
-- **模型**: bailian-coding-plan/qwen3-coder-plus
-- **温度**: 0.3
+### Operations (执行部) - 模板部门
+- **职责**: 功能开发，编码实现，文档编写
+- **模板**: `Operations<Skill>`
+- **支持 Skill**: 15 个
+- **模型**: 根据 Skill 动态分配
 
-### Quality (质检部)
+### Quality (质检部) - 模板部门
 - **职责**: 代码审查，测试，质量验证
-- **模型**: bailian-coding-plan/qwen3.5-plus
-- **温度**: 0.1
+- **模板**: `Quality<Skill>`
+- **支持 Skill**: 15 个
+- **模型**: 根据 Skill 动态分配
 
-### Communications (外交部)
-- **职责**: 文档编写，报告撰写
-- **模型**: bailian-coding-plan/qwen3.5-plus
-- **温度**: 0.4
+---
 
-### Administration (内政部)
-- **职责**: 项目协调，多部门协作管理
-- **模型**: bailian-coding-plan/qwen3.5-plus
-- **温度**: 0.3
+## 💡 Skill 模板系统
+
+### 设计理念
+
+受 C++ 模板函数/模板类启发：
+
+```cpp
+// C++ 模板类比
+template<typename Skill>
+void Planning::design();
+
+template<typename Skill>
+void Operations::implement();
+
+template<typename Skill>
+void Quality::review();
+
+// AgentGV 实现
+Planning<cpp>       // C++ 规划设计
+Planning<pcb>       // PCB 规划设计
+Operations<python>  // Python 实现
+Operations<fiction> // 小说创作
+Quality<web>        // Web 项目审查
+```
+
+### Skill 分类 (5 大类 15 个)
+
+#### 1. 软件开发 (Software)
+| Skill | 关键词 | 适用场景 |
+|-------|--------|----------|
+| cpp | C++, Qt, STL | 系统编程、桌面应用 |
+| python | Python, Django, Flask | Web 开发、数据分析 |
+| web | JavaScript, React, Node.js | 前后端开发 |
+| mobile | iOS, Android, Flutter | 移动应用开发 |
+
+#### 2. 硬件电子 (Hardware)
+| Skill | 关键词 | 适用场景 |
+|-------|--------|----------|
+| pcb | PCB, Altium, KiCad | 电路板设计 |
+| fpga | FPGA, Verilog, VHDL | 逻辑设计 |
+| embedded | 嵌入式，ARM, STM32 | 嵌入式开发 |
+
+#### 3. 仿真建模 (Simulation)
+| Skill | 关键词 | 适用场景 |
+|-------|--------|----------|
+| matlab | MATLAB, Simulink | 系统仿真 |
+| fea | ANSYS, Abaqus, FEA | 结构分析 |
+| cfd | Fluent, OpenFOAM, CFD | 流体仿真 |
+
+#### 4. 文学创作 (Creative)
+| Skill | 关键词 | 适用场景 |
+|-------|--------|----------|
+| fiction | 小说，故事，fiction | 小说创作 |
+| technical | 技术文档，documentation | 技术写作 |
+| content | 内容创作，blog, article | 内容创作 |
+
+#### 5. 研究分析 (Research)
+| Skill | 关键词 | 适用场景 |
+|-------|--------|----------|
+| academic | 学术，research paper | 学术研究 |
+| market | 市场，industry analysis | 市场调研 |
+| data | 数据，statistics | 数据分析 |
+
+### 使用示例
+
+**示例 1: 软件开发**
+```
+用户：用 C++ Qt 开发一个串口调试助手
+Router:
+- Skill: cpp (C++ Development)
+- Department: Operations
+- Model: qwen3-coder-plus
+路由：@agentgv-operations<cpp>
+```
+
+**示例 2: 硬件设计**
+```
+用户：设计一个 ESP32 WiFi 模块的 PCB
+Router:
+- Skill: pcb (PCB Design)
+- Department: Planning
+- Model: qwen3.5-plus
+路由：@agentgv-planning<pcb>
+```
+
+**示例 3: 文学创作**
+```
+用户：写一篇关于 AI 的科幻小说
+Router:
+- Skill: fiction (Fiction Writing)
+- Department: Operations
+- Model: qwen3.5-plus (temperature: 0.7)
+路由：@agentgv-operations<fiction>
+```
 
 ---
 
@@ -141,6 +250,7 @@ node .opencode/preference.js stats
 - 各 Agent 调用次数
 - 各任务类型分布
 - 各偏好模式使用情况
+- 各 Skill 使用频率
 
 统计按月重置，查看方式：
 ```bash
@@ -158,7 +268,7 @@ node .opencode/preference.js stats
 2. 路由到 @quality 审查
 3. 修复问题
 4. 提交代码并推送
-5. 更新文档
+5. **更新文档（自主执行）**
 
 提交格式遵循 Conventional Commits：
 - `feat:` 新功能
@@ -173,17 +283,27 @@ node .opencode/preference.js stats
 开发完成 → 自测 → 集成测试 → Quality 审查 → 修复 → 验证 → 提交 → 文档更新 → ✅
 ```
 
+### 文档闭环
+
+**重要**: 任何功能更新后，必须自主更新以下文档：
+- README.md（项目主文档）
+- 相关技术文档
+- CHANGELOG（如有必要）
+
 ---
 
 ## 📖 文档
 
 - `README.md` - 项目说明（本文档）
+- `.opencode/SKILL_TEMPLATE_SYSTEM.md` - Skill 模板系统详细说明
 - `.opencode/MODEL_ROUTING.md` - 模型路由详细规则
 - `.opencode/README_COMMANDS.md` - 命令使用说明
+- `.opencode/ARCHITECTURE_OPTIMIZATION_COMPLETE.md` - 架构优化报告
 - `agents/*/AGENT.md` - Agent 详细角色定义
 - `.opencode/agents/*.md` - OpenCode Agent 配置
 
 ---
 
-**版本**: 2.5 | **日期**: 2026-02-23  
-**License**: MIT | **Repository**: github.com/lchaveaLoop/agentGV
+**版本**: 3.0 | **日期**: 2026-02-23  
+**License**: MIT | **Repository**: github.com/lchaveaLoop/agentGV  
+**架构**: 模板化 (Template-Based) | **Skill**: 5 大类 15 个
