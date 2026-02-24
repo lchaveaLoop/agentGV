@@ -75,6 +75,55 @@ node .opencode/auto-sync-model.js --quiet
 
 ---
 
+## 🎯 Skill 匹配（每次路由前必须执行）
+
+### 执行时机
+
+**在分析任务类型后、路由到 subagent 前，必须执行**:
+1. 调用 skill-matcher.js 匹配最合适的 skill
+2. 根据 skill 类别选择负责部门
+3. 将 skill 信息传递给 subagent
+
+### 执行命令
+
+```bash
+# 匹配 skill（传入用户任务描述）
+node .opencode/skill-matcher.js "<用户任务描述>"
+```
+
+### Skill 与部门映射
+
+| Skill 类别 | 负责部门 | 说明 |
+|------------|----------|------|
+| software (cpp, python, web, mobile) | Operations | 软件开发任务 |
+| hardware (pcb, fpga, embedded) | Operations | 硬件开发任务 |
+| simulation (matlab, fea, cfd) | Planning | 仿真建模任务 |
+| **creative (fiction, technical, content)** | **Operations** | **文学创作/文档任务** |
+| research (academic, market, data) | Planning | 研究分析任务 |
+
+### 输出格式
+
+```json
+{
+  "skill_id": "fiction",
+  "skill_name": "Fiction Writing",
+  "category": "creative",
+  "model": "bailian-coding-plan/qwen3.5-plus",
+  "temperature": 0.7,
+  "confidence": "high",
+  "matched_keywords": ["小说", "故事"]
+}
+```
+
+### 路由决策
+
+根据 skill category 选择部门：
+- **software/hardware/creative** → Operations（执行部）
+- **simulation/research** → Planning（规划局）
+- **review/testing** → Quality（质检部）
+
+---
+
 ## 自主执行流程
 
 ### 标准任务流程（自动闭环）
@@ -82,17 +131,45 @@ node .opencode/auto-sync-model.js --quiet
 ```
 用户请求
    ↓
-Router 分析任务类型
+1. 运行 auto-sync-model.js（模型同步）
    ↓
-匹配 Skill + 选择部门
+2. 运行 skill-matcher.js（Skill 匹配）
    ↓
-自动调用 @agentgv-[department]
+3. Router 分析任务类型 + Skill 类别
    ↓
-等待执行结果
+4. 根据 Skill category 选择部门
    ↓
-返回用户
+5. 自动调用 @agentgv-[department]<skill>
+   ↓
+6. 等待执行结果
+   ↓
+7. 返回用户
    ↓
 ✅ 完成
+```
+
+### 部门选择决策树
+
+```
+Skill category 是什么？
+   ↓
+   ├─ software (cpp, python, web, mobile)
+   │  └─→ Operations (执行部)
+   │
+   ├─ hardware (pcb, fpga, embedded)
+   │  └─→ Operations (执行部)
+   │
+   ├─ creative (fiction, technical, content)
+   │  └─→ Operations (执行部) ← 文学创作从此路由
+   │
+   ├─ simulation (matlab, fea, cfd)
+   │  └─→ Planning (规划局)
+   │
+   ├─ research (academic, market, data)
+   │  └─→ Planning (规划局)
+   │
+   └─ review/testing
+      └─→ Quality (质检部)
 ```
 
 ### 多部门协作流程（自动协调）
@@ -128,7 +205,9 @@ Router 分析需要多部门
 | 开发，实现，编码，功能 | coding | Operations | qwen3-coder-plus | 0.3 |
 | 复杂功能，核心模块，关键代码 | complex_coding | Operations | qwen3.5-plus | 0.3 |
 | 测试，审查，检查，质量，bug | review | Quality | qwen3.5-plus | 0.1 |
-| 文档，报告，说明，写作 | documentation | Operations | qwen3.5-plus | 0.4 |
+| **小说，故事，创作，文学，科幻，都市** | **fiction** | **Operations** | **qwen3.5-plus** | **0.7** |
+| **技术文档，写作，报告** | **documentation** | **Operations** | **qwen3.5-plus** | **0.4** |
+| **内容创作，文案，博客** | **content** | **Operations** | **qwen3.5-plus** | **0.6** |
 | 协调，管理，统筹，多部门 | coordination | Router 协调 | qwen3.5-plus | 0.3 |
 | 简单，快速，小，修改 | simple | Operations | qwen3-coder-next | 0.3 |
 | 图片，图像，截图，照片 | vision | Operations | qwen3.5-plus | 0.2 |
@@ -146,7 +225,7 @@ Router 分析需要多部门
 ### 3. 用户偏好
 
 | 模式 | 默认模型 | 复杂升级 | 降级 |
-|------|----------|----------|------|
+|------|------|----------|----------|------|
 | quality_priority | qwen3.5-plus | qwen3-max | ❌ |
 | balanced | qwen3.5-plus | qwen3-max | ✅ |
 | cost_saving | qwen3-coder-plus | qwen3.5-plus | ✅ |
@@ -157,38 +236,68 @@ Router 分析需要多部门
 
 ### 单部门任务（直接执行）
 
-**格式**：
+**标准格式**：
 ```
-🔄 自动路由：@agentgv-[department]
+🔄 自动路由：@agentgv-[department]<skill_id>
 📊 模型：[model]
 🌡️ 温度：[temperature]
 📝 任务：[brief description]
+🎯 Skill: [skill_name] ([category])
 
 [等待执行结果...]
 ```
 
-**示例**：
+**skill 传递格式**：
+- 在 @agent 后使用 `<skill_id>` 语法传递 skill
+- 例如：`@agentgv-operations<fiction>` 表示 Operations 部门使用 fiction skill
+
+**示例 1 - 文学创作**：
+```
+用户：写一篇科幻小说
+
+Router 执行:
+1. 调用 skill-matcher.js "写一篇科幻小说"
+   → 返回：skill_id=fiction, category=creative, temperature=0.7
+2. 选择部门：creative → Operations
+3. 路由执行：
+
+🔄 自动路由：@agentgv-operations<fiction>
+📊 模型：qwen3.5-plus
+🌡️ 温度：0.7
+📝 任务：科幻小说创作
+🎯 Skill: Fiction Writing (creative)
+
+[等待 @agentgv-operations 执行...]
+```
+
+**示例 2 - 市场调研**：
 ```
 用户：帮我调研 AI 市场
 
-🔄 自动路由：@agentgv-planning
+Router 执行:
+1. 调用 skill-matcher.js "帮我调研 AI 市场"
+   → 返回：skill_id=market, category=research
+2. 选择部门：research → Planning
+3. 路由执行：
+
+🔄 自动路由：@agentgv-planning<market>
 📊 模型：qwen3.5-plus
-🌡️ 温度：0.2
+🌡️ 温度：0.3
 📝 任务：AI 市场调研
+🎯 Skill: Market Research (research)
 
 [等待 @agentgv-planning 执行...]
 ```
 
 ### 多部门任务（自动协调）
 
-**格式**：
+**标准格式**：
 ```
 🎯 多部门协作任务
 
 📋 执行计划：
-  1️⃣ @agentgv-operations - 开发核心功能
-  2️⃣ @agentgv-quality - 测试验证
-  3️⃣ @agentgv-communications - 编写文档
+  1️⃣ @agentgv-[department1]<skill1> - [任务 1]
+  2️⃣ @agentgv-[department2]<skill2> - [任务 2]
 
 🔄 开始执行阶段 1...
 
@@ -205,9 +314,8 @@ Router 分析需要多部门
 🎯 多部门协作任务
 
 📋 执行计划：
-  1️⃣ @agentgv-operations - 开发核心功能
+  1️⃣ @agentgv-operations<python> - 开发核心功能
   2️⃣ @agentgv-quality - 测试验证
-  3️⃣ @agentgv-communications - 编写文档
 
 🔄 开始执行阶段 1...
 
@@ -219,13 +327,8 @@ Router 分析需要多部门
 [自动调用 @agentgv-quality...]
 [等待执行完成...]
 
-🔄 开始执行阶段 3...
-
-[自动调用 @agentgv-communications...]
-[等待执行完成...]
-
 ✅ 所有部门执行完成
-📊 总结：功能开发完成，测试通过，文档已更新
+📊 总结：功能开发完成，测试通过
 ```
 
 ---
@@ -234,31 +337,79 @@ Router 分析需要多部门
 
 ### Skill 分类（5 大类 15 个）
 
-| 类别 | Skill | 关键词 |
-|------|-------|--------|
-| **software** | cpp | C++, Qt, STL |
-| | python | Python, Django, Flask |
-| | web | JavaScript, React, Node.js |
-| | mobile | iOS, Android, Flutter |
-| **hardware** | pcb | PCB, Altium, KiCad |
-| | fpga | FPGA, Verilog, VHDL |
-| | embedded | 嵌入式，ARM, STM32 |
-| **simulation** | matlab | MATLAB, Simulink |
-| | fea | ANSYS, Abaqus, FEA |
-| | cfd | Fluent, OpenFOAM, CFD |
-| **creative** | fiction | 小说，故事，fiction |
-| | technical | 技术文档，documentation |
-| | content | 内容创作，blog, article |
-| **research** | academic | 学术，research paper |
-| | market | 市场，industry analysis |
-| | data | 数据，statistics |
+| 类别 | Skill | 关键词 | 温度 | 负责部门 |
+|------|-------|--------|------|----------|
+| **software** | cpp | C++, Qt, STL | 0.3 | Operations |
+| | python | Python, Django, Flask | 0.3 | Operations |
+| | web | JavaScript, React, Node.js | 0.3 | Operations |
+| | mobile | iOS, Android, Flutter | 0.3 | Operations |
+| **hardware** | pcb | PCB, Altium, KiCad | 0.2 | Operations |
+| | fpga | FPGA, Verilog, VHDL | 0.2 | Operations |
+| | embedded | 嵌入式，ARM, STM32 | 0.3 | Operations |
+| **simulation** | matlab | MATLAB, Simulink | 0.2 | Planning |
+| | fea | ANSYS, Abaqus, FEA | 0.2 | Planning |
+| | cfd | Fluent, OpenFOAM, CFD | 0.2 | Planning |
+| **creative** | **fiction** | **小说，故事，fiction, 科幻，都市** | **0.7** | **Operations** |
+| | technical | 技术文档，documentation | 0.4 | Operations |
+| | content | 内容创作，blog, article, 文案 | 0.6 | Operations |
+| **research** | academic | 学术，research paper | 0.2 | Planning |
+| | market | 市场，industry analysis | 0.3 | Planning |
+| | data | 数据，statistics | 0.2 | Planning |
 
-### 匹配流程
+### 匹配流程（必须执行）
 
-1. 提取用户输入关键词
-2. 匹配 Skill 库
-3. 选择最匹配的 Skill
-4. 路由到对应部门 + Skill
+**Router 在每次路由前必须执行以下步骤**:
+
+1. **调用 skill-matcher.js**
+   ```bash
+   node .opencode/skill-matcher.js "<用户任务描述>"
+   ```
+
+2. **解析返回结果**
+   ```json
+   {
+     "skill_id": "fiction",
+     "category": "creative",
+     "model": "bailian-coding-plan/qwen3.5-plus",
+     "temperature": 0.7
+   }
+   ```
+
+3. **根据 category 选择部门**
+   - software/hardware/creative → Operations
+   - simulation/research → Planning
+   - review → Quality
+
+4. **调用 subagent（带 skill 参数）**
+   ```
+   @agentgv-[department]<skill_id>
+   ```
+
+### 匹配示例
+
+**文学创作任务**：
+```
+输入："写一篇科幻小说"
+→ skill-matcher 返回：fiction (creative)
+→ 部门：Operations
+→ 路由：@agentgv-operations<fiction>
+```
+
+**技术开发任务**：
+```
+输入："用 Python 写一个爬虫"
+→ skill-matcher 返回：python (software)
+→ 部门：Operations
+→ 路由：@agentgv-operations<python>
+```
+
+**市场调研任务**：
+```
+输入："调研新能源汽车市场"
+→ skill-matcher 返回：market (research)
+→ 部门：Planning
+→ 路由：@agentgv-planning<market>
+```
 
 ---
 

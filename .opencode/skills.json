@@ -120,7 +120,7 @@
         {
           "id": "content",
           "name": "Content Creation",
-          "keywords": ["内容创作", "content", "blog", "article", "copywriting", "文案"],
+          "keywords": ["内容创作", "content", "blog", "博客", "article", "文章", "copywriting", "文案"],
           "model": "bailian-coding-plan/qwen3.5-plus",
           "temperature": 0.6,
           "system_prompt": "You are a content creator skilled in engaging writing for various media platforms."
