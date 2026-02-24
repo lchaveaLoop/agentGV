@@ -37,6 +37,38 @@
           "model": "bailian-coding-plan/qwen3-coder-plus",
           "temperature": 0.3,
           "system_prompt": "You are a mobile development expert for iOS and Android platforms."
+        },
+        {
+          "id": "java",
+          "name": "Java Development",
+          "keywords": ["Java", "Spring", "Spring Boot", "Maven", "Hibernate", "JPA"],
+          "model": "bailian-coding-plan/qwen3-coder-plus",
+          "temperature": 0.3,
+          "system_prompt": "You are a Java expert specializing in enterprise applications, Spring framework, and backend services."
+        },
+        {
+          "id": "go",
+          "name": "Go Development",
+          "keywords": ["Go", "Golang", "Gin", "Echo", "goroutine", "microservice"],
+          "model": "bailian-coding-plan/qwen3-coder-plus",
+          "temperature": 0.3,
+          "system_prompt": "You are a Go expert specializing in microservices, concurrent programming, and cloud-native development."
+        },
+        {
+          "id": "rust",
+          "name": "Rust Development",
+          "keywords": ["Rust", "cargo", "tokio", "actix", "systems programming"],
+          "model": "bailian-coding-plan/qwen3-coder-plus",
+          "temperature": 0.3,
+          "system_prompt": "You are a Rust expert specializing in memory-safe systems programming and performance-critical applications."
+        },
+        {
+          "id": "devops",
+          "name": "DevOps & Cloud",
+          "keywords": ["DevOps", "Docker", "Kubernetes", "CI/CD", "AWS", "Azure", "GCP", "terraform", "jenkins", "运维"],
+          "model": "bailian-coding-plan/qwen3-coder-plus",
+          "temperature": 0.3,
+          "system_prompt": "You are a DevOps expert specializing in containerization, orchestration, and cloud infrastructure."
         }
       ]
     },
@@ -124,6 +156,22 @@
           "model": "bailian-coding-plan/qwen3.5-plus",
           "temperature": 0.6,
           "system_prompt": "You are a content creator skilled in engaging writing for various media platforms."
+        },
+        {
+          "id": "script",
+          "name": "Script Writing",
+          "keywords": ["剧本", "script", "screenplay", "编剧", "台词", "对话", "短视频", "视频脚本"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.7,
+          "system_prompt": "You are a script writer expert in dialogue, scene construction, and visual storytelling for videos and films."
+        },
+        {
+          "id": "translation",
+          "name": "Translation",
+          "keywords": ["翻译", "translation", "translator", "localization", "本地化", "中英翻译", "英译中"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.3,
+          "system_prompt": "You are a translation expert skilled in accurate, culturally-aware language conversion."
         }
       ]
     },
@@ -153,6 +201,22 @@
           "model": "bailian-coding-plan/qwen3.5-plus",
           "temperature": 0.2,
           "system_prompt": "You are a data analyst expert in statistical analysis and data visualization."
+        },
+        {
+          "id": "product",
+          "name": "Product Research",
+          "keywords": ["产品", "product research", "用户研究", "需求分析", "产品调研", "产品设计", "PRD"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.3,
+          "system_prompt": "You are a product research expert skilled in user research, requirements analysis, and product strategy."
+        },
+        {
+          "id": "competitor",
+          "name": "Competitor Analysis",
+          "keywords": ["竞品", "competitor analysis", "竞品分析", "竞争对手", "对比分析", "SWOT"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.3,
+          "system_prompt": "You are a competitor analysis expert skilled in market intelligence and competitive positioning."
         }
       ]
     }
