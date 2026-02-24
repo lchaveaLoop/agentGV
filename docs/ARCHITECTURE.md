@@ -1,65 +1,25 @@
 # AgentGV 项目架构说明
 
-## 📁 为什么有两个 agents 目录？
+## 📁 Agent 目录结构
 
-这是由 **OpenCode 平台的演进**和**向后兼容性**导致的。
-
----
-
-## 两个 agents 目录的区别
-
-### 1. `agents/` (旧格式 - OpenCode V1)
-
-**位置**: `E:\Projects\agentGV\agents/`
-
-**结构**:
-```
-agents/
-├── agentgv-router/
-│   └── AGENT.md          # 大写 AGENT.md
-├── agentgv-planning/
-│   └── AGENT.md
-├── agentgv-operations/
-│   └── AGENT.md
-└── agentgv-quality/
-    └── AGENT.md
-```
-
-**特点**:
-- 每个 agent 是一个**独立目录**
-- 定义文件名：`AGENT.md` (大写)
-- OpenCode V1 格式的遗留结构
-- **主要用于 Git 版本控制**
-- 当前**不再被 OpenCode 直接加载**
-
-**内容示例** (`agents/agentgv-router/AGENT.md`):
-```markdown
----
-name: agentgv-router
-description: Intelligent task router...
-version: 1.1.0
----
-
-# AgentGV Router Agent
-
-## Role
-...
-```
+AgentGV 使用单一的 `.opencode/agents/` 目录来定义所有 agent。
 
 ---
 
-### 2. `.opencode/agents/` (新格式 - OpenCode V2)
+## Agent 定义目录
+
+### `.opencode/agents/` (当前标准格式 - OpenCode V2)
 
 **位置**: `E:\Projects\agentGV\.opencode\agents/`
 
 **结构**:
 ```
 .opencode/agents/
-├── agentgv-router.md          # 小写 .md 文件
-├── agentgv-administration.md  # ← V4.3.1 新增
-├── agentgv-planning.md
-├── agentgv-operations.md
-└── agentgv-quality.md
+├── agentgv-router.md          # Primary Agent (主路由)
+├── agentgv-administration.md  # 自主执行 Agent
+├── agentgv-planning.md        # 规划部门
+├── agentgv-operations.md      # 执行部门
+└── agentgv-quality.md         # 质检部门
 ```
 
 **特点**:
@@ -67,7 +27,7 @@ version: 1.1.0
 - 定义文件名：`{agent-name}.md` (小写)
 - OpenCode V2 格式的**当前标准**
 - **被 OpenCode 直接加载和使用**
-- 支持更多配置选项
+- 支持更多配置选项 (mode, model, temperature, tools)
 
 **内容示例** (`.opencode/agents/agentgv-router.md`):
 ```markdown
@@ -90,21 +50,24 @@ tools:
 
 ---
 
-## 为什么同时存在？
+## 之前的多目录结构 (已废弃)
 
-### 历史原因
+### 旧版 `agents/` 目录 (V1 格式 - 已删除)
 
-1. **OpenCode 平台升级**
-   - V1: 使用 `agents/{name}/AGENT.md` 格式
-   - V2: 使用 `.opencode/agents/{name}.md` 格式
+在 OpenCode V1 时代，agent 定义使用以下结构：
+```
+agents/
+├── agentgv-router/
+│   └── AGENT.md          # 大写 AGENT.md
+├── agentgv-planning/
+│   └── AGENT.md
+├── agentgv-operations/
+│   └── AGENT.md
+└── agentgv-quality/
+    └── AGENT.md
+```
 
-2. **迁移过程中的兼容性**
-   - 保留旧的 `agents/` 目录作为备份
-   - 新的 `.opencode/agents/` 目录用于实际运行
-
-3. **版本控制需要**
-   - `agents/` 目录中的文件包含完整的 agent 定义历史
-   - 便于追踪 agent 定义的演进
+该格式已于 2026-02-24 删除，统一使用 `.opencode/agents/` 目录。
 
 ---
 
@@ -117,18 +80,11 @@ OpenCode 平台当前从这个目录加载 agent 定义：
 ```bash
 # OpenCode 加载的 agent 文件
 .opencode/agents/agentgv-router.md          # Primary Agent
-.opencode/agents/agentgv-administration.md  # 新恢复
+.opencode/agents/agentgv-administration.md  # 自主执行 Agent
 .opencode/agents/agentgv-planning.md
 .opencode/agents/agentgv-operations.md
 .opencode/agents/agentgv-quality.md
 ```
-
-### 📦 备份/历史：`agents/`
-
-这个目录**不再被 OpenCode 直接加载**，但保留了：
-- 历史定义格式
-- Git 提交历史
-- 向后兼容的参考
 
 ---
 
