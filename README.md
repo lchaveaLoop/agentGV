@@ -56,11 +56,31 @@ node .opencode/preference.js set balanced
 node .opencode/preference.js set cost
 ```
 
-### 5. 查看统计
+### 5. 实时统计
 
 ```bash
-node .opencode/preference.js stats
+# 查看实时统计（彩色可视化）
+node .opencode/realtime-stats.js
+
+# 实时刷新模式（每 2 秒自动更新）
+node .opencode/realtime-stats.js --live
+
+# JSON 格式导出
+node .opencode/realtime-stats.js --json
+
+# 重置统计
+node .opencode/realtime-stats.js --reset
 ```
+
+**统计维度**:
+- 按 Agent 统计（成功/失败）
+- 按 Skill 统计（Top 10）
+- 按 Category 统计
+- 按 Model 统计（含 Token 使用）
+- 24 小时分布
+- 最近 30 天趋势
+
+**自动记录**: 所有请求自动记录，无需手动操作！
 
 ### 6. 测试 Skill 匹配
 
@@ -304,6 +324,7 @@ node .opencode/preference.js stats
 
 ---
 
-**版本**: 3.0 | **日期**: 2026-02-23  
+**版本**: 3.1 | **日期**: 2026-02-24  
 **License**: MIT | **Repository**: github.com/lchaveaLoop/agentGV  
-**架构**: 模板化 (Template-Based) | **Skill**: 5 大类 15 个
+**架构**: 模板化 (Template-Based) | **Skill**: 5 大类 15 个  
+**统计**: 实时追踪 (Real-time)
