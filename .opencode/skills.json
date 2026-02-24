@@ -101,10 +101,10 @@
     "creative": {
       "name": "Creative Writing",
       "skills": [
-        {
+{
           "id": "fiction",
           "name": "Fiction Writing",
-          "keywords": ["小说", "故事", "fiction", "story", "creative writing", "文学创作"],
+          "keywords": ["小说", "故事", "fiction", "story", "creative writing", "文学创作", "科幻", "都市", "悬疑", "奇幻", "写小说", "写故事", "创作"],
           "model": "bailian-coding-plan/qwen3.5-plus",
           "temperature": 0.7,
           "system_prompt": "You are a creative fiction writer with expertise in storytelling, character development, and plot construction."
@@ -138,10 +138,10 @@
           "temperature": 0.2,
           "system_prompt": "You are an academic research expert proficient in literature review, methodology, and scholarly writing."
         },
-        {
+{
           "id": "market",
           "name": "Market Research",
-          "keywords": ["市场", "market", "industry analysis", "竞争分析", "market research"],
+          "keywords": ["市场", "market", "industry analysis", "竞争分析", "market research", "调研", "行业分析", "市场调研", "市场分析", "趋势", "竞品"],
           "model": "bailian-coding-plan/qwen3.5-plus",
           "temperature": 0.3,
           "system_prompt": "You are a market research analyst expert in industry trends and competitive analysis."
