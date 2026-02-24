@@ -762,6 +762,25 @@ git push
 
 ---
 
-**版本**: 4.1.0 (开发工具增强) | **更新日期**: 2026-02-24
+**版本**: 4.2.0 (Skill 系统重构 + 错误处理) | **更新日期**: 2026-02-24
 **核心能力**: 自主路由 | 智能协调 | 视觉支持 | 异常自愈 | 系统监控
-**开发工具**: status.js | test.js | skill-matcher.js (增强)
+**开发工具**: status.js | test.js | skill-matcher.js (增强) | skill-scanner.js | error-hierarchy.js
+
+## V4.2.0 更新日志
+
+### 🎯 Skill 系统重构
+- ✅ 采用 Anthropic 文件夹结构
+- ✅ YAML + Markdown 格式
+- ✅ 自动扫描和索引
+- ✅ 3 个示例 Skills (fiction, python, market)
+
+### 🛡️ 错误处理增强
+- ✅ 分层错误类型系统
+- ✅ 10+ 种具体错误类型
+- ✅ 用户友好错误消息
+- ✅ 恢复建议
+
+### 📚 文档新增
+- ✅ QUICKSTART.md - 5 分钟快速开始
+- ✅ ERROR_CODES.md - 错误代码参考
+- ✅ Skills README - Skills 文档
