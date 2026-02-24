@@ -123,21 +123,14 @@ You can dynamically assign optimal models to subagents based on task type and co
 | **Balanced** | `/preference balanced` | qwen3.5-plus | qwen3-max | Yes |
 | **Cost Saving** | `/preference cost` | qwen3-coder-plus | qwen3.5-plus | Yes |
 
-### Usage Tracking
-
-After each subagent call, update `E:\Projects\memry\.opencode\usage-stats.json`:
-- Increment model count
-- Increment agent count
-- Increment task type count
-
 ### Commands
 
 **Platform Support**:
 
-| Platform | Commands | Stats Viewing |
-|----------|----------|---------------|
-| **CLI** | Full support | `node realtime-stats.js` |
-| **Desktop** | Dialog-based | "查看统计" / "Show stats" |
+| Platform | Commands |
+|----------|----------|
+| **CLI** | Full support |
+| **Desktop** | Dialog-based |
 
 **User Commands** (CLI):
 
@@ -146,27 +139,22 @@ After each subagent call, update `E:\Projects\memry\.opencode\usage-stats.json`:
 | `/preference quality` | Set quality priority mode | CLI |
 | `/preference balanced` | Set balanced mode | CLI |
 | `/preference cost` | Set cost saving mode | CLI |
-| `/stats` | View usage statistics | CLI |
 
 **Desktop Commands** (Dialog):
-- "查看实时统计" → Router displays real-time stats
-- "显示 Skill 排名" → Router shows top skills
-- "今天有多少请求" → Router shows today's requests
-- "哪个模型用得最多" → Router shows model usage
+- "切换到质量优先模式"
+- "查看可用模型"
+- "设置平衡模式"
 
 **CLI Commands**:
 ```bash
-# Real-time stats (full features)
-node .opencode/realtime-stats.js        # View stats
-node .opencode/realtime-stats.js --live # Live refresh (2s)
-node .opencode/realtime-stats.js --json # JSON export
-
-# Skill matching + auto-tracking
+# Skill matching
 node .opencode/skill-matcher.js "任务描述"
 
 # Preferences
 node .opencode/preference.js set quality
-node .opencode/preference.js stats
+node .opencode/preference.js set balanced
+node .opencode/preference.js set cost
+node .opencode/preference.js list
 ```
 
 ### Example

@@ -20,18 +20,6 @@
         }
       }
     },
-    "stats": {
-      "description": "View model usage statistics",
-      "usage": "/stats [reset]",
-      "action": "read_file",
-      "config_path": ".opencode/usage-stats.json",
-      "options": {
-        "reset": {
-          "action": "reset_stats",
-          "message": "✅ Usage statistics reset for new period"
-        }
-      }
-    },
     "models": {
       "description": "List available models",
       "usage": "/models",

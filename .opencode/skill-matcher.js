@@ -1,25 +1,16 @@
 #!/usr/bin/env node
 
 /**
- * Skill Matcher with Real-time Statistics Tracking
+ * Skill Matcher
  */
 
 const fs = require('fs');
 const path = require('path');
-const { trackRequest } = require('./realtime-stats');
 
 const SKILLS_CONFIG = path.join(__dirname, 'skills.json');
-const STATS_FILE = path.join(__dirname, 'usage-stats.json');
 
 function loadSkills() {
   return JSON.parse(fs.readFileSync(SKILLS_CONFIG, 'utf-8'));
-}
-
-function loadStats() {
-  if (!fs.existsSync(STATS_FILE)) {
-    return { current_preference: 'quality_priority' };
-  }
-  return JSON.parse(fs.readFileSync(STATS_FILE, 'utf-8'));
 }
 
 function matchSkill(taskDescription, skills) {
@@ -55,10 +46,9 @@ function matchSkill(taskDescription, skills) {
 function getBestSkill(taskDescription) {
   const skills = loadSkills();
   const matches = matchSkill(taskDescription, skills);
-  const stats = loadStats();
   
   if (matches.length === 0) {
-    const result = {
+    return {
       skill: {
         id: 'general',
         name: 'General Purpose',
@@ -70,42 +60,17 @@ function getBestSkill(taskDescription) {
       confidence: 'low',
       matchedKeywords: []
     };
-    
-    // Track as general request
-    trackRequest({
-      agent: 'router',
-      skill: 'general',
-      category: 'general',
-      task_type: 'other',
-      preference: stats.current_preference || 'quality_priority',
-      success: true
-    });
-    
-    return result;
   }
   
   const best = matches[0];
   const confidence = best.score >= 3 ? 'high' : best.score === 2 ? 'medium' : 'low';
   
-  const result = {
+  return {
     skill: best.skill,
     category: best.category,
     confidence,
     matchedKeywords: best.matchedKeywords
   };
-  
-  // Track the match
-  trackRequest({
-    agent: 'router',
-    skill: best.skill.id,
-    category: best.category,
-    model: best.skill.model.replace('bailian-coding-plan/', ''),
-    task_type: getTaskType(taskDescription),
-    preference: stats.current_preference || 'quality_priority',
-    success: true
-  });
-  
-  return result;
 }
 
 function getTaskType(description) {
@@ -135,18 +100,9 @@ function formatSkillInfo(skillMatch) {
 if (require.main === module) {
   const args = process.argv.slice(2);
   
-  if (args.includes('--stats') || args.includes('-s')) {
-    // Show stats instead
-    const { displayStats } = require('./realtime-stats');
-    displayStats(false);
-    process.exit(0);
-  }
-  
   const task = args.join(' ');
   if (!task) {
     console.log('Usage: node skill-matcher.js <task description>');
-    console.log('       node skill-matcher.js --stats (-s)  Show statistics');
-    console.log('       node skill-matcher.js --live (-l)   Live statistics');
     process.exit(1);
   }
   
