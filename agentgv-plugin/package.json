@@ -1,0 +1,20 @@
+{
+  "name": "agentgv",
+  "version": "4.3.2",
+  "description": "AgentGV - Multi-agent orchestration system for OpenCode",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["opencode", "agent", "multi-agent", "orchestration"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^3.23.0"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": "*"
+  }
+}

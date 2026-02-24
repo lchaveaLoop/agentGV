@@ -106,7 +106,7 @@
     "agentgv-administration": {
       "description": "Project coordination and autonomous execution specialist",
       "mode": "subagent",
-      "hidden": false,
+      "hidden": true,
       "model": "bailian-coding-plan/qwen3.5-plus",
       "temperature": 0.3,
       "tools": {

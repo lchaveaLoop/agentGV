@@ -1,0 +1,39 @@
+# AgentGV Plugin Configuration
+# 
+# To use AgentGV agents in your project, copy this content to your opencode.json
+# Or include it in your project's opencode.json
+
+{
+  "agent": {
+    "agentgv-router": {
+      "description": "Intelligent task router with project coordination capabilities",
+      "mode": "primary",
+      "hidden": false,
+      "model": "bailian-coding-plan/qwen3.5-plus"
+    },
+    "agentgv-administration": {
+      "description": "Project coordination and autonomous execution specialist",
+      "mode": "subagent",
+      "hidden": true,
+      "model": "bailian-coding-plan/qwen3.5-plus"
+    },
+    "agentgv-planning": {
+      "description": "System architecture, technical design, and research specialist",
+      "mode": "subagent",
+      "hidden": true,
+      "model": "bailian-coding-plan/qwen3.5-plus"
+    },
+    "agentgv-operations": {
+      "description": "Development, implementation, and technical documentation specialist",
+      "mode": "subagent",
+      "hidden": true,
+      "model": "bailian-coding-plan/qwen3.5-plus"
+    },
+    "agentgv-quality": {
+      "description": "Testing and quality assurance specialist",
+      "mode": "subagent",
+      "hidden": true,
+      "model": "bailian-coding-plan/qwen3.5-plus"
+    }
+  }
+}
