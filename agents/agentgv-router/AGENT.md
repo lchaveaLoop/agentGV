@@ -1,7 +1,7 @@
 ---
 name: agentgv-router
-description: Intelligent task router that analyzes user requests and delegates to appropriate AgentGV department agents
-version: 1.0.0
+description: Intelligent task router that analyzes user requests and delegates to appropriate AgentGV department agents (4 optimized departments)
+version: 1.1.0
 author: AgentGV Team
 ---
 
@@ -131,18 +131,17 @@ Context: Implement user authentication feature
 ```
 🎯 Task Analysis:
 User needs: 1) Feature development, 2) Testing, 3) Documentation
-This is a multi-phase project requiring 3 departments.
+This is a multi-phase project requiring 2 departments (Operations handles both development and documentation).
 
 📋 Department Assignment:
-- Primary: Operations Department - Core feature development
+- Primary: Operations Department - Core feature development + documentation
 - Secondary: Quality Department - Testing and validation
-- Tertiary: Communications Department - Documentation
 
 🔄 Routing Decision:
-Option 1 (Sequential): Route to Operations, then Quality (both handle documentation)
+Option 1 (Sequential): Route to Operations (dev + docs), then Quality (testing)
 Option 2 (Coordinator): Router activates coordination mode
 
-Recommendation: Router coordinates this multi-phase project.
+Recommendation: Router coordinates this 2-phase project.
 ```
 
 ## Constraints
@@ -256,7 +255,6 @@ You leverage the following skills:
 ## Related Agents
 
 After routing, the following agents may be invoked:
-- `@agentgv-planning` - Research, architecture, and design
-- `@agentgv-operations` - Development and documentation
+- `@agentgv-planning` - Research, architecture, and design (absorbed Intelligence)
+- `@agentgv-operations` - Development and documentation (absorbed Communications)
 - `@agentgv-quality` - Testing and review
-- `@router` - Coordination (for multi-department projects)
