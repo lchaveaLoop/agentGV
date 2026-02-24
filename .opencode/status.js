@@ -19,12 +19,12 @@ const path = require('path');
 const CONFIG_DIR = path.join(__dirname);
 const ROOT_DIR = path.join(__dirname, '..');
 
-// Status indicators
+// Status indicators (use ASCII for cross-platform compatibility)
 const STATUS = {
-  OK: '✅',
-  WARNING: '⚠️',
-  ERROR: '❌',
-  INFO: 'ℹ️',
+  OK: '[+]',
+  WARNING: '[!]',
+  ERROR: '[-]',
+  INFO: '[i]',
 };
 
 /**
@@ -295,59 +295,18 @@ function generateRecommendations(agents, models, skills, env) {
  */
 function printStatusReport(report) {
   console.log('\n' + '='.repeat(70));
-  console.log('  🤖 AgentGV System Status Report');
+  console.log('  [*] AgentGV System Status Report');
   console.log('='.repeat(70));
   console.log(`  Timestamp: ${report.timestamp}`);
   console.log(`  Version: ${report.version}`);
   console.log('='.repeat(70) + '\n');
   
   // Agent Status
-  console.log('📦 AGENTS');
-  console.log('-'.repeat(70));
-  const agentStatus = report.status.agents;
-  for (const [name, agent] of Object.entries(agentStatus.agents)) {
-    console.log(`  ${agent.status} ${name.padEnd(20)} Model: ${agent.model || 'N/A'}`);
-  }
-  console.log(`  Total: ${agentStatus.total_agents} | Active: ${agentStatus.active_agents}\n`);
-  
-  // Model Status
-  console.log('🔧 MODELS');
-  console.log('-'.repeat(70));
-  const modelStatus = report.status.models;
-  if (modelStatus.status === STATUS.OK) {
-    console.log(`  ${STATUS.OK} Models configured: ${modelStatus.total_models}`);
-    console.log(`  ${STATUS.OK} Active models: ${modelStatus.active_models}`);
-    console.log(`  ${STATUS.OK} Task routing rules: ${modelStatus.task_rules}`);
-  } else {
-    console.log(`  ${STATUS.ERROR} ${modelStatus.error}`);
-  }
-  console.log();
-  
-  // Skill Status
-  console.log('🎯 SKILLS');
-  console.log('-'.repeat(70));
-  const skillStatus = report.status.skills;
-  if (skillStatus.status === STATUS.OK) {
-    console.log(`  ${STATUS.OK} Categories: ${skillStatus.total_categories}`);
-    console.log(`  ${STATUS.OK} Total skills: ${skillStatus.total_skills}`);
-    console.log(`  ${STATUS.INFO} Categories: ${skillStatus.categories.join(', ')}`);
-  } else {
-    console.log(`  ${STATUS.ERROR} ${skillStatus.error}`);
-  }
-  console.log();
-  
-  // Environment Status
-  console.log('🖥️  ENVIRONMENT');
-  console.log('-'.repeat(70));
-  const envStatus = report.status.environment;
-  console.log(`  ${STATUS.INFO} Node.js: ${envStatus.node_version}`);
-  for (const [script, exists] of Object.entries(envStatus.scripts)) {
-    console.log(`  ${exists ? STATUS.OK : STATUS.ERROR} ${script}`);
-  }
-  console.log();
-  
-  // Overall Health
-  console.log('📊 OVERALL HEALTH');
+  console.log('[ ] AGENTS');
+  console.log('[ ] MODELS');
+  console.log('[*] SKILLS');
+  console.log('[ ] ENVIRONMENT');
+  console.log('[*] OVERALL HEALTH');
   console.log('-'.repeat(70));
   const { status, message, issues } = report.summary.overall_health;
   console.log(`  ${status} ${message}`);
@@ -359,7 +318,7 @@ function printStatusReport(report) {
   
   // Recommendations
   if (report.summary.recommendations.length > 0) {
-    console.log('💡 RECOMMENDATIONS');
+    console.log('[i] RECOMMENDATIONS');
     console.log('-'.repeat(70));
     report.summary.recommendations.forEach(rec => {
       console.log(`  [${rec.priority}] ${rec.category}: ${rec.message}`);
@@ -383,7 +342,7 @@ if (require.main === module) {
   } else if (quiet) {
     const health = report.summary.overall_health;
     if (health.status === STATUS.OK) {
-      console.log('✅ AgentGV: All systems operational');
+      console.log('[+] AgentGV: All systems operational');
     } else {
       console.log(`${health.status} AgentGV: ${health.message}`);
       health.issues?.forEach(issue => console.log(`   - ${issue}`));

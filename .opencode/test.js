@@ -17,11 +17,11 @@ const path = require('path');
 
 const SCRIPTS_DIR = path.join(__dirname);
 
-// Test status
+// Test status indicators
 const STATUS = {
-  PASS: '✅',
-  FAIL: '❌',
-  SKIP: '⚠️',
+  PASS: '[+]',
+  FAIL: '[-]',
+  SKIP: '[!]',
 };
 
 /**
@@ -208,11 +208,11 @@ function testRequiredScripts(verbose = false) {
  * Run all tests
  */
 function runAllTests(verbose = false) {
-  console.log('═══════════════════════════════════════════════════════════');
+  console.log('============================================================');
   console.log('         AgentGV Test Suite');
-  console.log('═══════════════════════════════════════════════════════════');
+  console.log('============================================================');
   console.log(`  Date: ${new Date().toISOString()}`);
-  console.log('═══════════════════════════════════════════════════════════');
+  console.log('============================================================');
   
   const results = {
     statusScript: testStatusScript(verbose),
@@ -221,20 +221,20 @@ function runAllTests(verbose = false) {
     requiredScripts: testRequiredScripts(verbose),
   };
   
-  console.log('\n═══════════════════════════════════════════════════════════');
+  console.log('\n============================================================');
   console.log('  Test Summary');
-  console.log('═══════════════════════════════════════════════════════════');
+  console.log('============================================================');
   
   const passed = Object.values(results).filter(Boolean).length;
   const total = Object.values(results).length;
   
   if (passed === total) {
     console.log(`  ${STATUS.PASS} All ${total} tests passed!`);
-    console.log('═══════════════════════════════════════════════════════════\n');
+    console.log('============================================================\n');
     return 0;
   } else {
     console.log(`  ${STATUS.FAIL} ${passed}/${total} tests passed`);
-    console.log('═══════════════════════════════════════════════════════════\n');
+    console.log('============================================================\n');
     return 1;
   }
 }
