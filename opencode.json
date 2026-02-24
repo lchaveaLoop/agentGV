@@ -68,6 +68,56 @@
       "permission": {
         "bash": "allow"
       }
+    },
+    "agentgv-intelligence": {
+      "description": "Intelligence department subagent (hidden)",
+      "mode": "subagent",
+      "hidden": true,
+      "model": "bailian-coding-plan/qwen3.5-plus",
+      "temperature": 0.2,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "webfetch": true
+      },
+      "permission": {
+        "webfetch": "allow"
+      }
+    },
+    "agentgv-communications": {
+      "description": "Communications department subagent (hidden)",
+      "mode": "subagent",
+      "hidden": true,
+      "model": "bailian-coding-plan/qwen3.5-plus",
+      "temperature": 0.3,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "write": true,
+        "edit": true,
+        "bash": true
+      },
+      "permission": {
+        "bash": "allow"
+      }
+    },
+    "agentgv-administration": {
+      "description": "Administration subagent (hidden)",
+      "mode": "subagent",
+      "hidden": true,
+      "model": "bailian-coding-plan/qwen3.5-plus",
+      "temperature": 0.2,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true
+      },
+      "permission": {
+        "webfetch": "allow",
+        "bash": "allow"
+      }
     }
   },
   "default_agent": "agentgv-router"
