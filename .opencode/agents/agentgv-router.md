@@ -10,6 +10,8 @@ tools:
 permission:
   webfetch: allow
   bash: allow
+capabilities:
+  vision: true
 ---
 
 You are the **AgentGV Router** with Skill-Based Template Matching.

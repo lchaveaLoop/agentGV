@@ -82,6 +82,33 @@ node .opencode/skill-matcher.js "写一篇技术文档"
 - ✅ 多图像对比分析
 - ✅ 图表/流程图分析
 
+**⚠️ 注意**: 使用视觉功能需要切换到支持视觉的模型（如 qwen3.5-plus）
+
+### 7. 模型同步（新功能）
+
+**在 OpenCode Desktop 切换模型后同步 Agent 模型**:
+
+```powershell
+# 交互式模式
+.\.opencode\sync-agent-model.ps1
+
+# 直接设置模型（切换到视觉模型）
+.\.opencode\sync-agent-model.ps1 -Model "bailian-coding-plan/qwen3.5-plus"
+
+# 查看当前配置
+.\.opencode\sync-agent-model.ps1 -Show
+```
+
+**可用模型**:
+| 编号 | 模型 | 说明 |
+|------|------|------|
+| 1 | qwen3.5-plus | **推荐** - 支持视觉、平衡性能 |
+| 2 | qwen3-max | 最强 - 复杂任务 |
+| 3 | qwen3-coder-plus | 代码优化 |
+| 4 | qwen3-coder-next | 快速 |
+| 5 | minimax/m2.5 | MiniMax |
+| 6 | glm-5-free | 免费 |
+
 ---
 
 ## 🏗️ 架构演进
@@ -296,12 +323,14 @@ Router:
 - `.opencode/README_COMMANDS.md` - 命令使用说明
 - `.opencode/ARCHITECTURE_OPTIMIZATION_COMPLETE.md` - 架构优化报告
 - `.opencode/VISION_CAPABILITIES.md` - 视觉理解能力指南 ⭐ NEW
+- `.opencode/AGENT_MODEL_SYNC.md` - 模型同步指南 ⭐ NEW
 - `agents/*/AGENT.md` - Agent 详细角色定义
 - `.opencode/agents/*.md` - OpenCode Agent 配置
 
 ---
 
-**版本**: 3.2 | **日期**: 2026-02-24  
+**版本**: 3.3 | **日期**: 2026-02-24  
 **License**: MIT | **Repository**: github.com/lchaveaLoop/agentGV  
 **架构**: 模板化 (Template-Based) | **Skill**: 5 大类 15 个  
-**视觉**: ✅ 图像理解 | OCR | 截图转代码 | 文档解析
+**视觉**: ✅ 图像理解 | OCR | 截图转代码 | 文档解析  
+**同步**: ✅ 模型实时同步 | 6 种模型可选
