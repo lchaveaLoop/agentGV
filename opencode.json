@@ -104,15 +104,19 @@
       }
     },
     "agentgv-administration": {
-      "description": "Administration subagent (hidden)",
+      "description": "Project coordination and autonomous execution specialist",
       "mode": "subagent",
-      "hidden": true,
+      "hidden": false,
       "model": "bailian-coding-plan/qwen3.5-plus",
-      "temperature": 0.2,
+      "temperature": 0.3,
       "tools": {
         "read": true,
         "glob": true,
-        "grep": true
+        "grep": true,
+        "write": true,
+        "edit": true,
+        "bash": true,
+        "webfetch": true
       },
       "permission": {
         "webfetch": "allow",

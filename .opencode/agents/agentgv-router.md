@@ -152,42 +152,47 @@ node .opencode/skill-matcher.js "<用户任务描述>"
 
 ```
 Skill category 是什么？
-   ↓
-   ├─ software (cpp, python, web, mobile)
-   │  └─→ Operations (执行部)
-   │
-   ├─ hardware (pcb, fpga, embedded)
-   │  └─→ Operations (执行部)
-   │
-   ├─ creative (fiction, technical, content)
-   │  └─→ Operations (执行部) ← 文学创作从此路由
-   │
-   ├─ simulation (matlab, fea, cfd)
-   │  └─→ Planning (规划局)
-   │
-   ├─ research (academic, market, data)
-   │  └─→ Planning (规划局)
-   │
-   └─ review/testing
-      └─→ Quality (质检部)
+    ↓
+    ├─ software (cpp, python, web, mobile)
+    │  └─→ Operations (执行部)
+    │
+    ├─ hardware (pcb, fpga, embedded)
+    │  └─→ Operations (执行部)
+    │
+    ├─ creative (fiction, technical, content)
+    │  └─→ Operations (执行部) ← 文学创作从此路由
+    │
+    ├─ simulation (matlab, fea, cfd)
+    │  └─→ Planning (规划局)
+    │
+    ├─ research (academic, market, data)
+    │  └─→ Planning (规划局)
+    │
+    ├─ review/testing
+    │  └─→ Quality (质检部)
+    │
+    └─ coordination (multi-step, complex workflow)
+       └─→ Administration (行政部) ← 复杂任务自主执行
 ```
 
-### 多部门协作流程（自动协调）
+### 多部门协作流程（Administration 协调）
 
 ```
 用户请求
-   ↓
-Router 分析需要多部门
-   ↓
-创建执行计划：
-  1. Operations 开发
-  2. Quality 测试
-  3. Communications 文档
-   ↓
-按顺序自动调用各部门
-   ↓
+    ↓
+Router 分析需要多部门协作
+    ↓
+调用 @agentgv-administration
+    ↓
+Administration 自主执行:
+  1. 任务分解
+  2. 调用各部门 (Planning/Operations/Quality)
+  3. 进度跟踪
+  4. 错误恢复
+  5. 提交推送
+    ↓
 汇总结果返回用户
-   ↓
+    ↓
 ✅ 完成
 ```
 
@@ -762,25 +767,20 @@ git push
 
 ---
 
-**版本**: 4.2.0 (Skill 系统重构 + 错误处理) | **更新日期**: 2026-02-24
+**版本**: 4.3.0 (跨平台安装 + Administration 恢复) | **更新日期**: 2026-02-24
 **核心能力**: 自主路由 | 智能协调 | 视觉支持 | 异常自愈 | 系统监控
-**开发工具**: status.js | test.js | skill-matcher.js (增强) | skill-scanner.js | error-hierarchy.js
+**开发工具**: status.js | test.js | skill-matcher.js (增强) | skill-scanner.js | error-hierarchy.js | check-env.js
 
-## V4.2.0 更新日志
+## V4.3.1 更新日志
 
-### 🎯 Skill 系统重构
-- ✅ 采用 Anthropic 文件夹结构
-- ✅ YAML + Markdown 格式
-- ✅ 自动扫描和索引
-- ✅ 3 个示例 Skills (fiction, python, market)
+### 🔄 Administration Agent 恢复
+- ✅ 独立 Administration agent 负责自主执行
+- ✅ 减少人工干预（目标 <5%）
+- ✅ 增强工具调用能力
+- ✅ 多步骤任务自动协调
 
-### 🛡️ 错误处理增强
-- ✅ 分层错误类型系统
-- ✅ 10+ 种具体错误类型
-- ✅ 用户友好错误消息
-- ✅ 恢复建议
-
-### 📚 文档新增
-- ✅ QUICKSTART.md - 5 分钟快速开始
-- ✅ ERROR_CODES.md - 错误代码参考
-- ✅ Skills README - Skills 文档
+### 跨平台安装
+- ✅ Windows PowerShell 安装脚本
+- ✅ Linux/macOS Bash 安装脚本
+- ✅ 环境检测工具
+- ✅ 安装文档
