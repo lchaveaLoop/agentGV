@@ -1,6 +1,7 @@
 ---
 description: Development, implementation, and technical documentation specialist - absorbed Communications capabilities
 mode: subagent
+hidden: true
 color: "#22c55e"
 tools:
   read: true

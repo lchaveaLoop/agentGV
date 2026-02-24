@@ -1,6 +1,7 @@
 ---
 description: Testing and quality assurance specialist - code review, testing, bug detection
 mode: subagent
+hidden: true
 color: "#f59e0b"
 tools:
   read: true

@@ -1,6 +1,7 @@
 ---
 description: System architecture, technical design, and research specialist - absorbed Intelligence capabilities
 mode: subagent
+hidden: true
 color: "#ec4899"
 tools:
   read: true

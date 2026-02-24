@@ -1,7 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "agent": {
-    "router": {
+    "agentgv-router": {
       "description": "Intelligent task router with project coordination capabilities (absorbed Administration)",
       "mode": "primary",
       "model": "bailian-coding-plan/qwen3.5-plus",
@@ -17,9 +17,10 @@
         "bash": "allow"
       }
     },
-    "planning": {
+    "agentgv-planning": {
       "description": "System architecture, technical design, and research specialist (absorbed Intelligence)",
       "mode": "subagent",
+      "hidden": true,
       "model": "bailian-coding-plan/qwen3.5-plus",
       "temperature": 0.2,
       "tools": {
@@ -32,9 +33,10 @@
         "webfetch": "allow"
       }
     },
-    "operations": {
+    "agentgv-operations": {
       "description": "Development, implementation, and technical documentation specialist (absorbed Communications)",
       "mode": "subagent",
+      "hidden": true,
       "model": "bailian-coding-plan/qwen3.5-plus",
       "temperature": 0.3,
       "tools": {
@@ -49,9 +51,10 @@
         "bash": "allow"
       }
     },
-    "quality": {
+    "agentgv-quality": {
       "description": "Testing and quality assurance specialist",
       "mode": "subagent",
+      "hidden": true,
       "model": "bailian-coding-plan/qwen3.5-plus",
       "temperature": 0.1,
       "tools": {
@@ -67,5 +70,5 @@
       }
     }
   },
-  "default_agent": "router"
+  "default_agent": "agentgv-router"
 }
