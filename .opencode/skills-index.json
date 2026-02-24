@@ -1,0 +1,48 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-02-24T10:25:17.026Z",
+  "total": 3,
+  "categories": {
+    "creative": [
+      "fiction-writing"
+    ],
+    "research": [
+      "market-research"
+    ],
+    "software": [
+      "python-development"
+    ]
+  },
+  "skills": [
+    {
+      "id": "fiction-writing",
+      "name": "fiction-writing",
+      "description": "专业小说创作技能，支持科幻、都市、悬疑等多种文学体裁",
+      "category": "creative",
+      "keywords": "",
+      "model": "bailian-coding-plan/qwen3.5-plus",
+      "temperature": "0.7",
+      "path": "creative/fiction"
+    },
+    {
+      "id": "market-research",
+      "name": "market-research",
+      "description": "市场调研和分析技能，提供行业分析、竞品调研、趋势预测",
+      "category": "research",
+      "keywords": "",
+      "model": "bailian-coding-plan/qwen3.5-plus",
+      "temperature": "0.3",
+      "path": "research/market"
+    },
+    {
+      "id": "python-development",
+      "name": "python-development",
+      "description": "Python 开发技能，支持 Web 开发、数据分析、自动化脚本等",
+      "category": "software",
+      "keywords": "",
+      "model": "bailian-coding-plan/qwen3.5-plus",
+      "temperature": "0.3",
+      "path": "software/python"
+    }
+  ]
+}
