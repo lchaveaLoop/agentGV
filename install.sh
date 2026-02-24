@@ -6,8 +6,8 @@
 set -e
 
 # 配置
-AGENTGV_VERSION="4.2.0"
-REQUIRED_NODE_VERSION="16.0.0"
+AGENTGV_VERSION="4.3.2"
+REQUIRED_NODE_VERSION="20.0.0"
 INSTALL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # 颜色输出
@@ -164,7 +164,7 @@ fi
 write_info "测试关键脚本..."
 SCRIPTS=(
     ".opencode/status.js"
-    ".opencode/skill-scanner.js"
+    ".opencode/skill-matcher.js"
     ".opencode/test.js"
 )
 

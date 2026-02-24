@@ -9,8 +9,8 @@ param(
 )
 
 # 配置
-$AGENTGV_VERSION = "4.2.0"
-$REQUIRED_NODE_VERSION = "16.0.0"
+$AGENTGV_VERSION = "4.3.2"
+$REQUIRED_NODE_VERSION = "20.0.0"
 $INSTALL_DIR = "$PSScriptRoot"
 
 # 颜色输出
@@ -128,7 +128,7 @@ if (Test-Path $PackageJson) {
 Write-Info "测试关键脚本..."
 $Scripts = @(
     ".opencode/status.js",
-    ".opencode/skill-scanner.js",
+    ".opencode/skill-matcher.js",
     ".opencode/test.js"
 )
 
