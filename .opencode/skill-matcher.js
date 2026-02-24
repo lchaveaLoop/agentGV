@@ -2,6 +2,11 @@
 
 /**
  * Skill Matcher
+ * 
+ * Matches task descriptions to appropriate skills and returns
+ * the best matching skill with confidence score.
+ * 
+ * Usage: node skill-matcher.js <task description>
  */
 
 const fs = require('fs');
@@ -9,8 +14,32 @@ const path = require('path');
 
 const SKILLS_CONFIG = path.join(__dirname, 'skills.json');
 
+class SkillMatcherError extends Error {
+  constructor(message, code = 'SKILL_MATCHER_ERROR') {
+    super(message);
+    this.name = 'SkillMatcherError';
+    this.code = code;
+  }
+}
+
 function loadSkills() {
-  return JSON.parse(fs.readFileSync(SKILLS_CONFIG, 'utf-8'));
+  try {
+    if (!fs.existsSync(SKILLS_CONFIG)) {
+      throw new SkillMatcherError(
+        `Skills configuration not found at: ${SKILLS_CONFIG}`,
+        'CONFIG_NOT_FOUND'
+      );
+    }
+    return JSON.parse(fs.readFileSync(SKILLS_CONFIG, 'utf-8'));
+  } catch (error) {
+    if (error instanceof SkillMatcherError) {
+      throw error;
+    }
+    throw new SkillMatcherError(
+      `Failed to parse skills.json: ${error.message}`,
+      'PARSE_ERROR'
+    );
+  }
 }
 
 function matchSkill(taskDescription, skills) {
@@ -44,6 +73,13 @@ function matchSkill(taskDescription, skills) {
 }
 
 function getBestSkill(taskDescription) {
+  if (!taskDescription || typeof taskDescription !== 'string') {
+    throw new SkillMatcherError(
+      'Task description must be a non-empty string',
+      'INVALID_INPUT'
+    );
+  }
+  
   const skills = loadSkills();
   const matches = matchSkill(taskDescription, skills);
   
@@ -58,7 +94,8 @@ function getBestSkill(taskDescription) {
       },
       category: 'general',
       confidence: 'low',
-      matchedKeywords: []
+      matchedKeywords: [],
+      warning: 'No specific skill matched, using general purpose'
     };
   }
   
@@ -100,14 +137,36 @@ function formatSkillInfo(skillMatch) {
 if (require.main === module) {
   const args = process.argv.slice(2);
   
-  const task = args.join(' ');
-  if (!task) {
-    console.log('Usage: node skill-matcher.js <task description>');
+  if (args.length === 0) {
+    console.error('Usage: node skill-matcher.js <task description>');
+    console.error('');
+    console.error('Examples:');
+    console.error('  node skill-matcher.js "写一篇科幻小说"');
+    console.error('  node skill-matcher.js "用 Python 开发一个 web 应用"');
+    console.error('  node skill-matcher.js "调研 AI 市场"');
     process.exit(1);
   }
   
-  const match = getBestSkill(task);
-  console.log(JSON.stringify(formatSkillInfo(match), null, 2));
+  const task = args.join(' ');
+  
+  try {
+    const match = getBestSkill(task);
+    console.log(JSON.stringify(formatSkillInfo(match), null, 2));
+    
+    // Exit with warning code if no good match found
+    if (match.confidence === 'low') {
+      process.exit(2);
+    }
+  } catch (error) {
+    if (error instanceof SkillMatcherError) {
+      console.error(`Error: ${error.message}`);
+      console.error(`Code: ${error.code}`);
+      process.exit(1);
+    } else {
+      console.error(`Unexpected error: ${error.message}`);
+      process.exit(1);
+    }
+  }
 }
 
-module.exports = { loadSkills, matchSkill, getBestSkill, formatSkillInfo };
+module.exports = { loadSkills, matchSkill, getBestSkill, formatSkillInfo, SkillMatcherError };
