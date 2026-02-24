@@ -17,10 +17,11 @@
       "short_id": "qwen3.5-plus",
       "name": "Qwen3.5 Plus",
       "status": "active",
-      "capabilities": ["general", "reasoning", "analysis", "coding"],
+      "capabilities": ["general", "reasoning", "analysis", "coding", "vision"],
       "cost_level": "medium",
-      "best_for": ["research", "review", "coordination", "documentation"],
-      "priority_rank": 2
+      "best_for": ["research", "review", "coordination", "documentation", "vision_tasks"],
+      "priority_rank": 2,
+      "vision_capabilities": ["image_understanding", "ocr", "visual_coding", "document_parsing", "multi_image_analysis"]
     },
     {
       "id": "bailian-coding-plan/qwen3-coder-plus",
@@ -50,6 +51,30 @@
       "default_model": "qwen3-max-2026-01-23",
       "temperature": 0.2,
       "priority": 1
+    },
+    {
+      "task_type": "vision",
+      "keywords": ["图片", "图像", "视觉", "截图", "照片", " diagram", "chart", "graph"],
+      "default_model": "qwen3.5-plus",
+      "temperature": 0.2,
+      "priority": 2,
+      "vision_enabled": true
+    },
+    {
+      "task_type": "ocr",
+      "keywords": ["文字识别", "提取文字", "截图文字", "图片文字", "票据", "证件"],
+      "default_model": "qwen3.5-plus",
+      "temperature": 0.1,
+      "priority": 2,
+      "vision_enabled": true
+    },
+    {
+      "task_type": "visual_coding",
+      "keywords": ["根据图片生成代码", "截图转代码", "设计图转网页", "UI 转代码"],
+      "default_model": "qwen3.5-plus",
+      "temperature": 0.3,
+      "priority": 2,
+      "vision_enabled": true
     },
     {
       "task_type": "research",

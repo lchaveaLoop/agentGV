@@ -1,6 +1,6 @@
 # AgentGV - Government-Style Agent Teams
 
-多 Agent 协作系统，模拟政府部门架构。支持动态模型路由、Skill 模板系统、质量优先模式。
+多 Agent 协作系统，模拟政府部门架构。支持动态模型路由、Skill 模板系统、质量优先模式、视觉理解。
 
 ## 🎯 核心特性
 
@@ -9,6 +9,7 @@
 - **动态模型分配**: 根据任务类型和复杂度自动选择最优模型
 - **质量优先模式**: 复杂任务自动使用最强模型 (Qwen3 Max)
 - **用户偏好**: 支持质量优先/平衡/成本优先 3 种模式
+- **视觉理解**: 支持图像分析、OCR 识别、截图转代码、文档解析（qwen3.5-plus）
 
 ---
 
@@ -62,6 +63,24 @@ node .opencode/skill-matcher.js "开发一个 C++ Qt 程序"
 node .opencode/skill-matcher.js "设计一个 PCB 电路板"
 node .opencode/skill-matcher.js "写一篇技术文档"
 ```
+
+### 6. 视觉理解（新功能）
+
+**直接上传图片并提问**（OpenCode Desktop）:
+```
+[上传图片] 分析这个架构图
+[上传截图] 把这个网页转换成 HTML/CSS 代码
+[上传发票] 提取这张发票的信息，JSON 格式输出
+[上传文档] 将这个 PDF 扫描件转成 Markdown
+```
+
+**支持的视觉任务**:
+- ✅ 图像理解与问答
+- ✅ OCR 文字识别
+- ✅ 截图转代码（Image to Code）
+- ✅ 文档解析（PDF/扫描件）
+- ✅ 多图像对比分析
+- ✅ 图表/流程图分析
 
 ---
 
@@ -276,11 +295,13 @@ Router:
 - `.opencode/MODEL_ROUTING.md` - 模型路由详细规则
 - `.opencode/README_COMMANDS.md` - 命令使用说明
 - `.opencode/ARCHITECTURE_OPTIMIZATION_COMPLETE.md` - 架构优化报告
+- `.opencode/VISION_CAPABILITIES.md` - 视觉理解能力指南 ⭐ NEW
 - `agents/*/AGENT.md` - Agent 详细角色定义
 - `.opencode/agents/*.md` - OpenCode Agent 配置
 
 ---
 
-**版本**: 3.1 | **日期**: 2026-02-24  
+**版本**: 3.2 | **日期**: 2026-02-24  
 **License**: MIT | **Repository**: github.com/lchaveaLoop/agentGV  
-**架构**: 模板化 (Template-Based) | **Skill**: 5 大类 15 个
+**架构**: 模板化 (Template-Based) | **Skill**: 5 大类 15 个  
+**视觉**: ✅ 图像理解 | OCR | 截图转代码 | 文档解析
