@@ -117,68 +117,58 @@ node .opencode/skill-matcher.js "写一篇技术文档"
 |------|------|---------|---------|
 | V1 | 7 Agent | 7 | 固定 |
 | V2 | 4 Agent | 4 | 固定 |
-| **V3** | **4+N 模板** | **4+15** | **可扩展** |
+| V3 | 4+N 模板 | 4+15 | 可扩展 |
+| **V4** | **7 人团队** | **7** | **完整部门** |
 
-**当前架构**: 4 个模板部门 + 15 个 Skill = 支持 5 大领域
+**当前架构**: 7 个专业 Agent 部门
 
 ---
 
-## 🤖 模板部门
+## 🤖 Agent 团队
 
-### Router (路由器)
+### Router (路由器) - 主 Agent
 - **职责**: 智能路由，Skill 匹配，项目协调
 - **模型**: bailian-coding-plan/qwen3.5-plus
 - **模式**: primary
-- **特性**: Skill-based template matching
+- **特性**: 自主闭环执行，多部门协调
 
-### Planning (规划局) - 模板部门
-- **职责**: 架构设计，技术方案，系统规划
-- **模板**: `Planning<Skill>`
-- **支持 Skill**: 15 个 (software/hardware/simulation/creative/research)
-- **模型**: 根据 Skill 动态分配
+### Intelligence (情报局)
+- **职责**: 市场调研、竞品分析、数据分析、行业研究
+- **模型**: bailian-coding-plan/qwen3.5-plus
+- **模式**: subagent
 
-### Operations (执行部) - 模板部门
-- **职责**: 功能开发，编码实现，文档编写
-- **模板**: `Operations<Skill>`
-- **支持 Skill**: 15 个
-- **模型**: 根据 Skill 动态分配
+### Planning (规划局)
+- **职责**: 架构设计、技术方案、系统规划、技术选型
+- **模型**: bailian-coding-plan/qwen3.5-plus (复杂任务升级到 qwen3-max)
+- **模式**: subagent
 
-### Quality (质检部) - 模板部门
-- **职责**: 代码审查，测试，质量验证
-- **模板**: `Quality<Skill>`
-- **支持 Skill**: 15 个
-- **模型**: 根据 Skill 动态分配
+### Operations (执行部)
+- **职责**: 功能开发、编码实现、系统集成
+- **模型**: bailian-coding-plan/qwen3.5-plus (编码优选 qwen3-coder-plus)
+- **模式**: subagent
+
+### Quality (质检部)
+- **职责**: 代码审查、测试、质量验证、bug 检测
+- **模型**: bailian-coding-plan/qwen3.5-plus
+- **模式**: subagent
+
+### Communications (传播部)
+- **职责**: 技术文档、用户手册、内容创作、内外部沟通
+- **模型**: bailian-coding-plan/qwen3.5-plus
+- **模式**: subagent
+
+### Administration (行政部)
+- **职责**: 项目协调、资源管理、时间线管理、跨部门协作
+- **模型**: bailian-coding-plan/qwen3.5-plus
+- **模式**: subagent
 
 ---
 
-## 💡 Skill 模板系统
+## 💡 Skill 分类系统 (5 大类 15 个)
 
-### 设计理念
+Router 内置 Skill 匹配能力，自动识别任务领域：
 
-受 C++ 模板函数/模板类启发：
-
-```cpp
-// C++ 模板类比
-template<typename Skill>
-void Planning::design();
-
-template<typename Skill>
-void Operations::implement();
-
-template<typename Skill>
-void Quality::review();
-
-// AgentGV 实现
-Planning<cpp>       // C++ 规划设计
-Planning<pcb>       // PCB 规划设计
-Operations<python>  // Python 实现
-Operations<fiction> // 小说创作
-Quality<web>        // Web 项目审查
-```
-
-### Skill 分类 (5 大类 15 个)
-
-#### 1. 软件开发 (Software)
+### 1. 软件开发 (Software)
 | Skill | 关键词 | 适用场景 |
 |-------|--------|----------|
 | cpp | C++, Qt, STL | 系统编程、桌面应用 |
@@ -186,64 +176,76 @@ Quality<web>        // Web 项目审查
 | web | JavaScript, React, Node.js | 前后端开发 |
 | mobile | iOS, Android, Flutter | 移动应用开发 |
 
-#### 2. 硬件电子 (Hardware)
+### 2. 硬件电子 (Hardware)
 | Skill | 关键词 | 适用场景 |
 |-------|--------|----------|
 | pcb | PCB, Altium, KiCad | 电路板设计 |
 | fpga | FPGA, Verilog, VHDL | 逻辑设计 |
 | embedded | 嵌入式，ARM, STM32 | 嵌入式开发 |
 
-#### 3. 仿真建模 (Simulation)
+### 3. 仿真建模 (Simulation)
 | Skill | 关键词 | 适用场景 |
 |-------|--------|----------|
 | matlab | MATLAB, Simulink | 系统仿真 |
 | fea | ANSYS, Abaqus, FEA | 结构分析 |
 | cfd | Fluent, OpenFOAM, CFD | 流体仿真 |
 
-#### 4. 文学创作 (Creative)
+### 4. 文学创作 (Creative)
 | Skill | 关键词 | 适用场景 |
 |-------|--------|----------|
 | fiction | 小说，故事，fiction | 小说创作 |
 | technical | 技术文档，documentation | 技术写作 |
 | content | 内容创作，blog, article | 内容创作 |
 
-#### 5. 研究分析 (Research)
+### 5. 研究分析 (Research)
 | Skill | 关键词 | 适用场景 |
 |-------|--------|----------|
 | academic | 学术，research paper | 学术研究 |
 | market | 市场，industry analysis | 市场调研 |
 | data | 数据，statistics | 数据分析 |
 
-### 使用示例
+---
 
-**示例 1: 软件开发**
+## 🔄 工作流程示例
+
+### 示例 1: 简单任务（直接路由）
 ```
 用户：用 C++ Qt 开发一个串口调试助手
-Router:
-- Skill: cpp (C++ Development)
-- Department: Operations
-- Model: qwen3-coder-plus
-路由：@agentgv-operations<cpp>
+
+Router 分析:
+- 类型：coding
+- Skill: cpp
+- 部门：Operations
+- 模型：qwen3-coder-plus
+
+路由：@agentgv-operations
 ```
 
-**示例 2: 硬件设计**
+### 示例 2: 复杂项目（多部门协作）
 ```
-用户：设计一个 ESP32 WiFi 模块的 PCB
-Router:
-- Skill: pcb (PCB Design)
-- Department: Planning
-- Model: qwen3.5-plus
-路由：@agentgv-planning<pcb>
+用户：开发一个完整的用户管理系统，需要测试和文档
+
+Router 分析:
+- 类型：complex_coding + coordination
+- 部门：Operations → Quality → Communications
+- 模型：qwen3.5-plus
+
+执行流程:
+1. @agentgv-operations - 功能开发
+2. @agentgv-quality - 测试验证
+3. @agentgv-communications - 文档编写
 ```
 
-**示例 3: 文学创作**
+### 示例 3: 市场调研
 ```
-用户：写一篇关于 AI 的科幻小说
-Router:
-- Skill: fiction (Fiction Writing)
-- Department: Operations
-- Model: qwen3.5-plus (temperature: 0.7)
-路由：@agentgv-operations<fiction>
+用户：调研 AI 助手市场
+
+Router 分析:
+- 类型：research
+- 部门：Intelligence
+- 模型：qwen3.5-plus
+
+路由：@agentgv-intelligence
 ```
 
 ---
@@ -318,19 +320,15 @@ Router:
 ## 📖 文档
 
 - `README.md` - 项目说明（本文档）
-- `.opencode/SKILL_TEMPLATE_SYSTEM.md` - Skill 模板系统详细说明
-- `.opencode/MODEL_ROUTING.md` - 模型路由详细规则
-- `.opencode/README_COMMANDS.md` - 命令使用说明
-- `.opencode/ARCHITECTURE_OPTIMIZATION_COMPLETE.md` - 架构优化报告
-- `.opencode/VISION_CAPABILITIES.md` - 视觉理解能力指南 ⭐ NEW
-- `.opencode/AGENT_MODEL_SYNC.md` - 模型同步指南 ⭐ NEW
-- `agents/*/AGENT.md` - Agent 详细角色定义
-- `.opencode/agents/*.md` - OpenCode Agent 配置
+- `.opencode/models.json` - 模型配置与路由规则
+- `.opencode/skills.json` - Skill 模板配置
+- `.opencode/preference.js` - 用户偏好管理脚本
+- `.opencode/agents/*.md` - Agent 详细角色定义
 
 ---
 
-**版本**: 3.3 | **日期**: 2026-02-24  
+**版本**: 4.0 | **日期**: 2026-02-24  
 **License**: MIT | **Repository**: github.com/lchaveaLoop/agentGV  
-**架构**: 模板化 (Template-Based) | **Skill**: 5 大类 15 个  
+**架构**: 7 人团队 | **Agent**: Router + Intelligence + Planning + Operations + Quality + Communications + Administration  
 **视觉**: ✅ 图像理解 | OCR | 截图转代码 | 文档解析  
 **同步**: ✅ 模型实时同步 | 6 种模型可选
