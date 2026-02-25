@@ -327,5 +327,50 @@ cp .opencode/models.json.example .opencode/models.json
 
 ---
 
-**版本**: V4.2.0 | **更新时间**: 2026-02-24  
-**支持系统**: Windows 10+, Ubuntu 18.04+, macOS 10.15+
+**版本**: V4.3.2 | **更新时间**: 2026-02-25
+
+---
+
+## 重要：Workspace 隔离说明
+
+### 问题描述
+
+OpenCode 使用 workspace 概念来管理项目配置。默认情况下，同一父目录下的所有项目共享同一个 workspace。
+
+例如：
+- 如果你把 agentGV 放在 E:\Projects\agentGV
+- 同时你在 E:\Projects\driverWifi 也有项目
+- 这两个项目会共享同一个 workspace (E:\Projects)
+- agentGV 的 agent 配置可能会影响其他项目
+
+### 解决方案
+
+**方案 1：将 agentGV 放在独立目录（推荐）**
+
+将 agentGV 项目克隆到一个与其他项目不同父目录下：
+
+```powershell
+# 例如放在用户主目录下
+git clone https://github.com/lchaveaLoop/agentGV.git C:\Users\lc\agentGV
+```
+
+**方案 2：清除 workspace 缓存**
+
+如果必须将 agentGV 放在共享目录下，可以在使用其他项目前清除缓存：
+
+```powershell
+# 关闭所有 OpenCode 窗口，然后删除缓存文件
+Remove-Item -Path "$env:APPDATA\ai.opencode.desktop\opencode.workspace.*.dat" -Force
+Remove-Item -Path "$env:APPDATA\ai.opencode.desktop\opencode.global.dat" -Force
+
+# 重新打开 OpenCode Desktop
+```
+
+### 在其他项目中使用 agentGV
+
+如果想在其他项目中使用 agentGV 的配置，可以复制 opencode.json：
+
+```powershell
+# 在目标项目中
+Copy-Item C:\path\to\agentGV\opencode.json -Destination .\opencode.json
+```
