@@ -5,6 +5,7 @@
 ## 🎯 核心特性
 
 - **智能路由**: Router Agent 自动分发任务到对应部门
+- **自主执行**: 所有 Agent 遵循自主执行原则，在达到目标前除非特殊情况否则不寻求人工干预
 - **Skill 模板系统**: 基于 C++ 模板理念的部门模板化，支持多领域任务
 - **动态模型分配**: 根据任务类型和复杂度自动选择最优模型
 - **质量优先模式**: 复杂任务自动使用最强模型 (Qwen3 Max)
@@ -308,7 +309,7 @@ Router 分析:
 
 ### 文档闭环
 
-**重要**: 任何功能更新后，必须自主更新以下文档：
+**自主执行**: 在达到目标之前，无明确指令或有资源需求、异常处理等情况，不得寻求人工干预。自主分析问题、制定解决方案、执行任务、处理异常、迭代改进，**完成后直接报告结果**。
 - README.md（项目主文档）
 - 相关技术文档
 - CHANGELOG（如有必要）
@@ -325,7 +326,7 @@ Router 分析:
 
 ---
 
-**版本**: V4.1 | **日期**: 2026-02-24  
+**版本**: V4.3.2 | **日期**: 2026-02-25  
 **License**: MIT | **Repository**: github.com/lchaveaLoop/agentGV  
 **架构**: 4 部门优化 | **Agent**: Router + Planning + Operations + Quality  
 **优化**: Intelligence→Planning | Communications→Operations | Administration→Router  

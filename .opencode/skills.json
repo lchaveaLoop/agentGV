@@ -92,12 +92,20 @@
           "system_prompt": "You are an FPGA expert specializing in HDL design, synthesis, and implementation."
         },
         {
-          "id": "embedded",
-          "name": "Embedded Systems",
-          "keywords": ["embedded", "microcontroller", "ARM", "STM32", "ESP32", "Arduino", "RTOS"],
+          "id": "rust",
+          "name": "Rust Development",
+          "keywords": ["Rust", "cargo", "tokio", "actix", "systems programming", "内存安全"],
           "model": "bailian-coding-plan/qwen3-coder-plus",
           "temperature": 0.3,
-          "system_prompt": "You are an embedded systems expert proficient in bare-metal and RTOS development."
+          "system_prompt": "You are a Rust expert specializing in memory-safe systems programming and performance-critical applications."
+        },
+        {
+          "id": "devops",
+          "name": "DevOps & Cloud",
+          "keywords": ["DevOps", "Docker", "Kubernetes", "CI/CD", "AWS", "Azure", "terraform", "jenkins", "运维", "云原生"],
+          "model": "bailian-coding-plan/qwen3-coder-plus",
+          "temperature": 0.3,
+          "system_prompt": "You are a DevOps expert specializing in containerization, orchestration, and cloud infrastructure."
         }
       ]
     },
@@ -217,6 +225,14 @@
           "model": "bailian-coding-plan/qwen3.5-plus",
           "temperature": 0.3,
           "system_prompt": "You are a competitor analysis expert skilled in market intelligence and competitive positioning."
+        },
+        {
+          "id": "ux",
+          "name": "UX Design",
+          "keywords": ["UX", "用户体验", "user experience", "UI design", "界面设计", "交互设计", "原型"],
+          "model": "bailian-coding-plan/qwen3.5-plus",
+          "temperature": 0.6,
+          "system_prompt": "You are a UX design expert skilled in user research, interaction design, and prototyping."
         }
       ]
     }
