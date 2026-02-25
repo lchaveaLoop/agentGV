@@ -204,7 +204,7 @@ function generateStatusReport() {
   return {
     timestamp: new Date().toISOString(),
     system: 'AgentGV',
-    version: 'V4.1',
+    version: 'V4.3.2',
     status: {
       agents: agentStatus,
       models: modelStatus,
