@@ -2,12 +2,13 @@
 
 多 Agent 协作系统，模拟政府部门架构。支持动态模型路由、Skill 模板系统、质量优先模式、视觉理解。
 
-[![Version](https://img.shields.io/badge/version-V5.0.0-blue.svg)](https://github.com/lchaveaLoop/agentGV/releases)
+[![Version](https://img.shields.io/badge/version-V5.0.1-blue.svg)](https://github.com/lchaveaLoop/agentGV/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 [![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-blue.svg)](https://nodejs.org/)
 [![Skills](https://img.shields.io/badge/skills-28-orange.svg)](docs/api/SKILL_API.md)
 [![Agents](https://img.shields.io/badge/agents-5-purple.svg)](docs/dev/ARCHITECTURE.md)
+[![MiniMax](https://img.shields.io/badge/MiniMax-Supported-red.svg)](docs/user/MINIMAX_SUPPORT.md)
 
 ---
 
@@ -16,11 +17,12 @@
 - **智能路由**: Router Agent 自动分发任务到对应部门
 - **自主执行**: 所有 Agent 遵循自主执行原则，在达到目标前除非特殊情况否则不寻求人工干预
 - **Skill 模板系统**: 基于 C++ 模板理念的部门模板化，支持多领域任务（5 大类 28 个 Skills）
-- **动态模型分配**: 根据任务类型和复杂度自动选择最优模型
+- **动态模型分配**: 根据任务类型和复杂度自动选择最优模型（支持 Qwen 系列和 MiniMax 系列）
 - **质量优先模式**: 复杂任务自动使用最强模型 (Qwen3 Max)
-- **用户偏好**: 支持质量优先/平衡/成本优先 3 种模式
+- **用户偏好**: 支持质量优先/平衡/成本优先/MiniMax 优化 4 种模式
 - **视觉理解**: 支持图像分析、OCR 识别、截图转代码、文档解析（qwen3.5-plus）
 - **部门化架构**: 5 个精简高效部门（Router/Planning/Operations/Quality/Administration）
+- **多模型支持**: 完整支持 Qwen 系列和 MiniMax 系列模型
 
 ---
 
@@ -29,11 +31,13 @@
 ### 1. 安装
 
 **Windows (PowerShell)**:
+
 ```powershell
 .\install.ps1
 ```
 
 **Linux/Mac (Bash)**:
+
 ```bash
 chmod +x install.sh
 ./install.sh
@@ -44,6 +48,7 @@ chmod +x install.sh
 安装时会自动检测可用模型并配置。
 
 **指定模型安装：**
+
 ```powershell
 $env:AGENTGV_MODEL = "bailian-coding-plan/qwen3.5-plus"
 .\install.ps1
@@ -67,14 +72,28 @@ $env:AGENTGV_MODEL = "bailian-coding-plan/qwen3.5-plus"
 切换到质量优先模式    # 复杂任务使用 Qwen3 Max
 切换到平衡模式        # 自动选择
 切换到成本优先模式    # 优先使用经济模型
+切换到 MiniMax 优化模式  # 优先使用 MiniMax M2.5/M1
 ```
 
 或使用 CLI 脚本：
+
 ```bash
 node .opencode/preference.js set quality
 node .opencode/preference.js set balanced
 node .opencode/preference.js set cost
+node .opencode/preference.js set minimax
 ```
+
+### 🆕 MiniMax 模型支持
+
+现在支持 **MiniMax 系列模型**！🎉
+
+**支持的模型**：
+
+- **MiniMax M2.5** - 经济高效，适合日常开发
+- **MiniMax M1** - 均衡性能，适合文档和调研
+
+**了解更多**: [MiniMax 使用指南](docs/user/MINIMAX_GUIDE.md)
 
 ---
 
@@ -117,13 +136,13 @@ node .opencode/preference.js set cost
 
 ## 🤖 Agent 团队（5 部门）
 
-| 部门 | 职责 | 模型 | 模式 |
-|------|------|------|------|
-| **Router** | 智能路由、Skill 匹配、项目协调 | qwen3.5-plus | primary |
-| **Planning** | 架构设计、技术方案、调研分析 | qwen3.5-plus/qwen3-max | subagent |
-| **Operations** | 功能开发、编码实现、文档编写 | qwen3.5-plus/qwen3-coder-plus | subagent |
-| **Quality** | 代码审查、测试验证、质量保障 | qwen3.5-plus | subagent |
-| **Administration** | 任务协调、自主执行、进度跟踪 | qwen3.5-plus | autonomous |
+| 部门               | 职责                           | 模型                          | 模式       |
+| ------------------ | ------------------------------ | ----------------------------- | ---------- |
+| **Router**         | 智能路由、Skill 匹配、项目协调 | qwen3.5-plus                  | primary    |
+| **Planning**       | 架构设计、技术方案、调研分析   | qwen3.5-plus/qwen3-max        | subagent   |
+| **Operations**     | 功能开发、编码实现、文档编写   | qwen3.5-plus/qwen3-coder-plus | subagent   |
+| **Quality**        | 代码审查、测试验证、质量保障   | qwen3.5-plus                  | subagent   |
+| **Administration** | 任务协调、自主执行、进度跟踪   | qwen3.5-plus                  | autonomous |
 
 ---
 
@@ -133,53 +152,53 @@ Router 内置 Skill 匹配能力，自动识别任务领域：
 
 ### 1. 软件开发 (Software) - 8 个 Skills
 
-| Skill | 关键词 | 适用场景 |
-|-------|--------|----------|
-| cpp | C++, Qt, STL | 系统编程、桌面应用 |
-| python | Python, Django, Flask | Web 开发、数据分析 |
-| web | JavaScript, React, Node.js | 前后端开发 |
-| mobile | iOS, Android, Flutter | 移动应用开发 |
-| java | Java, Spring Boot | 企业应用 |
-| go | Go, Golang, 微服务 | 后端服务 |
-| rust | Rust, 系统编程 | 系统开发 |
-| devops | Docker, K8s, CI/CD | 运维部署 |
+| Skill  | 关键词                     | 适用场景           |
+| ------ | -------------------------- | ------------------ |
+| cpp    | C++, Qt, STL               | 系统编程、桌面应用 |
+| python | Python, Django, Flask      | Web 开发、数据分析 |
+| web    | JavaScript, React, Node.js | 前后端开发         |
+| mobile | iOS, Android, Flutter      | 移动应用开发       |
+| java   | Java, Spring Boot          | 企业应用           |
+| go     | Go, Golang, 微服务         | 后端服务           |
+| rust   | Rust, 系统编程             | 系统开发           |
+| devops | Docker, K8s, CI/CD         | 运维部署           |
 
 ### 2. 硬件电子 (Hardware) - 3 个 Skills
 
-| Skill | 关键词 | 适用场景 |
-|-------|--------|----------|
-| pcb | PCB, Altium, KiCad | 电路板设计 |
-| fpga | FPGA, Verilog, VHDL | 逻辑设计 |
-| embedded | 嵌入式，ARM, STM32 | 嵌入式开发 |
+| Skill    | 关键词              | 适用场景   |
+| -------- | ------------------- | ---------- |
+| pcb      | PCB, Altium, KiCad  | 电路板设计 |
+| fpga     | FPGA, Verilog, VHDL | 逻辑设计   |
+| embedded | 嵌入式，ARM, STM32  | 嵌入式开发 |
 
 ### 3. 仿真建模 (Simulation) - 3 个 Skills
 
-| Skill | 关键词 | 适用场景 |
-|-------|--------|----------|
-| matlab | MATLAB, Simulink | 系统仿真 |
-| fea | ANSYS, Abaqus, FEA | 结构分析 |
-| cfd | Fluent, OpenFOAM, CFD | 流体仿真 |
+| Skill  | 关键词                | 适用场景 |
+| ------ | --------------------- | -------- |
+| matlab | MATLAB, Simulink      | 系统仿真 |
+| fea    | ANSYS, Abaqus, FEA    | 结构分析 |
+| cfd    | Fluent, OpenFOAM, CFD | 流体仿真 |
 
 ### 4. 创意写作 (Creative) - 5 个 Skills
 
-| Skill | 关键词 | 适用场景 |
-|-------|--------|----------|
-| fiction | 小说，故事 | 小说创作 |
-| technical | 技术文档 | 技术写作 |
-| content | 内容创作，blog | 内容创作 |
-| script | 剧本，短视频 | 剧本写作 |
-| translation | 翻译 | 多语言翻译 |
+| Skill       | 关键词         | 适用场景   |
+| ----------- | -------------- | ---------- |
+| fiction     | 小说，故事     | 小说创作   |
+| technical   | 技术文档       | 技术写作   |
+| content     | 内容创作，blog | 内容创作   |
+| script      | 剧本，短视频   | 剧本写作   |
+| translation | 翻译           | 多语言翻译 |
 
 ### 5. 研究分析 (Research) - 6 个 Skills
 
-| Skill | 关键词 | 适用场景 |
-|-------|--------|----------|
-| academic | 学术，research paper | 学术研究 |
-| market | 市场，industry analysis | 市场调研 |
-| data | 数据，statistics | 数据分析 |
-| product | 产品，用户研究 | 产品分析 |
-| competitor | 竞品，SWOT | 竞品分析 |
-| ux | UX, 用户体验 | 用户体验设计 |
+| Skill      | 关键词                  | 适用场景     |
+| ---------- | ----------------------- | ------------ |
+| academic   | 学术，research paper    | 学术研究     |
+| market     | 市场，industry analysis | 市场调研     |
+| data       | 数据，statistics        | 数据分析     |
+| product    | 产品，用户研究          | 产品分析     |
+| competitor | 竞品，SWOT              | 竞品分析     |
+| ux         | UX, 用户体验            | 用户体验设计 |
 
 ---
 
@@ -235,24 +254,24 @@ Router 分析:
 
 ### 任务类型与模型映射
 
-| 任务类型 | 关键词 | 默认模型 | 温度 |
-|----------|--------|----------|------|
-| architecture | 架构，设计，系统 | qwen3-max | 0.2 |
-| complex_coding | 复杂功能，核心模块 | qwen3.5-plus | 0.3 |
-| coding | 开发，实现，编码 | qwen3-coder-plus | 0.3 |
-| research | 调研，研究，分析 | qwen3.5-plus | 0.2 |
-| review | 测试，审查，检查 | qwen3.5-plus | 0.1 |
-| documentation | 文档，报告，说明 | qwen3.5-plus | 0.4 |
-| vision | 图片，图像，截图 | qwen3.5-plus | 0.2 |
-| simple | 简单，快速，小 | qwen3-coder-next | 0.3 |
+| 任务类型       | 关键词             | 默认模型         | 温度 |
+| -------------- | ------------------ | ---------------- | ---- |
+| architecture   | 架构，设计，系统   | qwen3-max        | 0.2  |
+| complex_coding | 复杂功能，核心模块 | qwen3.5-plus     | 0.3  |
+| coding         | 开发，实现，编码   | qwen3-coder-plus | 0.3  |
+| research       | 调研，研究，分析   | qwen3.5-plus     | 0.2  |
+| review         | 测试，审查，检查   | qwen3.5-plus     | 0.1  |
+| documentation  | 文档，报告，说明   | qwen3.5-plus     | 0.4  |
+| vision         | 图片，图像，截图   | qwen3.5-plus     | 0.2  |
+| simple         | 简单，快速，小     | qwen3-coder-next | 0.3  |
 
 ### 用户偏好模式
 
-| 模式 | 说明 | 默认模型 | 复杂升级 | 降级 |
-|------|------|----------|----------|------|
-| **quality_priority** | 质量优先 | qwen3.5-plus | qwen3-max | ❌ |
-| **balanced** | 平衡模式 | qwen3.5-plus | qwen3-max | ✅ |
-| **cost_saving** | 成本优先 | qwen3-coder-plus | qwen3.5-plus | ✅ |
+| 模式                 | 说明     | 默认模型         | 复杂升级     | 降级 |
+| -------------------- | -------- | ---------------- | ------------ | ---- |
+| **quality_priority** | 质量优先 | qwen3.5-plus     | qwen3-max    | ❌   |
+| **balanced**         | 平衡模式 | qwen3.5-plus     | qwen3-max    | ✅   |
+| **cost_saving**      | 成本优先 | qwen3-coder-plus | qwen3.5-plus | ✅   |
 
 ---
 
@@ -328,16 +347,16 @@ node .opencode/skill-matcher.js "写一篇技术文档"
 
 ## 🔧 开发状态
 
-| 组件 | 状态 | 说明 |
-|------|------|------|
-| Router | ✅ 稳定 | 智能路由核心 |
-| Planning | ✅ 稳定 | 规划与设计 |
-| Operations | ✅ 稳定 | 功能开发 |
-| Quality | ✅ 稳定 | 质量保障 |
-| Administration | ✅ 新增 | 自主执行 |
-| Skill 系统 | ✅ 完善 | 28 个 Skills |
-| 视觉功能 | ✅ 支持 | 图像理解 |
-| 模型同步 | ✅ 支持 | 实时同步 |
+| 组件           | 状态    | 说明         |
+| -------------- | ------- | ------------ |
+| Router         | ✅ 稳定 | 智能路由核心 |
+| Planning       | ✅ 稳定 | 规划与设计   |
+| Operations     | ✅ 稳定 | 功能开发     |
+| Quality        | ✅ 稳定 | 质量保障     |
+| Administration | ✅ 新增 | 自主执行     |
+| Skill 系统     | ✅ 完善 | 28 个 Skills |
+| 视觉功能       | ✅ 支持 | 图像理解     |
+| 模型同步       | ✅ 支持 | 实时同步     |
 
 ---
 

@@ -18,11 +18,54 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.0.1] - 2026-02-25
+
+### 🎉 Added
+
+#### MiniMax Model Support
+
+- Added **MiniMax M2.5** model to `models.json`
+  - Low cost, fast response
+  - Best for: daily coding, simple tasks, creative writing
+- Added **MiniMax M1** model to `models.json`
+  - Medium cost, balanced performance
+  - Best for: research, documentation, medium complexity
+
+#### New Routing Rules
+
+- `minimax_coding` - Tasks using MiniMax for quick development
+- `minimax_research` - Tasks using MiniMax for research and docs
+
+#### User Preferences
+
+- Added `minimax_optimized` mode
+  - Prefers MiniMax models for all tasks
+  - Auto-upgrades complex tasks to MiniMax M1
+- Updated `cost_saving` mode to prefer MiniMax M2.5
+
+#### Documentation
+
+- `docs/user/MINIMAX_SUPPORT.md` - Complete MiniMax support guide
+- `docs/user/MINIMAX_GUIDE.md` - MiniMax usage guide with examples
+- Updated `README.md` with MiniMax info and V5.0.1 badge
+- Added MiniMax model badge
+
+### 🔧 Changed
+
+- Updated `models.json` to include MiniMax models
+- Enhanced `auto-sync-model.js` with MiniMax detection
+- Updated complexity rules to handle MiniMax appropriately
+- Updated agent model mappings for MiniMax support
+- README.md enhanced with MiniMax section
+
+---
+
 ## [5.0.0] - 2026-02-25
 
 ### 🎉 Added
 
 #### Community Documentation
+
 - `CONTRIBUTING.md` - 完整的贡献者指南
 - `CODE_OF_CONDUCT.md` - 社区行为准则
 - `CLA.md` - 贡献者许可协议
@@ -39,6 +82,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `SKILL_API.md` - Skill API 文档
 
 #### README Enhancements
+
 - Project badges (Build Status, Coverage, Version)
 - Enhanced quick start guide
 - Architecture diagram (ASCII)
@@ -48,12 +92,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - License information
 
 #### Administration Agent
+
 - New `Administration` agent for autonomous task execution
 - Multi-step workflow coordination
 - Progress tracking and reporting
 - Autonomous decision-making capabilities
 
 #### Visual Understanding
+
 - Image analysis and Q&A support
 - OCR text recognition
 - Screenshot to code conversion
@@ -62,6 +108,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Chart/diagram analysis
 
 #### Model Synchronization
+
 - Real-time model sync with OpenCode Desktop
 - 6 available models to choose from
 - Interactive model selection script
@@ -70,18 +117,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🔄 Changed
 
 #### Architecture Optimization
+
 - Merged Intelligence department into Planning
 - Merged Communications department into Operations
 - Merged Administration capabilities into Router
 - Optimized from 7 agents to 4 departments
 
 #### Skill System
+
 - Expanded from 12 to 28 skills
 - 5 major categories: Software, Hardware, Simulation, Creative, Research
 - Improved skill matching algorithm
 - Better keyword recognition
 
 #### Model Routing
+
 - Enhanced task type detection
 - Improved complexity assessment
 - Better temperature control per task type
@@ -252,18 +302,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History Summary
 
-| Version | Date | Key Changes |
-|---------|------|-------------|
-| 5.0.0 | 2026-02-25 | Community docs, Administration agent, Visual features |
-| 4.3.2 | 2026-02-25 | Visual understanding, Model sync |
-| 4.3.1 | 2026-02-25 | Administration agent |
-| 4.3.0 | 2026-02-24 | Cross-platform support |
-| 4.2.0 | 2026-02-24 | Fiction writing skill |
-| 4.1.0 | 2026-02-24 | 4-department optimization |
-| 4.0.0 | 2026-02-24 | Skill template system |
-| 3.0.0 | 2026-02-20 | 4+N architecture |
-| 2.0.0 | 2026-02-15 | 4 agents |
-| 1.0.0 | 2026-02-10 | Initial release |
+| Version | Date       | Key Changes                                           |
+| ------- | ---------- | ----------------------------------------------------- |
+| 5.0.0   | 2026-02-25 | Community docs, Administration agent, Visual features |
+| 4.3.2   | 2026-02-25 | Visual understanding, Model sync                      |
+| 4.3.1   | 2026-02-25 | Administration agent                                  |
+| 4.3.0   | 2026-02-24 | Cross-platform support                                |
+| 4.2.0   | 2026-02-24 | Fiction writing skill                                 |
+| 4.1.0   | 2026-02-24 | 4-department optimization                             |
+| 4.0.0   | 2026-02-24 | Skill template system                                 |
+| 3.0.0   | 2026-02-20 | 4+N architecture                                      |
+| 2.0.0   | 2026-02-15 | 4 agents                                              |
+| 1.0.0   | 2026-02-10 | Initial release                                       |
 
 ---
 
@@ -274,11 +324,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 If you're upgrading from V4.x to V5.0.0:
 
 1. **Backup Configuration**
+
    ```bash
    cp .opencode/config/models.json .opencode/config/models.json.bak
    ```
 
 2. **Update Dependencies**
+
    ```bash
    npm install
    ```
@@ -299,6 +351,7 @@ If you're upgrading from V4.x to V5.0.0:
 ---
 
 **Legend**:
+
 - 🎉 Added - New features
 - 🔄 Changed - Modified existing functionality
 - 📦 Deprecated - Soon to be removed

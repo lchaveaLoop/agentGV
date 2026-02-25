@@ -1,6 +1,6 @@
 {
   "name": "agentgv",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "AgentGV - Professional Multi-Agent Collaboration System",
   "main": ".opencode/status.js",
   "scripts": {
