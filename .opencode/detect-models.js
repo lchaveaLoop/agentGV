@@ -6,7 +6,7 @@ const AGENTS = path.join(__dirname, 'agents');
 async function detect() {
   const config = JSON.parse(fs.readFileSync(CONFIG, 'utf-8'));
   const available = ['minimax/m2.5', 'minimax/m1'];
-  
+
   for (const [agent, map] of Object.entries(config.agent_model_mapping)) {
     const model = available.includes(map.primary) ? map.primary : map.fallback;
     const p = path.join(AGENTS, `${agent}.md`);
@@ -18,5 +18,7 @@ async function detect() {
   }
 }
 
-if (require.main === module) {detect();}
+if (require.main === module) {
+  detect();
+}
 module.exports = { detect };

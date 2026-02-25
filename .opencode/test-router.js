@@ -74,11 +74,11 @@ function runSkillMatcher(input) {
 
 function getDepartment(category) {
   const mapping = {
-    'software': 'Operations',
-    'hardware': 'Operations',
-    'creative': 'Operations',
-    'simulation': 'Planning',
-    'research': 'Planning'
+    software: 'Operations',
+    hardware: 'Operations',
+    creative: 'Operations',
+    simulation: 'Planning',
+    research: 'Planning'
   };
   return mapping[category] || 'Unknown';
 }
@@ -93,30 +93,37 @@ let failed = 0;
 testCases.forEach((test, index) => {
   console.log(`Test ${index + 1}: ${test.name}`);
   console.log(`Input: "${test.input}"`);
-  
+
   const result = runSkillMatcher(test.input);
-  
+
   if (result.error) {
     console.log(`❌ FAIL: ${result.error}`);
     failed++;
   } else {
     const actualDepartment = getDepartment(result.category);
-    const pass = result.skill_id === test.expected.skill_id && 
-                 result.category === test.expected.category &&
-                 actualDepartment === test.expected.department;
-    
+    const pass =
+      result.skill_id === test.expected.skill_id &&
+      result.category === test.expected.category &&
+      actualDepartment === test.expected.department;
+
     if (pass) {
       console.log(`✅ PASS`);
-      console.log(`   Skill: ${result.skill_id} | Category: ${result.category} | Department: ${actualDepartment}`);
+      console.log(
+        `   Skill: ${result.skill_id} | Category: ${result.category} | Department: ${actualDepartment}`
+      );
       passed++;
     } else {
       console.log(`❌ FAIL`);
-      console.log(`   Expected: skill=${test.expected.skill_id}, category=${test.expected.category}, dept=${test.expected.department}`);
-      console.log(`   Got:      skill=${result.skill_id}, category=${result.category}, dept=${actualDepartment}`);
+      console.log(
+        `   Expected: skill=${test.expected.skill_id}, category=${test.expected.category}, dept=${test.expected.department}`
+      );
+      console.log(
+        `   Got:      skill=${result.skill_id}, category=${result.category}, dept=${actualDepartment}`
+      );
       failed++;
     }
   }
-  
+
   console.log('');
 });
 

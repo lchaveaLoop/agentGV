@@ -2,10 +2,10 @@
 
 /**
  * Skill Scanner
- * 
+ *
  * Scans the skills/ directory for available skills and generates
  * an index for the skill-matcher to use.
- * 
+ *
  * Usage: node skill-scanner.js [--index]
  */
 
@@ -23,25 +23,28 @@ function parseFrontmatter(content) {
   if (!match) {
     return null;
   }
-  
+
   const frontmatter = {};
   const lines = match[1].split('\n');
-  
+
   for (const line of lines) {
     const colonIndex = line.indexOf(':');
     if (colonIndex > 0) {
       const key = line.slice(0, colonIndex).trim();
       let value = line.slice(colonIndex + 1).trim();
-      
+
       // Parse arrays
       if (value.startsWith('[') && value.endsWith(']')) {
-        value = value.slice(1, -1).split(',').map(v => v.trim());
+        value = value
+          .slice(1, -1)
+          .split(',')
+          .map(v => v.trim());
       }
-      
+
       frontmatter[key] = value;
     }
   }
-  
+
   return {
     frontmatter,
     content: match[2]
@@ -53,13 +56,13 @@ function parseFrontmatter(content) {
  */
 function scanSkills(dir, basePath = '') {
   const skills = [];
-  
+
   if (!fs.existsSync(dir)) {
     return skills;
   }
-  
+
   const entries = fs.readdirSync(dir, { withFileTypes: true });
-  
+
   for (const entry of entries) {
     if (entry.isDirectory() && !entry.name.startsWith('.')) {
       const subDir = path.join(dir, entry.name);
@@ -69,7 +72,7 @@ function scanSkills(dir, basePath = '') {
       const filePath = path.join(dir, entry.name);
       const content = fs.readFileSync(filePath, 'utf-8');
       const parsed = parseFrontmatter(content);
-      
+
       if (parsed) {
         skills.push({
           id: parsed.frontmatter.name || basePath.replace(/\//g, '-'),
@@ -81,7 +84,7 @@ function scanSkills(dir, basePath = '') {
       }
     }
   }
-  
+
   return skills;
 }
 
@@ -90,11 +93,11 @@ function scanSkills(dir, basePath = '') {
  */
 function generateIndex() {
   console.log('🔍 Scanning skills directory...');
-  
+
   const skills = scanSkills(SKILLS_DIR);
-  
+
   console.log(`✅ Found ${skills.length} skills`);
-  
+
   const index = {
     version: '1.0.0',
     generated: new Date().toISOString(),
@@ -111,7 +114,7 @@ function generateIndex() {
       path: s.path
     }))
   };
-  
+
   // Group by category
   for (const skill of skills) {
     const category = skill.category || 'other';
@@ -120,17 +123,17 @@ function generateIndex() {
     }
     index.categories[category].push(skill.id);
   }
-  
+
   // Save index
   fs.writeFileSync(INDEX_FILE, JSON.stringify(index, null, 2));
   console.log(`📄 Index saved to: ${INDEX_FILE}`);
-  
+
   // Print summary
   console.log('\n📊 Skill Summary:');
   for (const [category, skillIds] of Object.entries(index.categories)) {
     console.log(`   ${category}: ${skillIds.length} skills`);
   }
-  
+
   return index;
 }
 
@@ -147,7 +150,7 @@ function loadIndex() {
 // CLI
 if (require.main === module) {
   const args = process.argv.slice(2);
-  
+
   if (args.includes('--index') || args.includes('-i')) {
     generateIndex();
   } else {

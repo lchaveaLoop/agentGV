@@ -13,12 +13,12 @@ const CONFIG_PATH = path.join(process.env.USERPROFILE, '.opencode', 'config.json
 
 // Available models
 const MODELS = {
-  '1': { id: 'bailian-coding-plan/qwen3.5-plus', name: 'Qwen3.5 Plus (推荐，支持视觉)' },
-  '2': { id: 'bailian-coding-plan/qwen3-max-2026-01-23', name: 'Qwen3 Max (最强，复杂任务)' },
-  '3': { id: 'bailian-coding-plan/qwen3-coder-plus', name: 'Qwen3 Coder Plus (代码优化)' },
-  '4': { id: 'bailian-coding-plan/qwen3-coder-next', name: 'Qwen3 Coder Next (快速)' },
-  '5': { id: 'minimax/m2.5', name: 'MiniMax M2.5' },
-  '6': { id: 'opencode/glm-5-free', name: 'GLM-5 Free (免费)' }
+  1: { id: 'bailian-coding-plan/qwen3.5-plus', name: 'Qwen3.5 Plus (推荐，支持视觉)' },
+  2: { id: 'bailian-coding-plan/qwen3-max-2026-01-23', name: 'Qwen3 Max (最强，复杂任务)' },
+  3: { id: 'bailian-coding-plan/qwen3-coder-plus', name: 'Qwen3 Coder Plus (代码优化)' },
+  4: { id: 'bailian-coding-plan/qwen3-coder-next', name: 'Qwen3 Coder Next (快速)' },
+  5: { id: 'minimax/m2.5', name: 'MiniMax M2.5' },
+  6: { id: 'opencode/glm-5-free', name: 'GLM-5 Free (免费)' }
 };
 
 const AGENTS = [
@@ -43,7 +43,7 @@ function saveConfig(config) {
 
 function setModel(modelId, agentName = null) {
   const config = loadConfig();
-  
+
   if (agentName) {
     // Set specific agent
     if (!config[agentName]) {
@@ -62,14 +62,14 @@ function setModel(modelId, agentName = null) {
     });
     console.log(`✅ Updated ${updated} agents to: ${modelId}`);
   }
-  
+
   saveConfig(config);
 }
 
 function showCurrentModels() {
   const config = loadConfig();
   console.log('\n📋 Current Agent Models:\n');
-  
+
   AGENTS.forEach(agent => {
     const model = config[agent]?.model || '(default)';
     console.log(`  ${agent.padEnd(30)} ${model}`);
@@ -80,11 +80,11 @@ function showCurrentModels() {
 function showMenu() {
   console.log('\n🎯 AgentGV Model Switcher\n');
   console.log('Available models:');
-  
+
   for (const [key, model] of Object.entries(MODELS)) {
     console.log(`  ${key}. ${model.name}`);
   }
-  
+
   console.log('\nCommands:');
   console.log('  <1-6>        - Set all agents to selected model');
   console.log('  <agent> <n>  - Set specific agent (e.g., "router 1")');
@@ -97,31 +97,31 @@ async function interactiveMode() {
     input: process.stdin,
     output: process.stdout
   });
-  
-  const question = (prompt) => new Promise(resolve => rl.question(prompt, resolve));
-  
+
+  const question = prompt => new Promise(resolve => rl.question(prompt, resolve));
+
   showMenu();
   showCurrentModels();
-  
+
   while (true) {
     const input = await question('> ');
     const parts = input.trim().split(/\s+/);
     const cmd = parts[0]?.toLowerCase();
-    
+
     if (cmd === 'q' || cmd === 'quit' || cmd === 'exit') {
       break;
     }
-    
+
     if (cmd === 'show') {
       showCurrentModels();
       continue;
     }
-    
+
     if (parts.length === 2) {
       // Specific agent: "router 1"
       const agentName = `agentgv-${parts[0]}`;
       const modelKey = parts[1];
-      
+
       if (AGENTS.includes(agentName) && MODELS[modelKey]) {
         setModel(MODELS[modelKey].id, agentName);
       } else {
@@ -129,14 +129,14 @@ async function interactiveMode() {
       }
       continue;
     }
-    
+
     if (MODELS[cmd]) {
       setModel(MODELS[cmd].id);
     } else {
       console.log('❌ Invalid command. Type a number (1-6) or "show" or "q"');
     }
   }
-  
+
   rl.close();
 }
 

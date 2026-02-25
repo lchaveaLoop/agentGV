@@ -2,10 +2,10 @@
 
 /**
  * Skill Matcher
- * 
+ *
  * Matches task descriptions to appropriate skills and returns
  * the best matching skill with confidence score.
- * 
+ *
  * Usage: node skill-matcher.js <task description>
  */
 
@@ -35,17 +35,14 @@ function loadSkills() {
     if (error instanceof SkillMatcherError) {
       throw error;
     }
-    throw new SkillMatcherError(
-      `Failed to parse skills.json: ${error.message}`,
-      'PARSE_ERROR'
-    );
+    throw new SkillMatcherError(`Failed to parse skills.json: ${error.message}`, 'PARSE_ERROR');
   }
 }
 
 function matchSkill(taskDescription, skills) {
   const taskLower = taskDescription.toLowerCase();
   const matches = [];
-  
+
   for (const [category, data] of Object.entries(skills.skill_categories)) {
     for (const skill of data.skills) {
       const score = skill.keywords.reduce((acc, keyword) => {
@@ -54,35 +51,30 @@ function matchSkill(taskDescription, skills) {
         }
         return acc;
       }, 0);
-      
+
       if (score > 0) {
         matches.push({
           skill,
           category,
           score,
-          matchedKeywords: skill.keywords.filter(k => 
-            taskLower.includes(k.toLowerCase())
-          )
+          matchedKeywords: skill.keywords.filter(k => taskLower.includes(k.toLowerCase()))
         });
       }
     }
   }
-  
+
   matches.sort((a, b) => b.score - a.score);
   return matches;
 }
 
 function getBestSkill(taskDescription) {
   if (!taskDescription || typeof taskDescription !== 'string') {
-    throw new SkillMatcherError(
-      'Task description must be a non-empty string',
-      'INVALID_INPUT'
-    );
+    throw new SkillMatcherError('Task description must be a non-empty string', 'INVALID_INPUT');
   }
-  
+
   const skills = loadSkills();
   const matches = matchSkill(taskDescription, skills);
-  
+
   if (matches.length === 0) {
     return {
       skill: {
@@ -98,10 +90,10 @@ function getBestSkill(taskDescription) {
       warning: 'No specific skill matched, using general purpose'
     };
   }
-  
+
   const best = matches[0];
   const confidence = best.score >= 3 ? 'high' : best.score === 2 ? 'medium' : 'low';
-  
+
   return {
     skill: best.skill,
     category: best.category,
@@ -112,12 +104,24 @@ function getBestSkill(taskDescription) {
 
 function getTaskType(description) {
   const desc = description.toLowerCase();
-  if (desc.includes('架构') || desc.includes('设计') || desc.includes('system')) {return 'architecture';}
-  if (desc.includes('调研') || desc.includes('研究') || desc.includes('分析')) {return 'research';}
-  if (desc.includes('开发') || desc.includes('实现') || desc.includes('编码')) {return 'coding';}
-  if (desc.includes('测试') || desc.includes('审查') || desc.includes('质量')) {return 'review';}
-  if (desc.includes('文档') || desc.includes('报告') || desc.includes('写作')) {return 'documentation';}
-  if (desc.includes('协调') || desc.includes('管理') || desc.includes('项目')) {return 'coordination';}
+  if (desc.includes('架构') || desc.includes('设计') || desc.includes('system')) {
+    return 'architecture';
+  }
+  if (desc.includes('调研') || desc.includes('研究') || desc.includes('分析')) {
+    return 'research';
+  }
+  if (desc.includes('开发') || desc.includes('实现') || desc.includes('编码')) {
+    return 'coding';
+  }
+  if (desc.includes('测试') || desc.includes('审查') || desc.includes('质量')) {
+    return 'review';
+  }
+  if (desc.includes('文档') || desc.includes('报告') || desc.includes('写作')) {
+    return 'documentation';
+  }
+  if (desc.includes('协调') || desc.includes('管理') || desc.includes('项目')) {
+    return 'coordination';
+  }
   return 'other';
 }
 
@@ -136,7 +140,7 @@ function formatSkillInfo(skillMatch) {
 
 if (require.main === module) {
   const args = process.argv.slice(2);
-  
+
   if (args.length === 0) {
     console.error('Usage: node skill-matcher.js <task description>');
     console.error('');
@@ -146,13 +150,13 @@ if (require.main === module) {
     console.error('  node skill-matcher.js "调研 AI 市场"');
     process.exit(1);
   }
-  
+
   const task = args.join(' ');
-  
+
   try {
     const match = getBestSkill(task);
     console.log(JSON.stringify(formatSkillInfo(match), null, 2));
-    
+
     // Exit with warning code if no good match found
     if (match.confidence === 'low') {
       process.exit(2);

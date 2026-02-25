@@ -2,14 +2,14 @@
 
 /**
  * AgentGV System Status Reporter
- * 
+ *
  * Provides comprehensive status reporting for the AgentGV system:
  * - Agent configuration status
  * - Model availability and sync status
  * - Skill matching system health
  * - Environment configuration
  * - Dependency checks
- * 
+ *
  * Usage: node .opencode/status.js [--json] [--quiet]
  */
 
@@ -60,14 +60,14 @@ function checkAgentConfig() {
   const opencodeConfig = readJsonFile(path.join(ROOT_DIR, 'opencode.json'));
   const modelsConfig = readJsonFile(path.join(CONFIG_DIR, 'models.json'));
   const skillsConfig = readJsonFile(path.join(CONFIG_DIR, 'skills.json'));
-  
+
   const agents = {
     router: opencodeConfig?.agent?.['agentgv-router'],
     planning: opencodeConfig?.agent?.['agentgv-planning'],
     operations: opencodeConfig?.agent?.['agentgv-operations'],
     quality: opencodeConfig?.agent?.['agentgv-quality']
   };
-  
+
   const status = {
     config_files: {
       opencode_json: opencodeConfig ? STATUS.OK : STATUS.ERROR,
@@ -78,7 +78,7 @@ function checkAgentConfig() {
     total_agents: 0,
     active_agents: 0
   };
-  
+
   for (const [name, agent] of Object.entries(agents)) {
     if (agent) {
       status.agents[name] = {
@@ -98,7 +98,7 @@ function checkAgentConfig() {
       };
     }
   }
-  
+
   return status;
 }
 
@@ -107,18 +107,18 @@ function checkAgentConfig() {
  */
 function checkModelConfig() {
   const modelsConfig = readJsonFile(path.join(CONFIG_DIR, 'models.json'));
-  
+
   if (!modelsConfig || modelsConfig.error) {
     return {
       status: STATUS.ERROR,
       error: 'models.json not found or invalid'
     };
   }
-  
+
   const models = modelsConfig.models || [];
   const taskRules = modelsConfig.task_model_rules || [];
   const preferences = modelsConfig.user_preferences || {};
-  
+
   return {
     status: STATUS.OK,
     total_models: models.length,
@@ -139,30 +139,27 @@ function checkModelConfig() {
  */
 function checkSkillSystem() {
   const skillsConfig = readJsonFile(path.join(CONFIG_DIR, 'skills.json'));
-  
+
   if (!skillsConfig || skillsConfig.error) {
     return {
       status: STATUS.ERROR,
       error: 'skills.json not found or invalid'
     };
   }
-  
+
   const categories = skillsConfig.skill_categories || {};
   const totalSkills = Object.values(categories).reduce(
     (sum, cat) => sum + (cat.skills?.length || 0),
     0
   );
-  
+
   return {
     status: STATUS.OK,
     total_categories: Object.keys(categories).length,
     total_skills: totalSkills,
     categories: Object.keys(categories),
     skills_by_category: Object.fromEntries(
-      Object.entries(categories).map(([name, cat]) => [
-        name,
-        cat.skills?.length || 0
-      ])
+      Object.entries(categories).map(([name, cat]) => [name, cat.skills?.length || 0])
     )
   };
 }
@@ -173,7 +170,7 @@ function checkSkillSystem() {
 function checkEnvironment() {
   const pkgJson = readJsonFile(path.join(CONFIG_DIR, 'package.json'));
   const nodeVersion = process.version;
-  
+
   // Check for required scripts
   const scripts = {
     'skill-matcher.js': fileExists(path.join(CONFIG_DIR, 'skill-matcher.js')),
@@ -181,9 +178,9 @@ function checkEnvironment() {
     'auto-sync-model.js': fileExists(path.join(CONFIG_DIR, 'auto-sync-model.js')),
     'preference.js': fileExists(path.join(CONFIG_DIR, 'preference.js'))
   };
-  
+
   const allScriptsPresent = Object.values(scripts).every(Boolean);
-  
+
   return {
     status: allScriptsPresent ? STATUS.OK : STATUS.WARNING,
     node_version: nodeVersion,
@@ -200,7 +197,7 @@ function generateStatusReport() {
   const modelStatus = checkModelConfig();
   const skillStatus = checkSkillSystem();
   const envStatus = checkEnvironment();
-  
+
   return {
     timestamp: new Date().toISOString(),
     system: 'AgentGV',
@@ -223,23 +220,23 @@ function generateStatusReport() {
  */
 function calculateOverallHealth(agents, models, skills, env) {
   const issues = [];
-  
+
   if (agents.active_agents < agents.total_agents) {
     issues.push('Some agents not properly configured');
   }
-  
+
   if (models.status === STATUS.ERROR) {
     issues.push('Model configuration missing or invalid');
   }
-  
+
   if (skills.status === STATUS.ERROR) {
     issues.push('Skill system not configured');
   }
-  
+
   if (env.status === STATUS.WARNING) {
     issues.push('Some required scripts missing');
   }
-  
+
   if (issues.length === 0) {
     return { status: STATUS.OK, message: 'All systems operational' };
   } else if (issues.length <= 2) {
@@ -254,7 +251,7 @@ function calculateOverallHealth(agents, models, skills, env) {
  */
 function generateRecommendations(agents, models, skills, env) {
   const recommendations = [];
-  
+
   if (agents.active_agents < agents.total_agents) {
     recommendations.push({
       priority: 'HIGH',
@@ -262,7 +259,7 @@ function generateRecommendations(agents, models, skills, env) {
       message: 'Verify all agent configurations in opencode.json'
     });
   }
-  
+
   if (models.status === STATUS.ERROR) {
     recommendations.push({
       priority: 'HIGH',
@@ -270,7 +267,7 @@ function generateRecommendations(agents, models, skills, env) {
       message: 'Ensure models.json exists and is valid JSON'
     });
   }
-  
+
   if (skills.total_skills < 10) {
     recommendations.push({
       priority: 'MEDIUM',
@@ -278,7 +275,7 @@ function generateRecommendations(agents, models, skills, env) {
       message: 'Consider adding more skill templates for better task matching'
     });
   }
-  
+
   if (!env.scripts['skill-matcher.js']) {
     recommendations.push({
       priority: 'HIGH',
@@ -286,7 +283,7 @@ function generateRecommendations(agents, models, skills, env) {
       message: 'skill-matcher.js is required for task routing'
     });
   }
-  
+
   return recommendations;
 }
 
@@ -300,7 +297,7 @@ function printStatusReport(report) {
   console.log(`  Timestamp: ${report.timestamp}`);
   console.log(`  Version: ${report.version}`);
   console.log('='.repeat(70) + '\n');
-  
+
   // Agent Status
   console.log('[ ] AGENTS');
   console.log('[ ] MODELS');
@@ -315,7 +312,7 @@ function printStatusReport(report) {
     issues.forEach(issue => console.log(`    - ${issue}`));
   }
   console.log();
-  
+
   // Recommendations
   if (report.summary.recommendations.length > 0) {
     console.log('[i] RECOMMENDATIONS');
@@ -325,7 +322,7 @@ function printStatusReport(report) {
     });
     console.log();
   }
-  
+
   console.log('='.repeat(70) + '\n');
 }
 
@@ -334,9 +331,9 @@ if (require.main === module) {
   const args = process.argv.slice(2);
   const asJson = args.includes('--json') || args.includes('-j');
   const quiet = args.includes('--quiet') || args.includes('-q');
-  
+
   const report = generateStatusReport();
-  
+
   if (asJson) {
     console.log(JSON.stringify(report, null, 2));
   } else if (quiet) {
@@ -350,7 +347,7 @@ if (require.main === module) {
   } else {
     printStatusReport(report);
   }
-  
+
   // Exit with error code if issues detected
   if (report.summary.overall_health.status === STATUS.ERROR) {
     process.exit(1);

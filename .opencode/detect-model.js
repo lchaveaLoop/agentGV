@@ -8,7 +8,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const CONFIG_PATH = path.join(process.env.USERPROFILE || process.env.HOME || '', '.opencode', 'config.json');
+const CONFIG_PATH = path.join(
+  process.env.USERPROFILE || process.env.HOME || '',
+  '.opencode',
+  'config.json'
+);
 
 // Model aliases and detection rules
 const MODEL_ALIASES = {
@@ -22,14 +26,11 @@ const MODEL_ALIASES = {
   // GLM
   'opencode/glm-5-free': ['opencode/glm-5-free', 'glm-5-free', 'glm-5', 'glm5'],
   // Bailian prefix
-  'bailian-coding-plan/qwen3.5-plus': ['bailian-coding-plan/qwen3.5-plus', 'bailian/qwen3.5-plus'],
+  'bailian-coding-plan/qwen3.5-plus': ['bailian-coding-plan/qwen3.5-plus', 'bailian/qwen3.5-plus']
 };
 
 // Vision-capable models
-const VISION_MODELS = [
-  'qwen3.5-plus',
-  'bailian-coding-plan/qwen3.5-plus',
-];
+const VISION_MODELS = ['qwen3.5-plus', 'bailian-coding-plan/qwen3.5-plus'];
 
 function detectCurrentModel() {
   try {
@@ -90,7 +91,6 @@ function detectCurrentModel() {
       isVisionCapable: VISION_MODELS.includes(normalizedModel),
       lastModified: fs.statSync(CONFIG_PATH).mtime.toISOString()
     };
-
   } catch (error) {
     return {
       detected: false,

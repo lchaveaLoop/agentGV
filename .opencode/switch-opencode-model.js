@@ -8,14 +8,19 @@
 const fs = require('fs');
 const path = require('path');
 
-const CONFIG_PATH = path.join(process.env.USERPROFILE || process.env.HOME || '', '.config', 'opencode', 'opencode.json');
+const CONFIG_PATH = path.join(
+  process.env.USERPROFILE || process.env.HOME || '',
+  '.config',
+  'opencode',
+  'opencode.json'
+);
 
 const MODELS = {
-  '1': { id: 'bailian-coding-plan/qwen3.5-plus', name: 'Qwen3.5 Plus (推荐，支持视觉)' },
-  '2': { id: 'bailian-coding-plan/qwen3-max-2026-01-23', name: 'Qwen3 Max (最强，复杂任务)' },
-  '3': { id: 'bailian-coding-plan/qwen3-coder-plus', name: 'Qwen3 Coder Plus (代码优化)' },
-  '4': { id: 'bailian-coding-plan/qwen3-coder-next', name: 'Qwen3 Coder Next (快速)' },
-  '5': { id: 'minimax/MiniMax-M2.5', name: 'MiniMax M2.5 (当前)' }
+  1: { id: 'bailian-coding-plan/qwen3.5-plus', name: 'Qwen3.5 Plus (推荐，支持视觉)' },
+  2: { id: 'bailian-coding-plan/qwen3-max-2026-01-23', name: 'Qwen3 Max (最强，复杂任务)' },
+  3: { id: 'bailian-coding-plan/qwen3-coder-plus', name: 'Qwen3 Coder Plus (代码优化)' },
+  4: { id: 'bailian-coding-plan/qwen3-coder-next', name: 'Qwen3 Coder Next (快速)' },
+  5: { id: 'minimax/MiniMax-M2.5', name: 'MiniMax M2.5 (当前)' }
 };
 
 function loadConfig() {
@@ -32,10 +37,10 @@ function saveConfig(config) {
 
 function setModel(modelId) {
   const config = loadConfig();
-  
+
   // Update global model
   config.model = modelId;
-  
+
   // Update all agent models
   let updated = 0;
   if (config.agent) {
@@ -46,7 +51,7 @@ function setModel(modelId) {
       }
     }
   }
-  
+
   saveConfig(config);
   console.log(`✅ Updated config: ${modelId}`);
   console.log(`   Global model: ${modelId}`);
@@ -83,25 +88,25 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-const question = (prompt) => new Promise(resolve => rl.question(prompt, resolve));
+const question = prompt => new Promise(resolve => rl.question(prompt, resolve));
 
 async function interactiveMode() {
   showMenu();
   showCurrent();
-  
+
   while (true) {
     const input = await question('> ');
     const cmd = input.trim().toLowerCase();
-    
+
     if (cmd === 'q' || cmd === 'quit' || cmd === 'exit') {
       break;
     }
-    
+
     if (cmd === 'show') {
       showCurrent();
       continue;
     }
-    
+
     if (MODELS[cmd]) {
       setModel(MODELS[cmd].id);
       console.log('\n✅ Model switched! Restart OpenCode for changes to take effect.\n');
@@ -109,7 +114,7 @@ async function interactiveMode() {
       console.log('❌ Invalid. Choose 1-5 or "show" or "q"');
     }
   }
-  
+
   rl.close();
 }
 

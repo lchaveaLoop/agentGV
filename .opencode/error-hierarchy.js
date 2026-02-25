@@ -2,13 +2,13 @@
 
 /**
  * AgentGV Error Hierarchy
- * 
+ *
  * Structured error handling system inspired by Anthropic's SDK.
  * Provides layered error types with clear messages and recovery suggestions.
- * 
+ *
  * Usage:
  *   const { AgentGVError, SkillError, ConfigError } = require('./error-hierarchy.js');
- *   
+ *
  *   try {
  *     throw new SkillError('Skill not found', { skillId: 'fiction' });
  *   } catch (error) {
@@ -30,33 +30,33 @@ class AgentGVError extends Error {
     this.suggestion = options.suggestion || null;
     this.recoverable = options.recoverable !== false;
     this.timestamp = new Date().toISOString();
-    
+
     // Capture stack trace
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, AgentGVError);
     }
   }
-  
+
   /**
    * Convert to user-friendly message
    */
   toUserMessage() {
     let message = `❌ ${this.message}`;
-    
+
     if (this.details && Object.keys(this.details).length > 0) {
       message += '\n\nDetails:';
       for (const [key, value] of Object.entries(this.details)) {
         message += `\n  • ${key}: ${value}`;
       }
     }
-    
+
     if (this.suggestion) {
       message += `\n\n💡 Suggestion: ${this.suggestion}`;
     }
-    
+
     return message;
   }
-  
+
   /**
    * Convert to JSON for logging/API
    */
@@ -278,12 +278,12 @@ function createError(type, ...args) {
     RateLimit: RateLimitError,
     Authentication: AuthenticationError
   };
-  
+
   const ErrorClass = errorClasses[type];
   if (!ErrorClass) {
     throw new Error(`Unknown error type: ${type}`);
   }
-  
+
   return new ErrorClass(...args);
 }
 
@@ -292,16 +292,16 @@ function createError(type, ...args) {
  */
 function handleError(error, context = {}) {
   console.error('═══ AgentGV Error ═══');
-  
+
   if (error instanceof AgentGVError) {
     console.error(error.toUserMessage());
   } else {
     console.error(`❌ Unexpected error: ${error.message}`);
     console.error('💡 This is likely a bug. Please report with context:', context);
   }
-  
+
   console.error('═══════════════════════\n');
-  
+
   return error;
 }
 
@@ -309,7 +309,7 @@ function handleError(error, context = {}) {
  * Wrap async function with error handling
  */
 function withErrorHandling(fn, errorHandler) {
-  return async function(...args) {
+  return async function (...args) {
     try {
       return await fn(...args);
     } catch (error) {
@@ -326,32 +326,32 @@ function withErrorHandling(fn, errorHandler) {
 module.exports = {
   // Base class
   AgentGVError,
-  
+
   // Skill errors
   SkillError,
   SkillNotFoundError,
   SkillLoadError,
-  
+
   // Config errors
   ConfigError,
   ConfigNotFoundError,
   ConfigParseError,
-  
+
   // Router errors
   RouterError,
   DepartmentNotFoundError,
   ModelSyncError,
-  
+
   // Agent errors
   AgentError,
   AgentTimeoutError,
   AgentExecutionError,
-  
+
   // API errors
   APIError,
   RateLimitError,
   AuthenticationError,
-  
+
   // Utilities
   createError,
   handleError,

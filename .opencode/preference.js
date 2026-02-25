@@ -8,16 +8,16 @@ const MODELS_CONFIG = path.join(__dirname, 'models.json');
 function updatePreference(mode) {
   const config = JSON.parse(fs.readFileSync(MODELS_CONFIG, 'utf-8'));
   const validModes = ['quality_priority', 'balanced', 'cost_saving'];
-  
+
   if (!validModes.includes(mode)) {
     console.error(`❌ Invalid mode. Valid options: ${validModes.join(', ')}`);
     process.exit(1);
   }
-  
+
   config.current_preference = mode;
   fs.writeFileSync(MODELS_CONFIG, JSON.stringify(config, null, 2));
   console.log(`✅ Model preference set to: ${mode}`);
-  
+
   const pref = config.user_preferences[mode];
   console.log(`   Description: ${pref.description}`);
   console.log(`   Default model: ${pref.default_model}`);

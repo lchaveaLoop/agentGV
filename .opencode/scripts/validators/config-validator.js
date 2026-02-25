@@ -2,9 +2,9 @@
 
 /**
  * AgentGV Configuration Validator
- * 
+ *
  * Validates configuration files against JSON Schema definitions.
- * 
+ *
  * Usage:
  *   node config-validator.js                    # Validate all configs
  *   node config-validator.js --schema models    # Validate models.json only
@@ -78,10 +78,8 @@ class Logger {
 // Load JSON file
 function loadJSON(filePath) {
   try {
-    const absolutePath = path.isAbsolute(filePath) 
-      ? filePath 
-      : path.join(CONFIG.baseDir, filePath);
-    
+    const absolutePath = path.isAbsolute(filePath) ? filePath : path.join(CONFIG.baseDir, filePath);
+
     if (!fs.existsSync(absolutePath)) {
       throw new Error(`File not found: ${absolutePath}`);
     }
@@ -102,17 +100,17 @@ function validateConfig(schemaName, schemaPath, configPath) {
 
   // Load schema
   const schema = loadJSON(schemaPath);
-  
+
   // Load configuration
   const config = loadJSON(configPath);
 
   // Create AJV instance
-  const ajv = new Ajv({ 
+  const ajv = new Ajv({
     allErrors: true,
     strict: false,
     messages: true
   });
-  
+
   // Add formats
   try {
     addFormats(ajv);
@@ -146,13 +144,13 @@ function validateConfig(schemaName, schemaPath, configPath) {
 // Format validation errors
 function formatErrors(errors, schemaName) {
   console.log(`\n${COLORS.red}Validation Errors for ${schemaName}:${COLORS.reset}`);
-  
+
   errors.forEach((error, index) => {
     console.log(`\n${COLORS.yellow}Error ${index + 1}:${COLORS.reset}`);
     console.log(`  Path: ${error.instancePath}`);
     console.log(`  Issue: ${error.message}`);
     console.log(`  Keyword: ${error.keyword}`);
-    
+
     // Provide helpful suggestions
     const suggestion = getSuggestion(error);
     if (suggestion) {
@@ -198,18 +196,18 @@ function validateAll() {
   // Validate each configuration
   for (const [name, schemaFile] of Object.entries(CONFIG.schemas)) {
     const configName = CONFIG.configs[name];
-    
+
     try {
       const valid = validateConfig(
         name,
-        schemaFile,  // Use relative path
-        configName   // Use relative path
+        schemaFile, // Use relative path
+        configName // Use relative path
       );
       results[name] = { valid: true };
     } catch (error) {
       allValid = false;
       results[name] = { valid: false, error: error.message };
-      
+
       if (error instanceof ValidationError) {
         formatErrors(error.errors, name);
       } else {
@@ -220,7 +218,7 @@ function validateAll() {
 
   // Summary
   Logger.header('Validation Summary');
-  
+
   for (const [name, result] of Object.entries(results)) {
     if (result.valid) {
       Logger.success(`${name}: Valid`);
@@ -230,7 +228,7 @@ function validateAll() {
   }
 
   console.log();
-  
+
   if (allValid) {
     Logger.success('All configurations are valid! ✅');
     return 0;
@@ -253,8 +251,8 @@ function validateSpecific(schemaName) {
   try {
     validateConfig(
       schemaName,
-      CONFIG.schemas[schemaName],  // Use relative path
-      CONFIG.configs[schemaName]   // Use relative path
+      CONFIG.schemas[schemaName], // Use relative path
+      CONFIG.configs[schemaName] // Use relative path
     );
     Logger.success(`${schemaName} configuration is valid! ✅`);
     return 0;

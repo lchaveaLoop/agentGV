@@ -3,7 +3,7 @@
 /**
  * AgentGV Auto Model Sync Hook
  * Automatically syncs Agent models with OpenCode's current model before each Router execution
- * 
+ *
  * Usage: This script is called by Router before processing tasks
  */
 
@@ -24,10 +24,7 @@ const AGENTS = [
 ];
 
 // Models that support vision
-const VISION_MODELS = [
-  'qwen3.5-plus',
-  'bailian-coding-plan/qwen3.5-plus'
-];
+const VISION_MODELS = ['qwen3.5-plus', 'bailian-coding-plan/qwen3.5-plus'];
 
 function loadState() {
   try {
@@ -61,30 +58,30 @@ function saveConfig(config) {
 
 function needsSync(currentModel) {
   const state = loadState();
-  
+
   // Force sync if never synced before
   if (!state.lastModel) {
     return { needs: true, reason: 'First time sync' };
   }
-  
+
   // Check if model changed
   if (state.lastModel !== currentModel) {
     return { needs: true, reason: 'Model changed', from: state.lastModel, to: currentModel };
   }
-  
+
   // Check if config was modified recently (within 5 seconds)
   try {
     const mtime = fs.statSync(CONFIG_PATH).mtime;
     const now = new Date();
     const diffMs = now - mtime;
-    
+
     if (diffMs < 5000) {
       return { needs: true, reason: 'Config recently modified' };
     }
   } catch (e) {
     // Ignore
   }
-  
+
   return { needs: false, reason: 'Already synced' };
 }
 
@@ -93,15 +90,15 @@ function syncAgents(targetModel) {
   if (!config) {
     return { success: false, error: 'Config not found' };
   }
-  
+
   let updated = 0;
   const updatedAgents = [];
-  
+
   AGENTS.forEach(agent => {
     if (!config[agent]) {
       config[agent] = {};
     }
-    
+
     // Only update if different
     if (config[agent].model !== targetModel) {
       config[agent].model = targetModel;
@@ -109,11 +106,11 @@ function syncAgents(targetModel) {
       updatedAgents.push(agent);
     }
   });
-  
+
   if (updated > 0) {
     saveConfig(config);
   }
-  
+
   return {
     success: true,
     updated,
@@ -124,7 +121,7 @@ function syncAgents(targetModel) {
 
 function autoSync(force = false) {
   const detection = detectCurrentModel();
-  
+
   if (!detection.detected) {
     return {
       synced: false,
@@ -132,10 +129,10 @@ function autoSync(force = false) {
       detection
     };
   }
-  
+
   const currentModel = detection.model;
   const syncCheck = needsSync(currentModel);
-  
+
   // Skip sync if not needed (unless forced)
   if (!force && !syncCheck.needs) {
     return {
@@ -145,10 +142,10 @@ function autoSync(force = false) {
       detection
     };
   }
-  
+
   // Perform sync
   const syncResult = syncAgents(currentModel);
-  
+
   if (syncResult.success) {
     // Update state
     saveState({
@@ -156,7 +153,7 @@ function autoSync(force = false) {
       lastSync: new Date().toISOString(),
       syncCount: (loadState().syncCount || 0) + 1
     });
-    
+
     return {
       synced: true,
       reason: syncCheck.reason,
@@ -165,7 +162,7 @@ function autoSync(force = false) {
       detection
     };
   }
-  
+
   return {
     synced: false,
     reason: syncResult.error,
@@ -197,15 +194,15 @@ if (require.main === module) {
   const force = args.includes('--force') || args.includes('-f');
   const json = args.includes('--json') || args.includes('-j');
   const quiet = args.includes('--quiet') || args.includes('-q');
-  
+
   const result = autoSync(force);
-  
+
   if (json) {
     console.log(JSON.stringify(result, null, 2));
   } else if (!quiet) {
     outputResult(result);
   }
-  
+
   process.exit(result.synced ? 0 : 1);
 }
 
