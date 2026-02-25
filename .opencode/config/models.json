@@ -1,0 +1,180 @@
+{
+  "version": "2.0.1",
+  "quality_mode": "priority",
+  "models": [
+    {
+      "id": "bailian-coding-plan/qwen3-max-2026-01-23",
+      "short_id": "qwen3-max-2026-01-23",
+      "name": "Qwen3 Max",
+      "status": "active",
+      "capabilities": ["deep_reasoning", "complex_analysis", "architecture"],
+      "cost_level": "high",
+      "best_for": ["architecture", "complex_planning", "complex_research"],
+      "priority_rank": 1
+    },
+    {
+      "id": "bailian-coding-plan/qwen3.5-plus",
+      "short_id": "qwen3.5-plus",
+      "name": "Qwen3.5 Plus",
+      "status": "active",
+      "capabilities": ["general", "reasoning", "analysis", "coding", "vision"],
+      "cost_level": "medium",
+      "best_for": ["research", "review", "coordination", "documentation", "vision_tasks"],
+      "priority_rank": 2,
+      "vision_capabilities": ["image_understanding", "ocr", "visual_coding", "document_parsing", "multi_image_analysis"]
+    },
+    {
+      "id": "bailian-coding-plan/qwen3-coder-plus",
+      "short_id": "qwen3-coder-plus",
+      "name": "Qwen3 Coder Plus",
+      "status": "active",
+      "capabilities": ["coding", "debugging", "implementation"],
+      "cost_level": "low",
+      "best_for": ["coding", "implementation", "bug_fix"],
+      "priority_rank": 3
+    },
+    {
+      "id": "bailian-coding-plan/qwen3-coder-next",
+      "short_id": "qwen3-coder-next",
+      "name": "Qwen3 Coder Next",
+      "status": "active",
+      "capabilities": ["fast_coding", "simple_tasks"],
+      "cost_level": "lowest",
+      "best_for": ["simple_coding", "quick_fixes", "simple_tasks"],
+      "priority_rank": 4
+    }
+  ],
+  "task_model_rules": [
+    {
+      "task_type": "architecture",
+      "keywords": ["架构", "设计", "系统", "技术方案", "规划", "蓝图"],
+      "default_model": "qwen3-max-2026-01-23",
+      "temperature": 0.2,
+      "priority": 1
+    },
+    {
+      "task_type": "vision",
+      "keywords": ["图片", "图像", "视觉", "截图", "照片", " diagram", "chart", "graph"],
+      "default_model": "qwen3.5-plus",
+      "temperature": 0.2,
+      "priority": 2,
+      "vision_enabled": true
+    },
+    {
+      "task_type": "ocr",
+      "keywords": ["文字识别", "提取文字", "截图文字", "图片文字", "票据", "证件"],
+      "default_model": "qwen3.5-plus",
+      "temperature": 0.1,
+      "priority": 2,
+      "vision_enabled": true
+    },
+    {
+      "task_type": "visual_coding",
+      "keywords": ["根据图片生成代码", "截图转代码", "设计图转网页", "UI 转代码"],
+      "default_model": "qwen3.5-plus",
+      "temperature": 0.3,
+      "priority": 2,
+      "vision_enabled": true
+    },
+    {
+      "task_type": "research",
+      "keywords": ["调研", "研究", "分析", "市场", "竞品", "情报"],
+      "default_model": "qwen3.5-plus",
+      "temperature": 0.2,
+      "priority": 2
+    },
+    {
+      "task_type": "complex_research",
+      "keywords": ["深度分析", "复杂调研", "全面研究"],
+      "default_model": "qwen3-max-2026-01-23",
+      "temperature": 0.2,
+      "priority": 1
+    },
+    {
+      "task_type": "coding",
+      "keywords": ["开发", "实现", "编码", "功能", "构建", "创建"],
+      "default_model": "qwen3-coder-plus",
+      "temperature": 0.3,
+      "priority": 3
+    },
+    {
+      "task_type": "complex_coding",
+      "keywords": ["复杂功能", "核心模块", "关键代码", "从零开发"],
+      "default_model": "qwen3.5-plus",
+      "temperature": 0.3,
+      "priority": 2
+    },
+    {
+      "task_type": "review",
+      "keywords": ["测试", "审查", "检查", "质量", "审核", "验证", "bug"],
+      "default_model": "qwen3.5-plus",
+      "temperature": 0.1,
+      "priority": 2
+    },
+    {
+      "task_type": "documentation",
+      "keywords": ["文档", "报告", "说明", "写作", "记录"],
+      "default_model": "qwen3.5-plus",
+      "temperature": 0.4,
+      "priority": 2
+    },
+    {
+      "task_type": "coordination",
+      "keywords": ["协调", "管理", "统筹", "多部门", "项目"],
+      "default_model": "qwen3.5-plus",
+      "temperature": 0.3,
+      "priority": 2
+    },
+    {
+      "task_type": "simple",
+      "keywords": ["简单", "快速", "小", "修改", "调整"],
+      "default_model": "qwen3-coder-next",
+      "temperature": 0.3,
+      "priority": 4
+    }
+  ],
+  "complexity_rules": {
+    "high": {
+      "indicators": ["复杂", "大型", "完整", "从零开始", "核心", "关键", "全面", "深度"],
+      "upgrade_to": "qwen3-max-2026-01-23",
+      "override_low_models": true
+    },
+    "medium": {
+      "indicators": ["标准", "正常", "一般"],
+      "use_default": true
+    },
+    "low": {
+      "indicators": ["简单", "快速", "小", "修改", "微调"],
+      "allow_downgrade": true,
+      "downgrade_to": "qwen3-coder-next"
+    }
+  },
+  "user_preferences": {
+    "quality_priority": {
+      "description": "质量优先模式 - 复杂任务使用最强模型",
+      "default_model": "qwen3.5-plus",
+      "complex_upgrade": "qwen3-max-2026-01-23",
+      "allow_downgrade": false,
+      "override_complexity_rules": true
+    },
+    "balanced": {
+      "description": "平衡模式 - 根据任务类型自动选择",
+      "default_model": "qwen3.5-plus",
+      "complex_upgrade": "qwen3-max-2026-01-23",
+      "allow_downgrade": true,
+      "override_complexity_rules": false
+    },
+    "cost_saving": {
+      "description": "成本优先模式 - 优先使用经济模型",
+      "default_model": "qwen3-coder-plus",
+      "complex_upgrade": "qwen3.5-plus",
+      "allow_downgrade": true,
+      "override_complexity_rules": false
+    }
+  },
+  "agent_model_mapping": {
+    "agentgv-planning": {"default": "qwen3-max-2026-01-23", "complex": "qwen3-max-2026-01-23", "simple": "qwen3.5-plus", "temperature": 0.2},
+    "agentgv-operations": {"default": "qwen3-coder-plus", "complex": "qwen3.5-plus", "simple": "qwen3-coder-next", "temperature": 0.3},
+    "agentgv-quality": {"default": "qwen3.5-plus", "complex": "qwen3-max-2026-01-23", "simple": "qwen3-coder-plus", "temperature": 0.1}
+  }
+}

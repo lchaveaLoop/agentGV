@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentgv.dev/schemas/config.schema.json",
+  "title": "AgentGV Commands Configuration Schema",
+  "description": "Schema for validating AgentGV commands configuration file",
+  "type": "object",
+  "required": ["commands"],
+  "additionalProperties": false,
+  "properties": {
+    "commands": {
+      "type": "object",
+      "description": "Available commands configuration",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["description", "usage", "action"],
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Command description",
+            "minLength": 1
+          },
+          "usage": {
+            "type": "string",
+            "description": "Usage instructions",
+            "minLength": 1
+          },
+          "action": {
+            "type": "string",
+            "description": "Action to perform",
+            "enum": ["update_config", "read_config", "execute_script", "display_info"]
+          },
+          "config_path": {
+            "type": "string",
+            "description": "Path to configuration file (optional)",
+            "minLength": 1
+          },
+          "section": {
+            "type": "string",
+            "description": "Section within config file to read (optional)",
+            "minLength": 1
+          },
+          "options": {
+            "type": "object",
+            "description": "Command-specific options",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "message": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

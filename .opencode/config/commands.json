@@ -1,0 +1,31 @@
+{
+  "commands": {
+    "preference": {
+      "description": "Set model preference mode",
+      "usage": "/preference [quality|balanced|cost]",
+      "action": "update_config",
+      "config_path": ".opencode/models.json",
+      "options": {
+        "quality": {
+          "mode": "quality_priority",
+          "message": "✅ Quality priority mode enabled - Complex tasks will use qwen3-max"
+        },
+        "balanced": {
+          "mode": "balanced",
+          "message": "✅ Balanced mode enabled - Auto-select based on task type"
+        },
+        "cost": {
+          "mode": "cost_saving",
+          "message": "✅ Cost saving mode enabled - Prefer economical models"
+        }
+      }
+    },
+    "models": {
+      "description": "List available models",
+      "usage": "/models",
+      "action": "read_config",
+      "config_path": ".opencode/models.json",
+      "section": "models"
+    }
+  }
+}

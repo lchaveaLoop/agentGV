@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentgv.dev/schemas/skills.schema.json",
+  "title": "AgentGV Skills Configuration Schema",
+  "description": "Schema for validating AgentGV skill configuration file",
+  "type": "object",
+  "required": ["version", "skill_categories"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Configuration file version",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the skill system"
+    },
+    "skill_categories": {
+      "type": "object",
+      "description": "Skill categories and their skills",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name", "skills"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Human-readable category name",
+            "minLength": 1
+          },
+          "skills": {
+            "type": "array",
+            "description": "List of skills in this category",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["id", "name", "keywords", "model", "temperature", "system_prompt"],
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Unique skill identifier",
+                  "minLength": 1,
+                  "pattern": "^[a-z][a-z0-9_-]*$"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Human-readable skill name",
+                  "minLength": 1
+                },
+                "keywords": {
+                  "type": "array",
+                  "description": "Keywords for skill matching",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 1
+                },
+                "model": {
+                  "type": "string",
+                  "description": "Default model for this skill",
+                  "minLength": 1
+                },
+                "temperature": {
+                  "type": "number",
+                  "description": "Default temperature for this skill",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "system_prompt": {
+                  "type": "string",
+                  "description": "System prompt for this skill",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "template_departments": {
+      "type": "object",
+      "description": "Department template configurations",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["base_prompt", "applicable_skills", "output_format"],
+        "additionalProperties": false,
+        "properties": {
+          "base_prompt": {
+            "type": "string",
+            "description": "Base system prompt template",
+            "minLength": 1
+          },
+          "applicable_skills": {
+            "type": "array",
+            "description": "Skills applicable to this department",
+            "items": {
+              "type": "string"
+            }
+          },
+          "output_format": {
+            "type": "string",
+            "description": "Expected output format description",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

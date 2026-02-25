@@ -1,0 +1,245 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentgv.dev/schemas/models.schema.json",
+  "title": "AgentGV Models Configuration Schema",
+  "description": "Schema for validating AgentGV model configuration file",
+  "type": "object",
+  "required": ["version", "models"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Configuration file version",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "quality_mode": {
+      "type": "string",
+      "description": "Quality mode setting",
+      "enum": ["priority", "balanced", "economy"]
+    },
+    "models": {
+      "type": "array",
+      "description": "List of available models",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "short_id", "name", "status", "capabilities", "cost_level", "best_for", "priority_rank"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Full model identifier",
+            "minLength": 1
+          },
+          "short_id": {
+            "type": "string",
+            "description": "Short model identifier",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable model name",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "description": "Model status",
+            "enum": ["active", "deprecated", "inactive"]
+          },
+          "capabilities": {
+            "type": "array",
+            "description": "List of model capabilities",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "cost_level": {
+            "type": "string",
+            "description": "Cost level of the model",
+            "enum": ["high", "medium", "low", "lowest"]
+          },
+          "best_for": {
+            "type": "array",
+            "description": "Task types this model is best suited for",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "priority_rank": {
+            "type": "integer",
+            "description": "Priority rank (1 = highest)",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "vision_capabilities": {
+            "type": "array",
+            "description": "Vision-specific capabilities (optional)",
+            "items": {
+              "type": "string",
+              "enum": [
+                "image_understanding",
+                "ocr",
+                "visual_coding",
+                "document_parsing",
+                "multi_image_analysis"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "task_model_rules": {
+      "type": "array",
+      "description": "Rules for model selection based on task type",
+      "items": {
+        "type": "object",
+        "required": ["task_type", "keywords", "default_model", "temperature", "priority"],
+        "additionalProperties": false,
+        "properties": {
+          "task_type": {
+            "type": "string",
+            "description": "Type of task",
+            "minLength": 1
+          },
+          "keywords": {
+            "type": "array",
+            "description": "Keywords associated with this task type",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "default_model": {
+            "type": "string",
+            "description": "Default model short_id for this task type",
+            "minLength": 1
+          },
+          "temperature": {
+            "type": "number",
+            "description": "Default temperature for this task type",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "priority": {
+            "type": "integer",
+            "description": "Priority of this rule (1 = highest)",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "vision_enabled": {
+            "type": "boolean",
+            "description": "Whether vision capabilities are enabled for this task type"
+          }
+        }
+      }
+    },
+    "complexity_rules": {
+      "type": "object",
+      "description": "Rules for complexity-based model selection",
+      "additionalProperties": false,
+      "properties": {
+        "high": {
+          "type": "object",
+          "required": ["indicators", "upgrade_to"],
+          "properties": {
+            "indicators": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "upgrade_to": {
+              "type": "string"
+            },
+            "override_low_models": {
+              "type": "boolean"
+            }
+          }
+        },
+        "medium": {
+          "type": "object",
+          "required": ["indicators"],
+          "properties": {
+            "indicators": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "use_default": {
+              "type": "boolean"
+            }
+          }
+        },
+        "low": {
+          "type": "object",
+          "required": ["indicators"],
+          "properties": {
+            "indicators": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "allow_downgrade": {
+              "type": "boolean"
+            },
+            "downgrade_to": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "user_preferences": {
+      "type": "object",
+      "description": "User preference modes for model selection",
+      "additionalProperties": false,
+      "properties": {
+        "quality_priority": {
+          "type": "object",
+          "required": ["description", "default_model", "complex_upgrade"],
+          "properties": {
+            "description": { "type": "string" },
+            "default_model": { "type": "string" },
+            "complex_upgrade": { "type": "string" },
+            "allow_downgrade": { "type": "boolean" },
+            "override_complexity_rules": { "type": "boolean" }
+          }
+        },
+        "balanced": {
+          "type": "object",
+          "required": ["description", "default_model", "complex_upgrade"],
+          "properties": {
+            "description": { "type": "string" },
+            "default_model": { "type": "string" },
+            "complex_upgrade": { "type": "string" },
+            "allow_downgrade": { "type": "boolean" },
+            "override_complexity_rules": { "type": "boolean" }
+          }
+        },
+        "cost_saving": {
+          "type": "object",
+          "required": ["description", "default_model", "complex_upgrade"],
+          "properties": {
+            "description": { "type": "string" },
+            "default_model": { "type": "string" },
+            "complex_upgrade": { "type": "string" },
+            "allow_downgrade": { "type": "boolean" },
+            "override_complexity_rules": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "agent_model_mapping": {
+      "type": "object",
+      "description": "Default model mapping for each agent",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["default", "temperature"],
+        "properties": {
+          "default": { "type": "string" },
+          "complex": { "type": "string" },
+          "simple": { "type": "string" },
+          "temperature": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    }
+  }
+}
