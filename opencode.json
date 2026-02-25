@@ -2,12 +2,15 @@
   "$schema": "https://opencode.ai/config.json",
   "agent": {
     "agentgv-router": {
-      "description": "Intelligent task router with project coordination capabilities (absorbed Administration)",
+      "description": "Intelligent task router with project coordination - MUST delegate to sub-agents, never execute tasks yourself",
       "mode": "primary",
       "model": "bailian-coding-plan/qwen3.5-plus",
       "temperature": 0.3,
       "tools": {
         "task": true,
+        "read": true,
+        "glob": true,
+        "grep": true,
         "write": true,
         "edit": true,
         "bash": true
