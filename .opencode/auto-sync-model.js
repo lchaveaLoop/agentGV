@@ -20,13 +20,13 @@ const AGENTS = [
   'agentgv-operations',
   'agentgv-quality',
   'agentgv-communications',
-  'agentgv-administration',
+  'agentgv-administration'
 ];
 
 // Models that support vision
 const VISION_MODELS = [
   'qwen3.5-plus',
-  'bailian-coding-plan/qwen3.5-plus',
+  'bailian-coding-plan/qwen3.5-plus'
 ];
 
 function loadState() {

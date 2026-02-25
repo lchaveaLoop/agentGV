@@ -24,7 +24,7 @@ const STATUS = {
   OK: '[+]',
   WARNING: '[!]',
   ERROR: '[-]',
-  INFO: '[i]',
+  INFO: '[i]'
 };
 
 /**
@@ -65,18 +65,18 @@ function checkAgentConfig() {
     router: opencodeConfig?.agent?.['agentgv-router'],
     planning: opencodeConfig?.agent?.['agentgv-planning'],
     operations: opencodeConfig?.agent?.['agentgv-operations'],
-    quality: opencodeConfig?.agent?.['agentgv-quality'],
+    quality: opencodeConfig?.agent?.['agentgv-quality']
   };
   
   const status = {
     config_files: {
       opencode_json: opencodeConfig ? STATUS.OK : STATUS.ERROR,
       models_json: modelsConfig ? STATUS.OK : STATUS.ERROR,
-      skills_json: skillsConfig ? STATUS.OK : STATUS.ERROR,
+      skills_json: skillsConfig ? STATUS.OK : STATUS.ERROR
     },
     agents: {},
     total_agents: 0,
-    active_agents: 0,
+    active_agents: 0
   };
   
   for (const [name, agent] of Object.entries(agents)) {
@@ -85,7 +85,7 @@ function checkAgentConfig() {
         status: STATUS.OK,
         model: agent.model || 'not configured',
         mode: agent.mode || 'unknown',
-        temperature: agent.temperature,
+        temperature: agent.temperature
       };
       status.total_agents++;
       if (agent.mode === 'primary' || agent.mode === 'subagent') {
@@ -94,7 +94,7 @@ function checkAgentConfig() {
     } else {
       status.agents[name] = {
         status: STATUS.ERROR,
-        error: 'Not configured',
+        error: 'Not configured'
       };
     }
   }
@@ -111,7 +111,7 @@ function checkModelConfig() {
   if (!modelsConfig || modelsConfig.error) {
     return {
       status: STATUS.ERROR,
-      error: 'models.json not found or invalid',
+      error: 'models.json not found or invalid'
     };
   }
   
@@ -129,8 +129,8 @@ function checkModelConfig() {
       id: m.short_id || m.id,
       name: m.name,
       status: m.status,
-      capabilities: m.capabilities || [],
-    })),
+      capabilities: m.capabilities || []
+    }))
   };
 }
 
@@ -143,7 +143,7 @@ function checkSkillSystem() {
   if (!skillsConfig || skillsConfig.error) {
     return {
       status: STATUS.ERROR,
-      error: 'skills.json not found or invalid',
+      error: 'skills.json not found or invalid'
     };
   }
   
@@ -161,9 +161,9 @@ function checkSkillSystem() {
     skills_by_category: Object.fromEntries(
       Object.entries(categories).map(([name, cat]) => [
         name,
-        cat.skills?.length || 0,
+        cat.skills?.length || 0
       ])
-    ),
+    )
   };
 }
 
@@ -179,7 +179,7 @@ function checkEnvironment() {
     'skill-matcher.js': fileExists(path.join(CONFIG_DIR, 'skill-matcher.js')),
     'detect-model.js': fileExists(path.join(CONFIG_DIR, 'detect-model.js')),
     'auto-sync-model.js': fileExists(path.join(CONFIG_DIR, 'auto-sync-model.js')),
-    'preference.js': fileExists(path.join(CONFIG_DIR, 'preference.js')),
+    'preference.js': fileExists(path.join(CONFIG_DIR, 'preference.js'))
   };
   
   const allScriptsPresent = Object.values(scripts).every(Boolean);
@@ -188,7 +188,7 @@ function checkEnvironment() {
     status: allScriptsPresent ? STATUS.OK : STATUS.WARNING,
     node_version: nodeVersion,
     has_package_json: !!pkgJson,
-    scripts,
+    scripts
   };
 }
 
@@ -209,12 +209,12 @@ function generateStatusReport() {
       agents: agentStatus,
       models: modelStatus,
       skills: skillStatus,
-      environment: envStatus,
+      environment: envStatus
     },
     summary: {
       overall_health: calculateOverallHealth(agentStatus, modelStatus, skillStatus, envStatus),
-      recommendations: generateRecommendations(agentStatus, modelStatus, skillStatus, envStatus),
-    },
+      recommendations: generateRecommendations(agentStatus, modelStatus, skillStatus, envStatus)
+    }
   };
 }
 
@@ -259,7 +259,7 @@ function generateRecommendations(agents, models, skills, env) {
     recommendations.push({
       priority: 'HIGH',
       category: 'Configuration',
-      message: 'Verify all agent configurations in opencode.json',
+      message: 'Verify all agent configurations in opencode.json'
     });
   }
   
@@ -267,7 +267,7 @@ function generateRecommendations(agents, models, skills, env) {
     recommendations.push({
       priority: 'HIGH',
       category: 'Configuration',
-      message: 'Ensure models.json exists and is valid JSON',
+      message: 'Ensure models.json exists and is valid JSON'
     });
   }
   
@@ -275,7 +275,7 @@ function generateRecommendations(agents, models, skills, env) {
     recommendations.push({
       priority: 'MEDIUM',
       category: 'Skills',
-      message: 'Consider adding more skill templates for better task matching',
+      message: 'Consider adding more skill templates for better task matching'
     });
   }
   
@@ -283,7 +283,7 @@ function generateRecommendations(agents, models, skills, env) {
     recommendations.push({
       priority: 'HIGH',
       category: 'Dependencies',
-      message: 'skill-matcher.js is required for task routing',
+      message: 'skill-matcher.js is required for task routing'
     });
   }
   
@@ -362,5 +362,5 @@ module.exports = {
   checkAgentConfig,
   checkModelConfig,
   checkSkillSystem,
-  checkEnvironment,
+  checkEnvironment
 };

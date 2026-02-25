@@ -18,7 +18,7 @@ const MODELS = {
   '3': { id: 'bailian-coding-plan/qwen3-coder-plus', name: 'Qwen3 Coder Plus (代码优化)' },
   '4': { id: 'bailian-coding-plan/qwen3-coder-next', name: 'Qwen3 Coder Next (快速)' },
   '5': { id: 'minimax/m2.5', name: 'MiniMax M2.5' },
-  '6': { id: 'opencode/glm-5-free', name: 'GLM-5 Free (免费)' },
+  '6': { id: 'opencode/glm-5-free', name: 'GLM-5 Free (免费)' }
 };
 
 const AGENTS = [
@@ -27,7 +27,7 @@ const AGENTS = [
   'agentgv-operations',
   'agentgv-quality',
   'agentgv-communications',
-  'agentgv-administration',
+  'agentgv-administration'
 ];
 
 function loadConfig() {
@@ -95,7 +95,7 @@ function showMenu() {
 async function interactiveMode() {
   const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout,
+    output: process.stdout
   });
   
   const question = (prompt) => new Promise(resolve => rl.question(prompt, resolve));

@@ -18,5 +18,5 @@ async function detect() {
   }
 }
 
-if (require.main === module) detect();
+if (require.main === module) {detect();}
 module.exports = { detect };

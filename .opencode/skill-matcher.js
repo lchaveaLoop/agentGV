@@ -112,12 +112,12 @@ function getBestSkill(taskDescription) {
 
 function getTaskType(description) {
   const desc = description.toLowerCase();
-  if (desc.includes('架构') || desc.includes('设计') || desc.includes('system')) return 'architecture';
-  if (desc.includes('调研') || desc.includes('研究') || desc.includes('分析')) return 'research';
-  if (desc.includes('开发') || desc.includes('实现') || desc.includes('编码')) return 'coding';
-  if (desc.includes('测试') || desc.includes('审查') || desc.includes('质量')) return 'review';
-  if (desc.includes('文档') || desc.includes('报告') || desc.includes('写作')) return 'documentation';
-  if (desc.includes('协调') || desc.includes('管理') || desc.includes('项目')) return 'coordination';
+  if (desc.includes('架构') || desc.includes('设计') || desc.includes('system')) {return 'architecture';}
+  if (desc.includes('调研') || desc.includes('研究') || desc.includes('分析')) {return 'research';}
+  if (desc.includes('开发') || desc.includes('实现') || desc.includes('编码')) {return 'coding';}
+  if (desc.includes('测试') || desc.includes('审查') || desc.includes('质量')) {return 'review';}
+  if (desc.includes('文档') || desc.includes('报告') || desc.includes('写作')) {return 'documentation';}
+  if (desc.includes('协调') || desc.includes('管理') || desc.includes('项目')) {return 'coordination';}
   return 'other';
 }
 

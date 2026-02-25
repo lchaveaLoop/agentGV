@@ -15,7 +15,7 @@ const MODELS = {
   '2': { id: 'bailian-coding-plan/qwen3-max-2026-01-23', name: 'Qwen3 Max (最强，复杂任务)' },
   '3': { id: 'bailian-coding-plan/qwen3-coder-plus', name: 'Qwen3 Coder Plus (代码优化)' },
   '4': { id: 'bailian-coding-plan/qwen3-coder-next', name: 'Qwen3 Coder Next (快速)' },
-  '5': { id: 'minimax/MiniMax-M2.5', name: 'MiniMax M2.5 (当前)' },
+  '5': { id: 'minimax/MiniMax-M2.5', name: 'MiniMax M2.5 (当前)' }
 };
 
 function loadConfig() {
@@ -80,7 +80,7 @@ function showMenu() {
 const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout,
+  output: process.stdout
 });
 
 const question = (prompt) => new Promise(resolve => rl.question(prompt, resolve));

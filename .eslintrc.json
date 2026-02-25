@@ -1,0 +1,75 @@
+{
+  "env": {
+    "node": true,
+    "es2022": true,
+    "jest": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-unused-vars": ["warn", { 
+      "argsIgnorePattern": "^_",
+      "varsIgnorePattern": "^_"
+    }],
+    "no-console": "off",
+    "indent": ["error", 2, {
+      "SwitchCase": 1,
+      "ignoredNodes": ["PropertyDefinition"]
+    }],
+    "linebreak-style": "off",
+    "quotes": ["error", "single", {
+      "avoidEscape": true,
+      "allowTemplateLiterals": true
+    }],
+    "semi": ["error", "always"],
+    "comma-dangle": ["error", "never"],
+    "no-var": "error",
+    "prefer-const": "error",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-new-func": "error",
+    "no-return-await": "error",
+    "require-await": "warn",
+    "no-constant-condition": ["error", { "checkLoops": false }],
+    "eqeqeq": ["error", "always"],
+    "curly": ["error", "all"],
+    "dot-notation": "error",
+    "no-undef": "error",
+    "no-use-before-define": ["error", {
+      "functions": false,
+      "classes": true
+    }],
+    "no-shadow": "error",
+    "no-throw-literal": "error",
+    "prefer-promise-reject-errors": "error"
+  },
+  "globals": {
+    "__dirname": "readonly",
+    "__filename": "readonly",
+    "module": "readonly",
+    "require": "readonly",
+    "exports": "readonly",
+    "Buffer": "readonly",
+    "process": "readonly"
+  },
+  "ignorePatterns": [
+    "node_modules/",
+    "coverage/",
+    "dist/",
+    "build/",
+    "detect-model.js"
+  ],
+  "overrides": [
+    {
+      "files": ["*.test.js", "tests/**/*.js"],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
+}

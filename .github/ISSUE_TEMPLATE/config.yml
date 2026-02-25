@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/agentgv/agentgv#readme
+    about: Check our documentation for answers first
+  - name: 💬 Discussions
+    url: https://github.com/agentgv/agentgv/discussions
+    about: Ask questions and discuss with other community members
+  - name: 🔒 Security Issues
+    url: mailto:security@agentgv.dev
+    about: Please report security vulnerabilities via email

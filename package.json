@@ -1,0 +1,41 @@
+{
+  "name": "agentgv",
+  "version": "4.3.1",
+  "description": "AgentGV - Professional Multi-Agent Collaboration System",
+  "main": ".opencode/status.js",
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "lint": "eslint .opencode/**/*.js",
+    "lint:fix": "eslint .opencode/**/*.js --fix",
+    "format": "prettier --write .opencode/**/*.js",
+    "format:check": "prettier --check .opencode/**/*.js",
+    "validate": "node .opencode/scripts/validators/config-validator.js",
+    "status": "node .opencode/status.js",
+    "skill-match": "node .opencode/skill-matcher.js",
+    "prepare": "husky"
+  },
+  "keywords": [
+    "agent",
+    "ai",
+    "multi-agent",
+    "automation",
+    "collaboration"
+  ],
+  "author": "AgentGV Team",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2"
+  },
+  "dependencies": {
+    "ajv-formats": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

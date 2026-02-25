@@ -21,7 +21,7 @@ const SCRIPTS_DIR = path.join(__dirname);
 const STATUS = {
   PASS: '[+]',
   FAIL: '[-]',
-  SKIP: '[!]',
+  SKIP: '[!]'
 };
 
 /**
@@ -31,7 +31,7 @@ function runScript(scriptPath, args = '') {
   try {
     const output = execSync(`node "${scriptPath}" ${args}`, {
       encoding: 'utf-8',
-      timeout: 10000,
+      timeout: 10000
     });
     return { success: true, output, error: null };
   } catch (error) {
@@ -39,7 +39,7 @@ function runScript(scriptPath, args = '') {
       success: false,
       output: error.stdout || '',
       error: error.message,
-      exitCode: error.status,
+      exitCode: error.status
     };
   }
 }
@@ -60,7 +60,7 @@ function testStatusScript(verbose = false) {
       { name: 'Agent status', pattern: /AGENTS/ },
       { name: 'Model status', pattern: /MODELS/ },
       { name: 'Skill status', pattern: /SKILLS/ },
-      { name: 'Overall health', pattern: /OVERALL HEALTH/ },
+      { name: 'Overall health', pattern: /OVERALL HEALTH/ }
     ];
     
     for (const check of checks) {
@@ -68,14 +68,14 @@ function testStatusScript(verbose = false) {
         console.log(`   ${STATUS.PASS} ${check.name} section present`);
       } else {
         console.log(`   ${STATUS.FAIL} ${check.name} section missing`);
-        if (verbose) console.log(`      Output: ${result.output.slice(0, 200)}`);
+        if (verbose) {console.log(`      Output: ${result.output.slice(0, 200)}`);}
       }
     }
     
     return true;
   } else {
     console.log(`   ${STATUS.FAIL} Status script failed: ${result.error}`);
-    if (verbose) console.log(`   Output: ${result.output}`);
+    if (verbose) {console.log(`   Output: ${result.output}`);}
     return false;
   }
 }
@@ -90,7 +90,7 @@ function testSkillMatcher(verbose = false) {
     { input: '写一篇科幻小说', expected: 'fiction', description: 'Fiction writing' },
     { input: '用 Python 开发程序', expected: 'python', description: 'Python development' },
     { input: '调研 AI 市场', expected: 'market', description: 'Market research' },
-    { input: '设计 PCB 电路板', expected: 'pcb', description: 'PCB design' },
+    { input: '设计 PCB 电路板', expected: 'pcb', description: 'PCB design' }
   ];
   
   let passed = 0;
@@ -147,7 +147,7 @@ function testConfigFiles(verbose = false) {
   const configFiles = [
     { path: path.join(SCRIPTS_DIR, 'models.json'), name: 'models.json' },
     { path: path.join(SCRIPTS_DIR, 'skills.json'), name: 'skills.json' },
-    { path: path.join(__dirname, '..', 'opencode.json'), name: 'opencode.json' },
+    { path: path.join(__dirname, '..', 'opencode.json'), name: 'opencode.json' }
   ];
   
   let allValid = true;
@@ -166,7 +166,7 @@ function testConfigFiles(verbose = false) {
     } catch (error) {
       console.log(`   ${STATUS.FAIL} ${config.name}: invalid JSON - ${error.message}`);
       allValid = false;
-      if (verbose) console.log(`      Error: ${error.message}`);
+      if (verbose) {console.log(`      Error: ${error.message}`);}
     }
   }
   
@@ -186,7 +186,7 @@ function testRequiredScripts(verbose = false) {
     'skill-matcher.js',
     'detect-model.js',
     'auto-sync-model.js',
-    'preference.js',
+    'preference.js'
   ];
   
   let allPresent = true;
@@ -218,7 +218,7 @@ function runAllTests(verbose = false) {
     statusScript: testStatusScript(verbose),
     skillMatcher: testSkillMatcher(verbose),
     configFiles: testConfigFiles(verbose),
-    requiredScripts: testRequiredScripts(verbose),
+    requiredScripts: testRequiredScripts(verbose)
   };
   
   console.log('\n============================================================');

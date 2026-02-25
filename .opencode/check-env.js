@@ -43,7 +43,7 @@ function getOSInfo() {
     try {
       const osRelease = fs.readFileSync('/etc/os-release', 'utf-8');
       const match = osRelease.match(/^PRETTY_NAME="(.+)"$/m);
-      if (match) osName = match[1];
+      if (match) {osName = match[1];}
     } catch {
       osName = `Linux ${release}`;
     }
