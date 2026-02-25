@@ -26,6 +26,17 @@ const AGENTS = [
 // Models that support vision
 const VISION_MODELS = ['qwen3.5-plus', 'bailian-coding-plan/qwen3.5-plus'];
 
+// Models that DO NOT support vision (important for MiniMax)
+const NON_VISION_MODELS = [
+  'minimax/m2.5',
+  'minimax/m1',
+  'minimax/MiniMax-M2.5',
+  'minimax/MiniMax-M1'
+];
+
+// MiniMax models
+const MINIMAX_MODELS = ['minimax/m2.5', 'minimax/m1', 'minimax/MiniMax-M2.5', 'minimax/MiniMax-M1'];
+
 function loadState() {
   try {
     if (fs.existsSync(SYNC_STATE_PATH)) {
@@ -83,6 +94,40 @@ function needsSync(currentModel) {
   }
 
   return { needs: false, reason: 'Already synced' };
+}
+
+/**
+ * Check if current model supports vision
+ * @param {string} model - Model identifier
+ * @returns {boolean} - True if model supports vision
+ */
+function supportsVision(model) {
+  if (!model) return false;
+
+  // Check if it's a MiniMax model (no vision support)
+  const isMiniMax = MINIMAX_MODELS.some(m => model.includes(m));
+  if (isMiniMax) {
+    return false;
+  }
+
+  // Check if it's in vision models list
+  return VISION_MODELS.some(m => model.includes(m));
+}
+
+/**
+ * Get model provider from model identifier
+ * @param {string} model - Model identifier
+ * @returns {string} - Provider name
+ */
+function getModelProvider(model) {
+  if (!model) return 'unknown';
+
+  if (model.includes('minimax')) return 'minimax';
+  if (model.includes('bailian') || model.includes('qwen')) return 'bailian';
+  if (model.includes('openai')) return 'openai';
+  if (model.includes('anthropic')) return 'anthropic';
+
+  return 'unknown';
 }
 
 function syncAgents(targetModel) {
@@ -174,16 +219,30 @@ function autoSync(force = false) {
 // Output for Router consumption
 function outputResult(result) {
   if (result.synced) {
+    const provider = getModelProvider(result.currentModel);
+    const hasVision = supportsVision(result.currentModel);
+
     console.log(`🔄 Auto-sync: ${result.currentModel}`);
     console.log(`   Reason: ${result.reason}`);
+    console.log(`   Provider: ${provider}`);
+    console.log(`   Vision: ${hasVision ? '✅ Supported' : '❌ Not supported'}`);
     console.log(`   Updated: ${result.syncResult.updated} agents`);
     if (result.syncResult.updatedAgents.length > 0) {
       console.log(`   Agents: ${result.syncResult.updatedAgents.join(', ')}`);
     }
+
+    // Warn if MiniMax model is used for vision tasks
+    if (provider === 'minimax' && !hasVision) {
+      console.log(`   ⚠️  Note: MiniMax models do not support vision tasks`);
+    }
   } else {
     console.log(`⏭️  Skip sync: ${result.reason}`);
     if (result.currentModel) {
+      const provider = getModelProvider(result.currentModel);
+      const hasVision = supportsVision(result.currentModel);
       console.log(`   Current: ${result.currentModel}`);
+      console.log(`   Provider: ${provider}`);
+      console.log(`   Vision: ${hasVision ? '✅ Supported' : '❌ Not supported'}`);
     }
   }
 }

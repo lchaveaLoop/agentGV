@@ -23,7 +23,16 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["id", "short_id", "name", "status", "capabilities", "cost_level", "best_for", "priority_rank"],
+        "required": [
+          "id",
+          "short_id",
+          "name",
+          "status",
+          "capabilities",
+          "cost_level",
+          "best_for",
+          "priority_rank"
+        ],
         "additionalProperties": false,
         "properties": {
           "id": {
@@ -86,6 +95,11 @@
                 "multi_image_analysis"
               ]
             }
+          },
+          "provider": {
+            "type": "string",
+            "description": "Model provider (optional)",
+            "enum": ["bailian", "minimax", "openai", "anthropic"]
           }
         }
       }
@@ -215,6 +229,17 @@
           }
         },
         "cost_saving": {
+          "type": "object",
+          "required": ["description", "default_model", "complex_upgrade"],
+          "properties": {
+            "description": { "type": "string" },
+            "default_model": { "type": "string" },
+            "complex_upgrade": { "type": "string" },
+            "allow_downgrade": { "type": "boolean" },
+            "override_complexity_rules": { "type": "boolean" }
+          }
+        },
+        "minimax_optimized": {
           "type": "object",
           "required": ["description", "default_model", "complex_upgrade"],
           "properties": {

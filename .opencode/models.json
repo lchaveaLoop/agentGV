@@ -21,7 +21,13 @@
       "cost_level": "medium",
       "best_for": ["research", "review", "coordination", "documentation", "vision_tasks"],
       "priority_rank": 2,
-      "vision_capabilities": ["image_understanding", "ocr", "visual_coding", "document_parsing", "multi_image_analysis"]
+      "vision_capabilities": [
+        "image_understanding",
+        "ocr",
+        "visual_coding",
+        "document_parsing",
+        "multi_image_analysis"
+      ]
     },
     {
       "id": "bailian-coding-plan/qwen3-coder-plus",
@@ -42,6 +48,28 @@
       "cost_level": "lowest",
       "best_for": ["simple_coding", "quick_fixes", "simple_tasks"],
       "priority_rank": 4
+    },
+    {
+      "id": "minimax/MiniMax-M1",
+      "short_id": "minimax/m1",
+      "name": "MiniMax M1",
+      "status": "active",
+      "capabilities": ["general", "reasoning", "coding"],
+      "cost_level": "medium",
+      "best_for": ["research", "coding", "documentation"],
+      "priority_rank": 5,
+      "provider": "minimax"
+    },
+    {
+      "id": "minimax/MiniMax-M2.5",
+      "short_id": "minimax/m2.5",
+      "name": "MiniMax M2.5",
+      "status": "active",
+      "capabilities": ["general", "coding", "analysis", "fast_response"],
+      "cost_level": "low",
+      "best_for": ["coding", "simple_tasks", "quick_responses"],
+      "priority_rank": 6,
+      "provider": "minimax"
     }
   ],
   "task_model_rules": [
@@ -131,13 +159,28 @@
       "default_model": "qwen3-coder-next",
       "temperature": 0.3,
       "priority": 4
+    },
+    {
+      "task_type": "minimax_coding",
+      "keywords": ["快速开发", "简单功能", "minimax", "m2.5", "经济高效"],
+      "default_model": "minimax/m2.5",
+      "temperature": 0.3,
+      "priority": 5
+    },
+    {
+      "task_type": "minimax_research",
+      "keywords": ["minimax 研究", "m1 分析", "文档编写"],
+      "default_model": "minimax/m1",
+      "temperature": 0.3,
+      "priority": 5
     }
   ],
   "complexity_rules": {
     "high": {
       "indicators": ["复杂", "大型", "完整", "从零开始", "核心", "关键", "全面", "深度"],
       "upgrade_to": "qwen3-max-2026-01-23",
-      "override_low_models": true
+      "override_low_models": true,
+      "avoid_models": ["minimax/m2.5", "minimax/m1", "qwen3-coder-next"]
     },
     "medium": {
       "indicators": ["标准", "正常", "一般"],
@@ -146,7 +189,7 @@
     "low": {
       "indicators": ["简单", "快速", "小", "修改", "微调"],
       "allow_downgrade": true,
-      "downgrade_to": "qwen3-coder-next"
+      "downgrade_to": "minimax/m2.5"
     }
   },
   "user_preferences": {
@@ -165,16 +208,44 @@
       "override_complexity_rules": false
     },
     "cost_saving": {
-      "description": "成本优先模式 - 优先使用经济模型",
-      "default_model": "qwen3-coder-plus",
+      "description": "成本优先模式 - 优先使用经济模型（包括 MiniMax）",
+      "default_model": "minimax/m2.5",
       "complex_upgrade": "qwen3.5-plus",
+      "allow_downgrade": true,
+      "override_complexity_rules": false
+    },
+    "minimax_optimized": {
+      "description": "MiniMax 优化模式 - 优先使用 MiniMax 模型",
+      "default_model": "minimax/m2.5",
+      "complex_upgrade": "minimax/m1",
       "allow_downgrade": true,
       "override_complexity_rules": false
     }
   },
   "agent_model_mapping": {
-    "agentgv-planning": {"default": "qwen3-max-2026-01-23", "complex": "qwen3-max-2026-01-23", "simple": "qwen3.5-plus", "temperature": 0.2},
-    "agentgv-operations": {"default": "qwen3-coder-plus", "complex": "qwen3.5-plus", "simple": "qwen3-coder-next", "temperature": 0.3},
-    "agentgv-quality": {"default": "qwen3.5-plus", "complex": "qwen3-max-2026-01-23", "simple": "qwen3-coder-plus", "temperature": 0.1}
+    "agentgv-planning": {
+      "default": "qwen3-max-2026-01-23",
+      "complex": "qwen3-max-2026-01-23",
+      "simple": "qwen3.5-plus",
+      "temperature": 0.2
+    },
+    "agentgv-operations": {
+      "default": "qwen3-coder-plus",
+      "complex": "qwen3.5-plus",
+      "simple": "minimax/m2.5",
+      "temperature": 0.3
+    },
+    "agentgv-quality": {
+      "default": "qwen3.5-plus",
+      "complex": "qwen3-max-2026-01-23",
+      "simple": "minimax/m2.5",
+      "temperature": 0.1
+    },
+    "agentgv-administration": {
+      "default": "qwen3.5-plus",
+      "complex": "qwen3.5-plus",
+      "simple": "minimax/m2.5",
+      "temperature": 0.3
+    }
   }
 }
