@@ -1,4 +1,4 @@
-# AgentGV - Government-Style Agent Teams
+# AgentGV - 政府式 Agent 团队
 
 多 Agent 协作系统，模拟政府部门架构。支持动态模型路由、Skill 模板系统、质量优先模式、视觉理解。
 
@@ -20,7 +20,7 @@
 - **质量优先模式**: 复杂任务自动使用最强模型 (Qwen3 Max)
 - **用户偏好**: 支持质量优先/平衡/成本优先 3 种模式
 - **视觉理解**: 支持图像分析、OCR 识别、截图转代码、文档解析（qwen3.5-plus）
-- **部门化架构**: 5 个精简高效部门（Router/Planning/Operations/Quality/Administration）
+- **部门化架构**: 4 个精简高效部门（Planning/Operations/Quality/Administration）
 
 ---
 
@@ -320,10 +320,6 @@ node .opencode/skill-matcher.js "写一篇技术文档"
 - [变更日志](CHANGELOG.md) - 版本历史
 - [许可协议](CLA.md) - 贡献者协议
 
-### 其他语言
-
-- [中文文档](README.zh-cn.md) - 简体中文版
-
 ---
 
 ## 🔧 开发状态
@@ -371,5 +367,4 @@ node .opencode/skill-matcher.js "写一篇技术文档"
 
 **版本**: V5.0.0 | **日期**: 2026-02-25  
 **架构**: 5 部门优化 | **Agents**: Router + Planning + Operations + Quality + Administration  
-**Skills**: 5 大类 28 个 | **视觉**: ✅ 图像理解 | OCR | 截图转代码 | 文档解析  
-**同步**: ✅ 模型实时同步 | 6 种模型可选
+**Skills**: 5 大类 28 个 | **视觉**: ✅ 图像理解 | OCR | 截图转代码 | 文档解析
