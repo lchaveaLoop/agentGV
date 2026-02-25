@@ -3,8 +3,6 @@
 # Commit message hook
 # Validates commit message follows Conventional Commits format
 
-. "$(dirname -- "$0")/_/husky.sh"
-
 commit_msg=$(cat "$1")
 
 # Conventional Commits pattern

@@ -3,6 +3,4 @@
 # Pre-commit hook
 # Runs lint-staged to check and fix staged files
 
-. "$(dirname -- "$0")/_/husky.sh"
-
 npx lint-staged
