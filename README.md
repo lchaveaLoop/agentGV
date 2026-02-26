@@ -29,52 +29,29 @@
 
 ### 1. 安装
 
-直接复制 `opencode.json` 到你的项目目录：
+一键安装命令：
 
 ```bash
-# 复制配置模板
-cp opencode-template.json 你的项目/opencode.json
+npm run install:oneclick
 ```
 
-或手动创建 `opencode.json`：
+安装脚本将自动：
 
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "agent": {
-    "agentgv-router": {
-      "description": "Intelligent task router - MUST delegate to sub-agents",
-      "mode": "primary",
-      "model": "minimax/MiniMax-M2.5",
-      "temperature": 0.7,
-      "tools": {
-        "task": true,
-        "read": true,
-        "glob": true,
-        "grep": true,
-        "write": true,
-        "edit": true,
-        "bash": true
-      }
-    },
-    "agentgv-operations": {
-      "description": "Implementation specialist",
-      "mode": "subagent",
-      "model": "minimax/MiniMax-M2.5",
-      "temperature": 0.7,
-      "tools": {
-        "read": true,
-        "glob": true,
-        "grep": true,
-        "write": true,
-        "edit": true,
-        "bash": true
-      }
-    }
-  },
-  "default_agent": "agentgv-router"
-}
+- ✅ 检查 Node.js 版本（>=18.0.0）
+- ✅ 安装所有依赖
+- ✅ 验证配置文件
+- ✅ 运行测试套件
+- ✅ 生成使用指南
+
+**手动安装：**
+
+```bash
+npm install
+npm run validate
+npm test
 ```
+
+详细安装指南请参阅 [INSTALL.md](INSTALL.md)。
 
 ### 2. 使用
 
@@ -86,7 +63,7 @@ cp opencode-template.json 你的项目/opencode.json
 
 无需 `@` 前缀，所有请求自动经过 Router 分发！
 
-### 4. 设置偏好模式
+### 3. 设置偏好模式
 
 直接告诉 Router 你的需求：
 

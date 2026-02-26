@@ -4,6 +4,8 @@
   "description": "AgentGV - Professional Multi-Agent Collaboration System",
   "main": ".opencode/status.js",
   "scripts": {
+    "install:oneclick": "node .opencode/scripts/install.js",
+    "postinstall": "node .opencode/scripts/install.js --postinstall",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
