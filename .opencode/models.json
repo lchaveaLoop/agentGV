@@ -1,7 +1,29 @@
 {
-  "version": "2.0.1",
+  "version": "2.0.2",
   "quality_mode": "priority",
   "models": [
+    {
+      "id": "minimax/MiniMax-M2.5",
+      "short_id": "minimax/m2.5",
+      "name": "MiniMax M2.5",
+      "status": "active",
+      "capabilities": ["general", "coding", "analysis", "fast_response"],
+      "cost_level": "low",
+      "best_for": ["coding", "simple_tasks", "creative_writing"],
+      "priority_rank": 1,
+      "provider": "minimax"
+    },
+    {
+      "id": "minimax/MiniMax-M1",
+      "short_id": "minimax/m1",
+      "name": "MiniMax M1",
+      "status": "active",
+      "capabilities": ["general", "reasoning", "coding"],
+      "cost_level": "medium",
+      "best_for": ["research", "documentation", "medium_tasks"],
+      "priority_rank": 2,
+      "provider": "minimax"
+    },
     {
       "id": "bailian-coding-plan/qwen3-max-2026-01-23",
       "short_id": "qwen3-max-2026-01-23",
@@ -10,24 +32,19 @@
       "capabilities": ["deep_reasoning", "complex_analysis", "architecture"],
       "cost_level": "high",
       "best_for": ["architecture", "complex_planning", "complex_research"],
-      "priority_rank": 1
+      "priority_rank": 3,
+      "provider": "qwen"
     },
     {
       "id": "bailian-coding-plan/qwen3.5-plus",
       "short_id": "qwen3.5-plus",
       "name": "Qwen3.5 Plus",
       "status": "active",
-      "capabilities": ["general", "reasoning", "analysis", "coding", "vision"],
+      "capabilities": ["general", "reasoning", "analysis", "coding"],
       "cost_level": "medium",
-      "best_for": ["research", "review", "coordination", "documentation", "vision_tasks"],
-      "priority_rank": 2,
-      "vision_capabilities": [
-        "image_understanding",
-        "ocr",
-        "visual_coding",
-        "document_parsing",
-        "multi_image_analysis"
-      ]
+      "best_for": ["research", "review", "coordination", "documentation"],
+      "priority_rank": 4,
+      "provider": "qwen"
     },
     {
       "id": "bailian-coding-plan/qwen3-coder-plus",
@@ -37,7 +54,8 @@
       "capabilities": ["coding", "debugging", "implementation"],
       "cost_level": "low",
       "best_for": ["coding", "implementation", "bug_fix"],
-      "priority_rank": 3
+      "priority_rank": 5,
+      "provider": "qwen"
     },
     {
       "id": "bailian-coding-plan/qwen3-coder-next",
@@ -47,29 +65,8 @@
       "capabilities": ["fast_coding", "simple_tasks"],
       "cost_level": "lowest",
       "best_for": ["simple_coding", "quick_fixes", "simple_tasks"],
-      "priority_rank": 4
-    },
-    {
-      "id": "minimax/MiniMax-M1",
-      "short_id": "minimax/m1",
-      "name": "MiniMax M1",
-      "status": "active",
-      "capabilities": ["general", "reasoning", "coding"],
-      "cost_level": "medium",
-      "best_for": ["research", "coding", "documentation"],
-      "priority_rank": 5,
-      "provider": "minimax"
-    },
-    {
-      "id": "minimax/MiniMax-M2.5",
-      "short_id": "minimax/m2.5",
-      "name": "MiniMax M2.5",
-      "status": "active",
-      "capabilities": ["general", "coding", "analysis", "fast_response"],
-      "cost_level": "low",
-      "best_for": ["coding", "simple_tasks", "quick_responses"],
       "priority_rank": 6,
-      "provider": "minimax"
+      "provider": "qwen"
     }
   ],
   "task_model_rules": [

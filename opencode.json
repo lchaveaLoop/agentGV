@@ -21,9 +21,8 @@
       }
     },
     "agentgv-planning": {
-      "description": "System architecture, technical design, and research specialist (absorbed Intelligence)",
+      "description": "System architecture, technical design, and research specialist",
       "mode": "subagent",
-      "hidden": true,
       "model": "bailian-coding-plan/qwen3.5-plus",
       "temperature": 0.2,
       "tools": {
@@ -37,9 +36,8 @@
       }
     },
     "agentgv-operations": {
-      "description": "Development, implementation, and technical documentation specialist (absorbed Communications)",
+      "description": "Development, implementation, and technical documentation specialist",
       "mode": "subagent",
-      "hidden": true,
       "model": "bailian-coding-plan/qwen3.5-plus",
       "temperature": 0.3,
       "tools": {
@@ -57,43 +55,8 @@
     "agentgv-quality": {
       "description": "Testing and quality assurance specialist",
       "mode": "subagent",
-      "hidden": true,
       "model": "bailian-coding-plan/qwen3.5-plus",
       "temperature": 0.1,
-      "tools": {
-        "read": true,
-        "glob": true,
-        "grep": true,
-        "write": true,
-        "edit": true,
-        "bash": true
-      },
-      "permission": {
-        "bash": "allow"
-      }
-    },
-    "agentgv-intelligence": {
-      "description": "Intelligence department subagent (hidden)",
-      "mode": "subagent",
-      "hidden": true,
-      "model": "bailian-coding-plan/qwen3.5-plus",
-      "temperature": 0.2,
-      "tools": {
-        "read": true,
-        "glob": true,
-        "grep": true,
-        "webfetch": true
-      },
-      "permission": {
-        "webfetch": "allow"
-      }
-    },
-    "agentgv-communications": {
-      "description": "Communications department subagent (hidden)",
-      "mode": "subagent",
-      "hidden": true,
-      "model": "bailian-coding-plan/qwen3.5-plus",
-      "temperature": 0.3,
       "tools": {
         "read": true,
         "glob": true,
@@ -109,7 +72,6 @@
     "agentgv-administration": {
       "description": "Project coordination and autonomous execution specialist",
       "mode": "subagent",
-      "hidden": true,
       "model": "bailian-coding-plan/qwen3.5-plus",
       "temperature": 0.3,
       "tools": {

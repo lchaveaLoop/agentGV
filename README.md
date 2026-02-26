@@ -1,6 +1,6 @@
 # AgentGV - Government-Style Agent Teams
 
-多 Agent 协作系统，模拟政府部门架构。支持动态模型路由、Skill 模板系统、质量优先模式、视觉理解。
+多 Agent 协作系统，模拟政府部门架构。支持动态模型路由、Skill 模板系统。
 
 [![Version](https://img.shields.io/badge/version-V5.0.1-blue.svg)](https://github.com/lchaveaLoop/agentGV/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -20,7 +20,6 @@
 - **动态模型分配**: 根据任务类型和复杂度自动选择最优模型（支持 Qwen 系列和 MiniMax 系列）
 - **质量优先模式**: 复杂任务自动使用最强模型 (Qwen3 Max)
 - **用户偏好**: 支持质量优先/平衡/成本优先/MiniMax 优化 4 种模式
-- **视觉理解**: 支持图像分析、OCR 识别、截图转代码、文档解析（qwen3.5-plus）
 - **部门化架构**: 5 个精简高效部门（Router/Planning/Operations/Quality/Administration）
 - **多模型支持**: 完整支持 Qwen 系列和 MiniMax 系列模型
 
@@ -30,31 +29,54 @@
 
 ### 1. 安装
 
-**Windows (PowerShell)**:
-
-```powershell
-.\install.ps1
-```
-
-**Linux/Mac (Bash)**:
+直接复制 `opencode.json` 到你的项目目录：
 
 ```bash
-chmod +x install.sh
-./install.sh
+# 复制配置模板
+cp opencode-template.json 你的项目/opencode.json
 ```
 
-### 2. 模型配置
+或手动创建 `opencode.json`：
 
-安装时会自动检测可用模型并配置。
-
-**指定模型安装：**
-
-```powershell
-$env:AGENTGV_MODEL = "bailian-coding-plan/qwen3.5-plus"
-.\install.ps1
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "agentgv-router": {
+      "description": "Intelligent task router - MUST delegate to sub-agents",
+      "mode": "primary",
+      "model": "minimax/MiniMax-M2.5",
+      "temperature": 0.7,
+      "tools": {
+        "task": true,
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "write": true,
+        "edit": true,
+        "bash": true
+      }
+    },
+    "agentgv-operations": {
+      "description": "Implementation specialist",
+      "mode": "subagent",
+      "model": "minimax/MiniMax-M2.5",
+      "temperature": 0.7,
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "write": true,
+        "edit": true,
+        "bash": true
+      }
+    }
+  },
+  "default_agent": "agentgv-router"
+}
 ```
 
-### 3. 使用
+### 2. 使用
 
 ```
 帮我调研 AI 市场      ← 自动路由到 Planning
