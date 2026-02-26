@@ -6,12 +6,18 @@
 
 ## 🏢 部门架构
 
-AgentGV 采用 5 部门架构，每个部门有明确的职责和专长：
+AgentGV 采用 **2 层架构**：Router（路由层）+ Administration（执行协调层）+ 3 个执行部门
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    AgentGV Router                           │
-│              (智能路由协调中心)                              │
+│              (任务路由器 - 只解析，只路由)                   │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                AgentGV Administration                       │
+│        (执行协调中心 - Skill 匹配 | 模型分配 | 部门协调)     │
 └─────────────────────────────────────────────────────────────┘
                               │
          ┌────────────────────┼────────────────────┐
@@ -26,92 +32,48 @@ AgentGV 采用 5 部门架构，每个部门有明确的职责和专长：
 │ • 调研分析      │ │ • 系统集成      │ │ • Bug 检测      │
 │ • 技术选型      │ │ • 文档编写      │ │ • 质量评估      │
 └─────────────────┘ └─────────────────┘ └─────────────────┘
-                              │
-                              ▼
-                    ┌─────────────────┐
-                    │ Administration  │
-                    │   行政部        │
-                    │                 │
-                    │ • 任务协调      │
-                    │ • 自主执行      │
-                    │ • 多步骤工作流  │
-                    └─────────────────┘
 ```
 
 ---
 
 ## 🤖 Agent 定义
 
-### 1. AgentGV Router (路由协调中心)
+### 1. AgentGV Router (任务路由器)
 
 **模式**: Primary Agent  
 **颜色**: `#6366f1` (Indigo)  
-**版本**: 5.0.0
+**版本**: 6.0.0
 
 #### 核心职责
 
-> **⚠️ 黄金法则：委托任务，不是执行任务！**
+> **⚠️ 黄金法则：只解析，只路由，其他不管！**
 
-Router 的核心职责是分析任务、匹配 Skill、选择部门并委托给子代理执行。**Router 不直接执行任务**。
+Router 的核心职责是**简单分析任务类型，然后路由到 Administration**。**不做 Skill 匹配，不做模型分配，不做部门协调**。
 
 #### 核心能力
 
-| 能力 | 说明 |
-|------|------|
-| `vision` | 视觉任务处理（图像理解、OCR、截图转代码） |
-| `autonomous_routing` | 自主任务路由和部门选择 |
-| `auto_model_sync` | 自动模型同步和适配 |
-
-#### 自主决策原则
-
-| 场景 | 决策方式 | 是否需要用户确认 |
-|------|----------|------------------|
-| 日常任务执行 | 直接执行 | ❌ 否 |
-| 多部门协作 | 自动协调 | ❌ 否 |
-| 任务失败处理 | 自动重试/降级 | ❌ 否 |
-| 技术方案选择 | 自主决定 | ❌ 否 |
-| 重大资源决策 | 告知用户 | ✅ 是 |
-| 无法解决的错误 | 报告问题并给出建议 | ✅ 是 |
+| 能力            | 说明                          |
+| --------------- | ----------------------------- |
+| `task_analysis` | 简单任务分类（单部门/多部门） |
+| `routing`       | 路由到 Administration         |
 
 #### 工作流程
 
 ```
 用户请求
     ↓
-1. 运行 auto-sync-model.js（模型同步）
+1. 简单分析任务类型
     ↓
-2. 运行 skill-matcher.js（Skill 匹配）
+2. 路由到 @agentgv-administration
     ↓
-3. Router 分析任务类型 + Skill 类别
+3. 等待 Administration 执行完成
     ↓
-4. 根据 Skill category 选择部门
-    ↓
-5. 自动调用 @agentgv-[department]<skill>
-    ↓
-6. 等待执行结果
-    ↓
-7. 返回用户
-```
-
-#### 部门选择决策树
-
-```
-Skill category 是什么？
-    ↓
-    ├─ software/hardware/creative → Operations (执行部)
-    ├─ simulation/research        → Planning (规划局)
-    ├─ review/testing             → Quality (质检部)
-    └─ coordination               → Router 协调
+4. 返回用户
 ```
 
 #### 可用工具
 
-- `task`: 委托任务给子代理
-- `write`: 写入文件
-- `edit`: 编辑文件
-- `bash`: 执行命令
-- `webfetch`: 获取网络内容
-- `read`, `glob`, `grep`: 读取和搜索文件
+- `task`: 委托任务给 Administration
 
 #### 示例
 
@@ -119,16 +81,14 @@ Skill category 是什么？
 用户：写一篇科幻小说
 
 Router 执行:
-1. 调用 skill-matcher.js "写一篇科幻小说"
-   → 返回：skill_id=fiction, category=creative, temperature=0.7
-2. 选择部门：creative → Operations
-3. 路由执行：
+1. 分析：这是创意写作任务
+2. 路由：@agentgv-administration
 
-🔄 自动路由：@agentgv-operations<fiction>
-📊 模型：qwen3.5-plus
-🌡️ 温度：0.7
+🔄 自动路由：@agentgv-administration
 📝 任务：科幻小说创作
-🎯 Skill: Fiction Writing (creative)
+
+[等待 @agentgv-administration 执行...]
+[Administration 负责 Skill 匹配、模型分配、部门调用...]
 ```
 
 ---
@@ -149,31 +109,35 @@ Router 执行:
 
 #### 支持的 Skills
 
-| Category | Skills |
-|----------|--------|
-| `simulation` | matlab, fea, cfd |
-| `research` | academic, market, data, product, competitor, ux |
+| Category     | Skills                                          |
+| ------------ | ----------------------------------------------- |
+| `simulation` | matlab, fea, cfd                                |
+| `research`   | academic, market, data, product, competitor, ux |
 
 #### 设计方法论
 
 ```markdown
 ## Phase 1: Requirements Analysis
+
 - Understand functional requirements
 - Identify non-functional requirements
 - Clarify constraints and assumptions
 
 ## Phase 2: Architecture Design
+
 - Design system components
 - Define interfaces and contracts
 - Plan data flow
 - Consider scalability
 
 ## Phase 3: Technical Decisions
+
 - Evaluate technology options
 - Make trade-off analyses
 - Document decisions
 
 ## Phase 4: Documentation
+
 - Create architecture diagrams
 - Document component responsibilities
 - Define API contracts
@@ -189,6 +153,7 @@ Router 执行:
 ## 📐 System Components
 
 ### Component 1: [Name]
+
 - **Responsibility**: [What it does]
 - **Interface**: [How to interact]
 - **Dependencies**: [What it needs]
@@ -200,8 +165,8 @@ Router 执行:
 ## 📋 Technical Decisions
 
 | Decision | Option A | Option B | Chosen | Rationale |
-|----------|----------|----------|--------|-----------|
-| [Topic] | ... | ... | ... | ... |
+| -------- | -------- | -------- | ------ | --------- |
+| [Topic]  | ...      | ...      | ...    | ...       |
 ```
 
 #### 质量标准
@@ -231,31 +196,35 @@ Router 执行:
 
 #### 支持的 Skills
 
-| Category | Skills |
-|----------|--------|
+| Category   | Skills                                           |
+| ---------- | ------------------------------------------------ |
 | `software` | cpp, python, web, mobile, java, go, rust, devops |
-| `hardware` | pcb, fpga, embedded |
+| `hardware` | pcb, fpga, embedded                              |
 | `creative` | fiction, technical, content, script, translation |
 
 #### 开发工作流
 
 ```markdown
 ## Phase 1: Understand
+
 - Review requirements
 - Clarify acceptance criteria
 - Identify dependencies
 
 ## Phase 2: Plan
+
 - Design code structure
 - Identify files to change
 - Plan testing strategy
 
 ## Phase 3: Implement
+
 - Write clean, maintainable code
 - Follow project conventions
 - Test continuously
 
 ## Phase 4: Verify
+
 - Run tests
 - Verify functionality
 - Document changes
@@ -275,14 +244,17 @@ Router 执行:
 ### File: `path/to/file.ts`
 
 #### Changes:
+
 [Code implementation]
 
 #### Rationale:
+
 [Why this approach]
 
 ## ✅ Testing
 
 ### Unit Tests
+
 - [Test case 1]
 - [Test case 2]
 ```
@@ -315,6 +287,7 @@ Router 执行:
 #### 支持的 Skills
 
 Quality 支持所有 Skill 领域的审查：
+
 - `software`: cpp, python, web, mobile, java, go, rust, devops
 - `hardware`: pcb, fpga, embedded
 - `simulation`: matlab, fea, cfd
@@ -325,6 +298,7 @@ Quality 支持所有 Skill 领域的审查：
 
 ```markdown
 ### Code Quality
+
 - [ ] Follows project conventions
 - [ ] Single responsibility principle
 - [ ] Proper error handling
@@ -332,6 +306,7 @@ Quality 支持所有 Skill 领域的审查：
 - [ ] Appropriate comments
 
 ### Security
+
 - [ ] Input validation
 - [ ] Authentication checks
 - [ ] Authorization checks
@@ -339,12 +314,14 @@ Quality 支持所有 Skill 领域的审查：
 - [ ] No injection vulnerabilities
 
 ### Performance
+
 - [ ] No obvious bottlenecks
 - [ ] Efficient algorithms
 - [ ] Proper caching
 - [ ] Memory management
 
 ### Testing
+
 - [ ] Unit tests exist
 - [ ] Edge cases covered
 - [ ] Integration tests exist
@@ -362,15 +339,15 @@ Quality 支持所有 Skill 领域的审查：
 
 ### 🐛 Bugs (Priority: High/Medium/Low)
 
-| ID | Description | Location | Severity |
-|----|-------------|----------|----------|
-| 1 | [Bug] | [File:Line] | High |
+| ID  | Description | Location    | Severity |
+| --- | ----------- | ----------- | -------- |
+| 1   | [Bug]       | [File:Line] | High     |
 
 ### ⚠️ Code Quality Issues
 
-| ID | Issue | Suggestion | Location |
-|----|-------|------------|----------|
-| 1 | [Issue] | [Fix] | [File:Line] |
+| ID  | Issue   | Suggestion | Location    |
+| --- | ------- | ---------- | ----------- |
+| 1   | [Issue] | [Fix]      | [File:Line] |
 
 ### 💡 Improvement Suggestions
 
@@ -394,19 +371,40 @@ Quality 支持所有 Skill 领域的审查：
 
 ---
 
-### 5. AgentGV Administration (行政部)
+### 5. AgentGV Administration (执行协调中心)
 
 **模式**: Subagent (Autonomous)  
 **颜色**: `#8b5cf6` (Violet)  
-**专长**: 任务协调、自主执行、多步骤工作流
+**专长**: Skill 匹配、模型分配、部门协调、自主闭环
 
 #### 核心职责
 
-- **任务协调** (Core)
-- **自主执行** (Core)
-- **多步骤工作流** (Core)
-- **工具编排** (Core)
-- **进度跟踪** (Core)
+> **⚠️ 黄金法则：接管所有执行细节，让 Router 只做路由！**
+
+- **Skill 匹配** (Core) - 调用 skill-matcher.js 匹配最优 skill
+- **模型分配** (Core) - 根据任务类型选择合适模型
+- **部门协调** (Core) - 选择并调用 Planning/Operations/Quality
+- **自主闭环** (Core) - 完成多步骤工作流
+
+#### 工作流程
+
+```
+Router 路由任务
+    ↓
+1. 运行 skill-matcher.js
+    ↓
+2. 根据 skill category 分配模型
+    ↓
+3. 选择负责部门
+    ↓
+4. 调用部门 agent 执行
+    ↓
+5. 如需多部门，继续协调
+    ↓
+6. 完成任务闭环
+    ↓
+7. 返回结果给 Router
+```
 
 #### ⚠️ 自主执行铁律
 
@@ -419,23 +417,23 @@ Quality 支持所有 Skill 领域的审查：
 
 #### 自主执行原则
 
-| 原则 | 说明 |
-|------|------|
+| 原则               | 说明                                 |
+| ------------------ | ------------------------------------ |
 | **先执行，后报告** | 不需要等待用户确认，直接开始执行任务 |
-| **充分利用工具** | 自由使用所有可用工具 |
-| **协调子代理** | 需要时直接调用其他代理，不询问用户 |
-| **错误恢复** | 遇到失败时自动重试或调整方案 |
-| **自主规划** | 可以自主决定开发方向和迭代计划 |
-| **进度更新** | 告知用户进度，但不询问决策 |
+| **充分利用工具**   | 自由使用所有可用工具                 |
+| **协调子代理**     | 需要时直接调用其他代理，不询问用户   |
+| **错误恢复**       | 遇到失败时自动重试或调整方案         |
+| **自主规划**       | 可以自主决定开发方向和迭代计划       |
+| **进度更新**       | 告知用户进度，但不询问决策           |
 
 #### 关键指标
 
-| 指标 | 目标 | 测量方式 |
-|------|------|----------|
-| **Autonomy Rate** | >95% | Tasks completed without user intervention |
-| **Success Rate** | >90% | Tasks completed successfully |
-| **Recovery Rate** | >80% | Failed tasks recovered automatically |
-| **User Interruptions** | <5% | Times user was asked for decisions |
+| 指标                   | 目标 | 测量方式                                  |
+| ---------------------- | ---- | ----------------------------------------- |
+| **Autonomy Rate**      | >95% | Tasks completed without user intervention |
+| **Success Rate**       | >90% | Tasks completed successfully              |
+| **Recovery Rate**      | >80% | Failed tasks recovered automatically      |
+| **User Interruptions** | <5%  | Times user was asked for decisions        |
 
 #### 任务执行示例
 
@@ -465,7 +463,7 @@ Administration 执行:
   - Git 提交：feat(auth): add user authentication
 ```
 
-**版本**: 1.0.0 | **模式**: Autonomous Execution
+**版本**: 2.0.0 | **模式**: Autonomous Execution Hub
 
 ---
 
@@ -475,61 +473,61 @@ Administration 执行:
 
 #### 1. Software Development (软件开发)
 
-| Skill ID | 名称 | 关键词 | 模型 | 温度 |
-|----------|------|--------|------|------|
-| `cpp` | C++ Development | C++, cpp, qt, stl | qwen3-coder-plus | 0.3 |
-| `python` | Python Development | Python, django, flask, fastapi | qwen3-coder-plus | 0.3 |
-| `web` | Web Development | JavaScript, React, Vue, Node.js | qwen3-coder-plus | 0.3 |
-| `mobile` | Mobile Development | iOS, Android, Swift, Flutter | qwen3-coder-plus | 0.3 |
-| `java` | Java Development | Java, Spring, Spring Boot | qwen3-coder-plus | 0.3 |
-| `go` | Go Development | Go, Golang, Gin, microservice | qwen3-coder-plus | 0.3 |
-| `rust` | Rust Development | Rust, cargo, tokio, systems | qwen3-coder-plus | 0.3 |
-| `devops` | DevOps & Cloud | Docker, Kubernetes, CI/CD, AWS | qwen3-coder-plus | 0.3 |
+| Skill ID | 名称               | 关键词                          | 模型             | 温度 |
+| -------- | ------------------ | ------------------------------- | ---------------- | ---- |
+| `cpp`    | C++ Development    | C++, cpp, qt, stl               | qwen3-coder-plus | 0.3  |
+| `python` | Python Development | Python, django, flask, fastapi  | qwen3-coder-plus | 0.3  |
+| `web`    | Web Development    | JavaScript, React, Vue, Node.js | qwen3-coder-plus | 0.3  |
+| `mobile` | Mobile Development | iOS, Android, Swift, Flutter    | qwen3-coder-plus | 0.3  |
+| `java`   | Java Development   | Java, Spring, Spring Boot       | qwen3-coder-plus | 0.3  |
+| `go`     | Go Development     | Go, Golang, Gin, microservice   | qwen3-coder-plus | 0.3  |
+| `rust`   | Rust Development   | Rust, cargo, tokio, systems     | qwen3-coder-plus | 0.3  |
+| `devops` | DevOps & Cloud     | Docker, Kubernetes, CI/CD, AWS  | qwen3-coder-plus | 0.3  |
 
 **负责部门**: Operations
 
 #### 2. Hardware & Electronics (硬件电子)
 
-| Skill ID | 名称 | 关键词 | 模型 | 温度 |
-|----------|------|--------|------|------|
-| `pcb` | PCB Design | PCB, Altium, KiCad, 电路设计 | qwen3.5-plus | 0.2 |
-| `fpga` | FPGA Development | FPGA, Verilog, VHDL, Xilinx | qwen3.5-plus | 0.2 |
-| `embedded` | Embedded Systems | 嵌入式，ARM, STM32, MCU | qwen3.5-plus | 0.3 |
+| Skill ID   | 名称             | 关键词                       | 模型         | 温度 |
+| ---------- | ---------------- | ---------------------------- | ------------ | ---- |
+| `pcb`      | PCB Design       | PCB, Altium, KiCad, 电路设计 | qwen3.5-plus | 0.2  |
+| `fpga`     | FPGA Development | FPGA, Verilog, VHDL, Xilinx  | qwen3.5-plus | 0.2  |
+| `embedded` | Embedded Systems | 嵌入式，ARM, STM32, MCU      | qwen3.5-plus | 0.3  |
 
 **负责部门**: Operations
 
 #### 3. Simulation & Modeling (仿真建模)
 
-| Skill ID | 名称 | 关键词 | 模型 | 温度 |
-|----------|------|--------|------|------|
-| `matlab` | MATLAB/Simulink | MATLAB, Simulink, 控制仿真 | qwen3.5-plus | 0.2 |
-| `fea` | Finite Element Analysis | FEA, ANSYS, Abaqus, 结构分析 | qwen3.5-plus | 0.2 |
-| `cfd` | Computational Fluid Dynamics | CFD, Fluent, OpenFOAM, 流体仿真 | qwen3.5-plus | 0.2 |
+| Skill ID | 名称                         | 关键词                          | 模型         | 温度 |
+| -------- | ---------------------------- | ------------------------------- | ------------ | ---- |
+| `matlab` | MATLAB/Simulink              | MATLAB, Simulink, 控制仿真      | qwen3.5-plus | 0.2  |
+| `fea`    | Finite Element Analysis      | FEA, ANSYS, Abaqus, 结构分析    | qwen3.5-plus | 0.2  |
+| `cfd`    | Computational Fluid Dynamics | CFD, Fluent, OpenFOAM, 流体仿真 | qwen3.5-plus | 0.2  |
 
 **负责部门**: Planning
 
 #### 4. Creative Writing (创意写作)
 
-| Skill ID | 名称 | 关键词 | 模型 | 温度 |
-|----------|------|--------|------|------|
-| `fiction` | Fiction Writing | 小说，故事，科幻，都市，悬疑 | qwen3.5-plus | 0.7 |
-| `technical` | Technical Writing | 技术文档，API docs, user manual | qwen3.5-plus | 0.4 |
-| `content` | Content Creation | 内容创作，blog, article, 文案 | qwen3.5-plus | 0.6 |
-| `script` | Script Writing | 剧本，screenplay, 短视频脚本 | qwen3.5-plus | 0.7 |
-| `translation` | Translation | 翻译，translation, 中英翻译 | qwen3.5-plus | 0.3 |
+| Skill ID      | 名称              | 关键词                          | 模型         | 温度 |
+| ------------- | ----------------- | ------------------------------- | ------------ | ---- |
+| `fiction`     | Fiction Writing   | 小说，故事，科幻，都市，悬疑    | qwen3.5-plus | 0.7  |
+| `technical`   | Technical Writing | 技术文档，API docs, user manual | qwen3.5-plus | 0.4  |
+| `content`     | Content Creation  | 内容创作，blog, article, 文案   | qwen3.5-plus | 0.6  |
+| `script`      | Script Writing    | 剧本，screenplay, 短视频脚本    | qwen3.5-plus | 0.7  |
+| `translation` | Translation       | 翻译，translation, 中英翻译     | qwen3.5-plus | 0.3  |
 
 **负责部门**: Operations
 
 #### 5. Research & Analysis (研究分析)
 
-| Skill ID | 名称 | 关键词 | 模型 | 温度 |
-|----------|------|--------|------|------|
-| `academic` | Academic Research | 学术，research paper, 论文 | qwen3.5-plus | 0.2 |
-| `market` | Market Research | 市场，industry analysis, 调研 | qwen3.5-plus | 0.3 |
-| `data` | Data Analysis | 数据，statistics, 数据分析 | qwen3.5-plus | 0.2 |
-| `product` | Product Research | 产品，用户研究，需求分析 | qwen3.5-plus | 0.3 |
-| `competitor` | Competitor Analysis | 竞品，competitor analysis, SWOT | qwen3.5-plus | 0.3 |
-| `ux` | UX Design | UX, 用户体验，UI design, 原型 | qwen3.5-plus | 0.6 |
+| Skill ID     | 名称                | 关键词                          | 模型         | 温度 |
+| ------------ | ------------------- | ------------------------------- | ------------ | ---- |
+| `academic`   | Academic Research   | 学术，research paper, 论文      | qwen3.5-plus | 0.2  |
+| `market`     | Market Research     | 市场，industry analysis, 调研   | qwen3.5-plus | 0.3  |
+| `data`       | Data Analysis       | 数据，statistics, 数据分析      | qwen3.5-plus | 0.2  |
+| `product`    | Product Research    | 产品，用户研究，需求分析        | qwen3.5-plus | 0.3  |
+| `competitor` | Competitor Analysis | 竞品，competitor analysis, SWOT | qwen3.5-plus | 0.3  |
+| `ux`         | UX Design           | UX, 用户体验，UI design, 原型   | qwen3.5-plus | 0.6  |
 
 **负责部门**: Planning
 
@@ -542,6 +540,7 @@ node .opencode/skill-matcher.js "<用户任务描述>"
 ```
 
 **返回格式**:
+
 ```json
 {
   "skill_id": "fiction",
@@ -556,14 +555,14 @@ node .opencode/skill-matcher.js "<用户任务描述>"
 
 ### Skill 与部门映射
 
-| Skill Category | 负责部门 | 调用方式 |
-|----------------|----------|----------|
-| `software` | Operations | `@agentgv-operations<skill>` |
-| `hardware` | Operations | `@agentgv-operations<skill>` |
-| `creative` | Operations | `@agentgv-operations<skill>` |
-| `simulation` | Planning | `@agentgv-planning<skill>` |
-| `research` | Planning | `@agentgv-planning<skill>` |
-| `review` | Quality | `@agentgv-quality` |
+| Skill Category | 负责部门   | 调用方式                     |
+| -------------- | ---------- | ---------------------------- |
+| `software`     | Operations | `@agentgv-operations<skill>` |
+| `hardware`     | Operations | `@agentgv-operations<skill>` |
+| `creative`     | Operations | `@agentgv-operations<skill>` |
+| `simulation`   | Planning   | `@agentgv-planning<skill>`   |
+| `research`     | Planning   | `@agentgv-planning<skill>`   |
+| `review`       | Quality    | `@agentgv-quality`           |
 
 ---
 
@@ -578,6 +577,7 @@ node .opencode/status.js --quiet      # 最小输出
 ```
 
 **检查内容**:
+
 - ✅ Agent 配置状态（5 部门）
 - ✅ 模型可用性和同步
 - ✅ Skill 系统健康（28 个 skills）
@@ -620,34 +620,34 @@ node .opencode/scripts/validators/config-validator.js
 
 ### 可用模型
 
-| 模型 ID | 简称 | 名称 | 成本 | 专长 |
-|--------|------|------|------|------|
-| `qwen3-max-2026-01-23` | qwen3-max | Qwen3 Max | High | 深度推理、复杂分析、架构设计 |
-| `qwen3.5-plus` | qwen3.5-plus | Qwen3.5 Plus | Medium | 通用、视觉、研究、审查 |
-| `qwen3-coder-plus` | qwen3-coder-plus | Qwen3 Coder Plus | Low | 编码、调试、实现 |
-| `qwen3-coder-next` | qwen3-coder-next | Qwen3 Coder Next | Lowest | 快速编码、简单任务 |
+| 模型 ID                | 简称             | 名称             | 成本   | 专长                         |
+| ---------------------- | ---------------- | ---------------- | ------ | ---------------------------- |
+| `qwen3-max-2026-01-23` | qwen3-max        | Qwen3 Max        | High   | 深度推理、复杂分析、架构设计 |
+| `qwen3.5-plus`         | qwen3.5-plus     | Qwen3.5 Plus     | Medium | 通用、视觉、研究、审查       |
+| `qwen3-coder-plus`     | qwen3-coder-plus | Qwen3 Coder Plus | Low    | 编码、调试、实现             |
+| `qwen3-coder-next`     | qwen3-coder-next | Qwen3 Coder Next | Lowest | 快速编码、简单任务           |
 
 ### 任务类型与模型规则
 
-| 任务类型 | 关键词 | 默认模型 | 温度 |
-|----------|--------|----------|------|
-| `architecture` | 架构，设计，系统 | qwen3-max | 0.2 |
-| `vision` | 图片，图像，截图 | qwen3.5-plus | 0.2 |
-| `ocr` | 文字识别，提取文字 | qwen3.5-plus | 0.1 |
-| `research` | 调研，研究，分析 | qwen3.5-plus | 0.2 |
-| `coding` | 开发，实现，编码 | qwen3-coder-plus | 0.3 |
-| `complex_coding` | 复杂功能，核心模块 | qwen3.5-plus | 0.3 |
-| `review` | 测试，审查，检查 | qwen3.5-plus | 0.1 |
-| `documentation` | 文档，报告，说明 | qwen3.5-plus | 0.4 |
-| `simple` | 简单，快速，小 | qwen3-coder-next | 0.3 |
+| 任务类型         | 关键词             | 默认模型         | 温度 |
+| ---------------- | ------------------ | ---------------- | ---- |
+| `architecture`   | 架构，设计，系统   | qwen3-max        | 0.2  |
+| `vision`         | 图片，图像，截图   | qwen3.5-plus     | 0.2  |
+| `ocr`            | 文字识别，提取文字 | qwen3.5-plus     | 0.1  |
+| `research`       | 调研，研究，分析   | qwen3.5-plus     | 0.2  |
+| `coding`         | 开发，实现，编码   | qwen3-coder-plus | 0.3  |
+| `complex_coding` | 复杂功能，核心模块 | qwen3.5-plus     | 0.3  |
+| `review`         | 测试，审查，检查   | qwen3.5-plus     | 0.1  |
+| `documentation`  | 文档，报告，说明   | qwen3.5-plus     | 0.4  |
+| `simple`         | 简单，快速，小     | qwen3-coder-next | 0.3  |
 
 ### 用户偏好模式
 
-| 模式 | 默认模型 | 复杂升级 | 降级 |
-|------|----------|----------|------|
-| `quality_priority` | qwen3.5-plus | qwen3-max | ❌ |
-| `balanced` | qwen3.5-plus | qwen3-max | ✅ |
-| `cost_saving` | qwen3-coder-plus | qwen3.5-plus | ✅ |
+| 模式               | 默认模型         | 复杂升级     | 降级 |
+| ------------------ | ---------------- | ------------ | ---- |
+| `quality_priority` | qwen3.5-plus     | qwen3-max    | ❌   |
+| `balanced`         | qwen3.5-plus     | qwen3-max    | ✅   |
+| `cost_saving`      | qwen3-coder-plus | qwen3.5-plus | ✅   |
 
 ---
 
@@ -769,13 +769,14 @@ agentGV/
 
 ## 📝 版本历史
 
-| 版本 | 日期 | 变更 |
-|------|------|------|
+| 版本  | 日期       | 变更                                         |
+| ----- | ---------- | -------------------------------------------- |
+| 6.0.0 | 2026-02-26 | Router 职责简化，Administration 接管执行细节 |
 | 5.0.0 | 2026-02-25 | 完成 oh-my-opencode 增强计划，5 部门优化架构 |
-| 4.3.1 | 2026-02-25 | 添加 Administration Agent，完善自主执行 |
-| 4.3.0 | 2026-02-24 | 跨平台安装支持 |
-| 4.0.1 | 2026-02-24 | 文学创作 Skill 匹配优化 |
-| 4.0.0 | 2026-02-24 | 4 部门优化架构 |
+| 4.3.1 | 2026-02-25 | 添加 Administration Agent，完善自主执行      |
+| 4.3.0 | 2026-02-24 | 跨平台安装支持                               |
+| 4.0.1 | 2026-02-24 | 文学创作 Skill 匹配优化                      |
+| 4.0.0 | 2026-02-24 | 4 部门优化架构                               |
 
 ---
 
@@ -787,5 +788,5 @@ agentGV/
 
 ---
 
-**最后更新**: 2026-02-25  
+**最后更新**: 2026-02-26  
 **维护部门**: AgentGV Administration
