@@ -33,7 +33,7 @@
       "cost_level": "high",
       "best_for": ["architecture", "complex_planning", "complex_research"],
       "priority_rank": 3,
-      "provider": "qwen"
+      "provider": "bailian"
     },
     {
       "id": "bailian-coding-plan/qwen3.5-plus",
@@ -44,7 +44,7 @@
       "cost_level": "medium",
       "best_for": ["research", "review", "coordination", "documentation"],
       "priority_rank": 4,
-      "provider": "qwen"
+      "provider": "bailian"
     },
     {
       "id": "bailian-coding-plan/qwen3-coder-plus",
@@ -55,7 +55,7 @@
       "cost_level": "low",
       "best_for": ["coding", "implementation", "bug_fix"],
       "priority_rank": 5,
-      "provider": "qwen"
+      "provider": "bailian"
     },
     {
       "id": "bailian-coding-plan/qwen3-coder-next",
@@ -66,7 +66,7 @@
       "cost_level": "lowest",
       "best_for": ["simple_coding", "quick_fixes", "simple_tasks"],
       "priority_rank": 6,
-      "provider": "qwen"
+      "provider": "bailian"
     }
   ],
   "task_model_rules": [
