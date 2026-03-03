@@ -3,7 +3,7 @@
   "agent": {
     "agentgv-router": {
       "description": "Intelligent task router with project coordination - MUST delegate to sub-agents, never execute tasks yourself",
-      "mode": "primary",
+      "mode": "subagent",
       "model": "bailian-coding-plan/qwen3.5-plus",
       "temperature": 0.3,
       "tools": {
@@ -71,7 +71,7 @@
     },
     "agentgv-administration": {
       "description": "Project coordination and autonomous execution specialist",
-      "mode": "subagent",
+      "mode": "primary",
       "model": "bailian-coding-plan/qwen3.5-plus",
       "temperature": 0.3,
       "tools": {
