@@ -2,26 +2,25 @@
 
 多 Agent 协作系统，模拟政府部门架构。支持动态模型路由、Skill 模板系统。
 
-[![Version](https://img.shields.io/badge/version-V5.0.1-blue.svg)](https://github.com/lchaveaLoop/agentGV/releases)
+[![Version](https://img.shields.io/badge/version-V6.0.0-blue.svg)](https://github.com/lchaveaLoop/agentGV/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 [![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-blue.svg)](https://nodejs.org/)
 [![Skills](https://img.shields.io/badge/skills-28-orange.svg)](docs/api/SKILL_API.md)
 [![Agents](https://img.shields.io/badge/agents-5-purple.svg)](docs/dev/ARCHITECTURE.md)
-[![MiniMax](https://img.shields.io/badge/MiniMax-Supported-red.svg)](docs/user/MINIMAX_SUPPORT.md)
 
 ---
 
 ## 🎯 核心特性
 
-- **智能路由**: Router Agent 自动分发任务到对应部门
-- **自主执行**: 所有 Agent 遵循自主执行原则，在达到目标前除非特殊情况否则不寻求人工干预
+- **纯路由架构**: Router 只负责任务解析，路由到 Administration（V6.0.0 新特性）
+- **自主执行**: Administration 接管所有执行细节，实现 >95% 自主闭环
 - **Skill 模板系统**: 基于 C++ 模板理念的部门模板化，支持多领域任务（5 大类 28 个 Skills）
-- **动态模型分配**: 根据任务类型和复杂度自动选择最优模型（支持 Qwen 系列和 MiniMax 系列）
+- **动态模型分配**: 根据任务类型和复杂度自动选择最优模型
 - **质量优先模式**: 复杂任务自动使用最强模型 (Qwen3 Max)
-- **用户偏好**: 支持质量优先/平衡/成本优先/MiniMax 优化 4 种模式
-- **部门化架构**: 5 个精简高效部门（Router/Planning/Operations/Quality/Administration）
-- **多模型支持**: 完整支持 Qwen 系列和 MiniMax 系列模型
+- **用户偏好**: 支持质量优先/平衡/成本优先 3 种模式
+- **2 层架构**: Router（路由层）+ Administration（执行协调层）+ 3 个执行部门
+- **部门化架构**: 5 个精简高效部门（Router/Administration/Planning/Operations/Quality）
 
 ---
 
@@ -71,7 +70,6 @@ npm test
 切换到质量优先模式    # 复杂任务使用 Qwen3 Max
 切换到平衡模式        # 自动选择
 切换到成本优先模式    # 优先使用经济模型
-切换到 MiniMax 优化模式  # 优先使用 MiniMax M2.5/M1
 ```
 
 或使用 CLI 脚本：
@@ -80,19 +78,7 @@ npm test
 node .opencode/preference.js set quality
 node .opencode/preference.js set balanced
 node .opencode/preference.js set cost
-node .opencode/preference.js set minimax
 ```
-
-### 🆕 MiniMax 模型支持
-
-现在支持 **MiniMax 系列模型**！🎉
-
-**支持的模型**：
-
-- **MiniMax M2.5** - 经济高效，适合日常开发
-- **MiniMax M1** - 均衡性能，适合文档和调研
-
-**了解更多**: [MiniMax 使用指南](docs/user/MINIMAX_GUIDE.md)
 
 ---
 
@@ -101,9 +87,13 @@ node .opencode/preference.js set minimax
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    AgentGV Router                           │
-│              (智能路由协调中心)                              │
-│                                                             │
-│  • Skill 匹配    • 模型分配    • 部门协调    • 自主闭环     │
+│              (任务路由器 - 只解析，只路由)                   │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                AgentGV Administration                       │
+│        (执行协调中心 - Skill 匹配 | 模型分配 | 部门协调)     │
 └─────────────────────────────────────────────────────────────┘
                               │
          ┌────────────────────┼────────────────────┐
@@ -119,29 +109,27 @@ node .opencode/preference.js set minimax
 │ • 技术选型      │ │ • 文档编写      │ │ • 质量评估      │
 │                 │ │ • 创意写作      │ │                 │
 └─────────────────┘ └─────────────────┘ └─────────────────┘
-                              │
-                              ▼
-                    ┌─────────────────┐
-                    │ Administration  │
-                    │   行政部        │
-                    │                 │
-                    │ • 任务协调      │
-                    │ • 自主执行      │
-                    │ • 多步骤工作流  │
-                    └─────────────────┘
 ```
+
+**架构说明**:
+
+- **Router**: 只负责任务解析和路由到 Administration（V6.0.0 简化）
+- **Administration**: 接管所有执行细节（Skill 匹配、模型分配、部门协调）
+- **Planning/Operations/Quality**: 3 个执行部门，负责具体任务执行
 
 ---
 
 ## 🤖 Agent 团队（5 部门）
 
-| 部门               | 职责                           | 模型                          | 模式       |
-| ------------------ | ------------------------------ | ----------------------------- | ---------- |
-| **Router**         | 智能路由、Skill 匹配、项目协调 | qwen3.5-plus                  | primary    |
-| **Planning**       | 架构设计、技术方案、调研分析   | qwen3.5-plus/qwen3-max        | subagent   |
-| **Operations**     | 功能开发、编码实现、文档编写   | qwen3.5-plus/qwen3-coder-plus | subagent   |
-| **Quality**        | 代码审查、测试验证、质量保障   | qwen3.5-plus                  | subagent   |
-| **Administration** | 任务协调、自主执行、进度跟踪   | qwen3.5-plus                  | autonomous |
+| 部门               | 职责                            | 模型                          | 模式       |
+| ------------------ | ------------------------------- | ----------------------------- | ---------- |
+| **Router**         | 任务解析、路由到 Administration | qwen3.5-plus                  | primary    |
+| **Administration** | Skill 匹配、模型分配、部门协调  | qwen3.5-plus                  | autonomous |
+| **Planning**       | 架构设计、技术方案、调研分析    | qwen3.5-plus/qwen3-max        | subagent   |
+| **Operations**     | 功能开发、编码实现、文档编写    | qwen3.5-plus/qwen3-coder-plus | subagent   |
+| **Quality**        | 代码审查、测试验证、质量保障    | qwen3.5-plus                  | subagent   |
+
+**V6.0.0 变更**: Router 不再负责 Skill 匹配和模型分配，这些职责转移到 Administration
 
 ---
 
@@ -203,18 +191,21 @@ Router 内置 Skill 匹配能力，自动识别任务领域：
 
 ## 🔄 工作流程示例
 
-### 示例 1: 简单任务（直接路由）
+### 示例 1: 简单任务（自动闭环）
 
 ```
 用户：用 C++ Qt 开发一个串口调试助手
 
 Router 分析:
-- 类型：coding
-- Skill: cpp
-- 部门：Operations
-- 模型：qwen3-coder-plus
+- 简单分析：这是 C++ 开发任务
+- 路由：@agentgv-administration
 
-路由：@agentgv-operations<cpp>
+Administration 执行:
+- Skill 匹配：cpp (software)
+- 模型分配：qwen3-coder-plus
+- 部门调用：@agentgv-operations<cpp>
+
+✅ 开发完成
 ```
 
 ### 示例 2: 复杂项目（多部门协作）
@@ -223,28 +214,32 @@ Router 分析:
 用户：开发一个完整的用户管理系统，需要测试和文档
 
 Router 分析:
-- 类型：complex_coding + coordination
-- 部门：Planning → Operations → Quality
-- 模型：qwen3.5-plus
+- 简单分析：这是复杂多部门任务
+- 路由：@agentgv-administration
 
-执行流程:
-1. @agentgv-planning - 架构设计
-2. @agentgv-operations - 功能开发 + 文档
-3. @agentgv-quality - 测试验证
+Administration 执行:
+1. Skill 匹配：web (software)
+2. 任务分解：架构 → 开发 → 测试 → 文档
+3. 部门协调：Planning → Operations → Quality
+
+✅ 项目完成
 ```
 
-### 示例 3: 视觉任务
+### 示例 3: 创意写作
 
 ```
-用户：[上传图片] 分析这个架构图
+用户：写一篇科幻小说
 
 Router 分析:
-- 类型：vision
-- Skill: 无（通用视觉）
-- 部门：Operations
-- 模型：qwen3.5-plus（支持视觉）
+- 简单分析：这是创意写作任务
+- 路由：@agentgv-administration
 
-路由：@agentgv-operations（视觉模式）
+Administration 执行:
+- Skill 匹配：fiction (creative)
+- 模型分配：qwen3.5-plus (温度 0.7)
+- 部门调用：@agentgv-operations<fiction>
+
+✅ 小说创作完成
 ```
 
 ---
@@ -346,16 +341,16 @@ node .opencode/skill-matcher.js "写一篇技术文档"
 
 ## 🔧 开发状态
 
-| 组件           | 状态    | 说明         |
-| -------------- | ------- | ------------ |
-| Router         | ✅ 稳定 | 智能路由核心 |
-| Planning       | ✅ 稳定 | 规划与设计   |
-| Operations     | ✅ 稳定 | 功能开发     |
-| Quality        | ✅ 稳定 | 质量保障     |
-| Administration | ✅ 新增 | 自主执行     |
-| Skill 系统     | ✅ 完善 | 28 个 Skills |
-| 视觉功能       | ✅ 支持 | 图像理解     |
-| 模型同步       | ✅ 支持 | 实时同步     |
+| 组件           | 状态    | 说明                   |
+| -------------- | ------- | ---------------------- |
+| Router         | ✅ V6.0 | 纯路由架构，只解析路由 |
+| Administration | ✅ 稳定 | 执行协调中心，自主闭环 |
+| Planning       | ✅ 稳定 | 规划与设计             |
+| Operations     | ✅ 稳定 | 功能开发               |
+| Quality        | ✅ 稳定 | 质量保障               |
+| Skill 系统     | ✅ 完善 | 5 大类 28 个 Skills    |
+| 视觉功能       | ✅ 支持 | 图像理解               |
+| 模型同步       | ✅ 支持 | 实时同步               |
 
 ---
 
@@ -387,7 +382,7 @@ node .opencode/skill-matcher.js "写一篇技术文档"
 
 ---
 
-**版本**: V5.0.0 | **日期**: 2026-02-25  
-**架构**: 5 部门优化 | **Agents**: Router + Planning + Operations + Quality + Administration  
+**版本**: V6.0.0 | **日期**: 2026-03-03  
+**架构**: 2 层纯路由架构 | **Agents**: Router + Administration + Planning + Operations + Quality  
 **Skills**: 5 大类 28 个 | **视觉**: ✅ 图像理解 | OCR | 截图转代码 | 文档解析  
-**同步**: ✅ 模型实时同步 | 6 种模型可选
+**自主性**: >95% | **Router 职责**: 只解析，只路由
