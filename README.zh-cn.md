@@ -2,7 +2,8 @@
 
 多 Agent 协作系统，模拟政府部门架构。支持动态模型路由、Skill 模板系统、质量优先模式、视觉理解。
 
-[![Version](https://img.shields.io/badge/version-V5.0.0-blue.svg)](https://github.com/lchaveaLoop/agentGV/releases)
+[![Version](https://img.shields.io/badge/version-V5.0.1-blue.svg)](https://github.com/lchaveaLoop/agentGV/releases)
+[![MiniMax](https://img.shields.io/badge/MiniMax-Supported-red.svg)](docs/user/MINIMAX_SUPPORT.md)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 [![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-blue.svg)](https://nodejs.org/)
@@ -16,9 +17,9 @@
 - **智能路由**: Router Agent 自动分发任务到对应部门
 - **自主执行**: 所有 Agent 遵循自主执行原则，在达到目标前除非特殊情况否则不寻求人工干预
 - **Skill 模板系统**: 基于 C++ 模板理念的部门模板化，支持多领域任务（5 大类 28 个 Skills）
-- **动态模型分配**: 根据任务类型和复杂度自动选择最优模型
+- **动态模型分配**: 根据任务类型和复杂度自动选择最优模型（支持 Qwen 系列和 MiniMax 系列）
 - **质量优先模式**: 复杂任务自动使用最强模型 (Qwen3 Max)
-- **用户偏好**: 支持质量优先/平衡/成本优先 3 种模式
+- **用户偏好**: 支持质量优先/平衡/成本优先/MiniMax 优化 4 种模式
 - **视觉理解**: 支持图像分析、OCR 识别、截图转代码、文档解析（qwen3.5-plus）
 - **部门化架构**: 4 个精简高效部门（Planning/Operations/Quality/Administration）
 
@@ -70,6 +71,7 @@ npm test
 切换到质量优先模式    # 复杂任务使用 Qwen3 Max
 切换到平衡模式        # 自动选择
 切换到成本优先模式    # 优先使用经济模型
+切换到 MiniMax 优化模式  # 优先使用 MiniMax M2.5/M1
 ```
 
 或使用 CLI 脚本：
@@ -78,7 +80,19 @@ npm test
 node .opencode/preference.js set quality
 node .opencode/preference.js set balanced
 node .opencode/preference.js set cost
+node .opencode/preference.js set minimax
 ```
+
+### 🆕 MiniMax 模型支持
+
+现在支持 **MiniMax 系列模型**！🎉
+
+**支持的模型**：
+
+- **MiniMax M2.5** - 经济高效，适合日常开发
+- **MiniMax M1** - 均衡性能，适合文档和调研
+
+**了解更多**: [MiniMax 使用指南](docs/user/MINIMAX_GUIDE.md)
 
 ---
 
@@ -369,6 +383,7 @@ node .opencode/skill-matcher.js "写一篇技术文档"
 
 ---
 
-**版本**: V5.0.0 | **日期**: 2026-02-25  
+**版本**: V5.0.1 | **日期**: 2026-03-03  
 **架构**: 5 部门优化 | **Agents**: Router + Planning + Operations + Quality + Administration  
-**Skills**: 5 大类 28 个 | **视觉**: ✅ 图像理解 | OCR | 截图转代码 | 文档解析
+**Skills**: 5 大类 28 个 | **视觉**: ✅ 图像理解 | OCR | 截图转代码 | 文档解析  
+**同步**: ✅ 模型实时同步 | MiniMax 支持
