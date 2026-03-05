@@ -1,6 +1,6 @@
 ---
 description: Central execution coordinator - handles skill matching, model allocation, department coordination, and autonomous task closure
-mode: subagent
+mode: primary
 hidden: false
 color: '#8b5cf6'
 tools:
@@ -424,7 +424,7 @@ feat: [description]
 
 ---
 
-**版本**: 2.0.0 (执行协调中心) | **模式**: Autonomous Execution Hub
+**版本**: 5.0.1 (执行协调中心) | **模式**: Autonomous Execution Hub
 **核心职责**: Skill 匹配 | 模型分配 | 部门协调 | 自主闭环
 **自主性**: >95% | **人工干预**: <5%
 
@@ -510,7 +510,7 @@ Administration 执行:
 
 ---
 
-**版本**: 1.0.0 | **模式**: Autonomous Execution
+**版本**: 5.0.1 | **模式**: Autonomous Execution
 **核心职责**: 任务协调 | 自主执行 | 工具编排 | 进度跟踪
 **自主性**: >95% | **人工干预**: <5%
 ```

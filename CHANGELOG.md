@@ -18,45 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [5.0.1] - 2026-02-25
+### 🚧 规划中 (6.0.0)
 
-### 🎉 Added
+#### 纯路由架构
 
-#### MiniMax Model Support
-
-- Added **MiniMax M2.5** model to `models.json`
-  - Low cost, fast response
-  - Best for: daily coding, simple tasks, creative writing
-- Added **MiniMax M1** model to `models.json`
-  - Medium cost, balanced performance
-  - Best for: research, documentation, medium complexity
-
-#### New Routing Rules
-
-- `minimax_coding` - Tasks using MiniMax for quick development
-- `minimax_research` - Tasks using MiniMax for research and docs
-
-#### User Preferences
-
-- Added `minimax_optimized` mode
-  - Prefers MiniMax models for all tasks
-  - Auto-upgrades complex tasks to MiniMax M1
-- Updated `cost_saving` mode to prefer MiniMax M2.5
-
-#### Documentation
-
-- `docs/user/MINIMAX_SUPPORT.md` - Complete MiniMax support guide
-- `docs/user/MINIMAX_GUIDE.md` - MiniMax usage guide with examples
-- Updated `README.md` with MiniMax info and V5.0.1 badge
-- Added MiniMax model badge
-
-### 🔧 Changed
-
-- Updated `models.json` to include MiniMax models
-- Enhanced `auto-sync-model.js` with MiniMax detection
-- Updated complexity rules to handle MiniMax appropriately
-- Updated agent model mappings for MiniMax support
-- README.md enhanced with MiniMax section
+- **Router 重构**: Router 只解析任务，实际执行由 Administration 负责
+- **职责分离**: Router 专注于任务解析和路由，Administration 接管所有执行细节
+- **目标**: 实现 >95% 自主闭环，减少人工干预
 
 ---
 
@@ -163,6 +131,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved error handling in router
 - Added configuration schema validation
 - Secure credential handling
+
+---
+
+## [5.0.1] - 2026-02-25
+
+### 🎉 Added
+
+#### MiniMax Model Support
+
+- Added **MiniMax M2.5** model to `models.json`
+  - Low cost, fast response
+  - Best for: daily coding, simple tasks, creative writing
+- Added **MiniMax M1** model to `models.json`
+  - Medium cost, balanced performance
+  - Best for: research, documentation, medium complexity
+
+#### New Routing Rules
+
+- `minimax_coding` - Tasks using MiniMax for quick development
+- `minimax_research` - Tasks using MiniMax for research and docs
+
+#### User Preferences
+
+- Added `minimax_optimized` mode
+  - Prefers MiniMax models for all tasks
+  - Auto-upgrades complex tasks to MiniMax M1
+- Updated `cost_saving` mode to prefer MiniMax M2.5
+
+#### Documentation
+
+- `docs/user/MINIMAX_SUPPORT.md` - Complete MiniMax support guide
+- `docs/user/MINIMAX_GUIDE.md` - MiniMax usage guide with examples
+- Updated `README.md` with MiniMax info and V5.0.1 badge
+- Added MiniMax model badge
+
+### 🔧 Changed
+
+- Updated `models.json` to include MiniMax models
+- Enhanced `auto-sync-model.js` with MiniMax detection
+- Updated complexity rules to handle MiniMax appropriately
+- Updated agent model mappings for MiniMax support
+- README.md enhanced with MiniMax section
 
 ---
 
